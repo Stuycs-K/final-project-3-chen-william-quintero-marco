@@ -1,3 +1,9 @@
 void setup(){
 size(1600, 900);
+for(int i = 0; i < 28; i++){
+  for(int j = 0; j < 19; j++){
+    fill(0);
+    square(i * w / col, j * l / row);
+  }
+}
 }
