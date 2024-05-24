@@ -1,9 +1,9 @@
 public class Tile{
-  float x;
-  float y;
+  private float x;
+  private float y;
   public Tile(float x, float y){
-    x = this.x;
-    y = this.y;
+    this.x = x;
+    this.y = y;
   }
   public float getX(){
     return x;
