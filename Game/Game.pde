@@ -22,11 +22,8 @@ void draw(){
   fill(255,0,0);
   text("HP: "+baseHP, 60, 45); 
   fill(133,187,101);
-<<<<<<< HEAD
-=======
   text("Cash: $"+cash, 180, 45);
   if(left){
     
   }
->>>>>>> Game1_branch
 }

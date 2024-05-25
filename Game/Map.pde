@@ -1,10 +1,7 @@
 import java.util.LinkedList;
 public class Map{
   private Tile[][] map;
-<<<<<<< HEAD
-=======
   private LinkedList<Tile> pathTile;
->>>>>>> 4ce28bd2de3ea7f3c5d4e4f22e4ae33e22b243b9
   private int mapWidth;
   private int mapLength;
   public Map(int row, int col, int w, int l){
