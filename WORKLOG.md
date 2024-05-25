@@ -13,9 +13,9 @@ info
 
 ## GROUP MEMBER 2
 
-### date x
+### 5/23
 
-info
+Worked on Game class and created Tower class
 
 ### date y
 
