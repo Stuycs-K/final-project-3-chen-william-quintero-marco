@@ -1,9 +1,17 @@
+int baseHP, cash;
+
 void setup(){
-size(1600, 900);
-for(int i = 0; i < 28; i++){
-  for(int j = 0; j < 19; j++){
-    fill(0);
-    square(i * w / col, j * l / row);
-  }
+  size(1600,900);
+  background(255);
+  baseHP = 100;
+  cash = 500;
+  
 }
+
+void draw(){
+  textSize(30);
+  fill(255,0,0);
+  text("HP: "+baseHP, 60, 45); 
+  fill(133,187,101);
+  text("Cash: $"+cash, 180, 45); 
 }
