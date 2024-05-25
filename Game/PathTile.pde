@@ -4,7 +4,7 @@ public class PathTile extends Tile{
     super(x, y);
     boolean hasMob = false;
   }
-  public placeMob(){
-    hasMob = false;
+  public void placeMob(){
+    hasMob = true;
   }
 }

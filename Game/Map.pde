@@ -1,3 +1,4 @@
+import java.util.*;
 public class Map{
   private Tile[][] map;
   private LinkedList<Tile> pathTile;
@@ -10,12 +11,15 @@ public class Map{
     for (int i = 0; i < row; i++){
       for (int j = 0; j < col; j++){
         if (i == 7 && j == 0 || i == 7 && j == 13 || i == 3 && j == 13 || i == 3 && j == 9 || i == 13 && j == 9 || i == 13 && j == 5 || i == 9 && j == 5 || i == 9 && j == 16 || i == 5 && j == 16 || i == 5 && j == 20 || i == 11 && j == 20 || i == 11 && j == 14){
-          map[i][j] = new Tile(i * mapLength / row, j * mapWidth / col);
+          map[i][j] = new PathTile(i * mapLength / row, j * mapWidth / col);
           pathTile.add(map[i][j]);
         }else{
         map[i][j] = new Tile(i * mapLength / row, j * mapWidth / col);
         }
       }
     }
+  }
+  public Tile getTile(int r, int c){
+    return map[r][c];
   }
 }

@@ -4,3 +4,7 @@ public class GrassTile extends Tile{
     super(x, y);
     hasUnit = false;
   }
+  public void placeUnit(){
+    hasUnit = true;
+  }
+}
