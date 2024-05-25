@@ -7,10 +7,10 @@ public class Pencil_Launcher extends Tower{
     cost = 300;
   }
   public void attack(){
-    
+    return;
   }
   
   public void place(){
-    
+    return;
   }
 }

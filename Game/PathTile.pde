@@ -5,6 +5,6 @@ public class PathTile extends Tile{
     boolean hasMob = false;
   }
   public void placeMob(){
-    hasMob = false;
+    hasMob = true;
   }
 }

@@ -7,10 +7,10 @@ public class Ruler_Police extends Tower{
     cost = 200;
   }
   public void attack(){
-    
+    return;
   }
   
   public void place(){
-    
+    return;
   }
 }

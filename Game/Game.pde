@@ -22,11 +22,11 @@ void draw(){
   fill(255,0,0);
   text("HP: "+baseHP, 60, 45); 
   fill(133,187,101);
-<<<<<<< HEAD
-=======
   text("Cash: $"+cash, 180, 45);
-  if(left){
-    
-  }
->>>>>>> Game1_branch
+  Map grid = new Map(27, 18, width, height);
+  for (int i = 0; i < 28; i++){
+    for (int j = 0; j < 19; j++){
+      fill(0);
+      stroke(133,187,101);
+      square(grid.getTile().getX(), grid.getTile().getY());
 }
