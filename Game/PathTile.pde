@@ -1,5 +1,10 @@
 public class PathTile extends Tile{
-  boolean hasMob;
+  private boolean hasMob;
   public PathTile(float x, float y){
     super(x, y);
+    boolean hasMob = false;
   }
+  public placeMob(){
+    hasMob = false;
+  }
+}
