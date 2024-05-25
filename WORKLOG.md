@@ -1,10 +1,10 @@
 # Work Log
 
-## GROUP MEMBER 1
+## Marco Quintero
 
-### date x
+### 5/23
 
-info
+Completed Tile and Map class
 
 ### date y
 
@@ -13,9 +13,9 @@ info
 
 ## GROUP MEMBER 2
 
-### date x
+### 5/23
 
-info
+Worked on Game class and created Tower class
 
 ### date y
 
