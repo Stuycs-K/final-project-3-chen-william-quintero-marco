@@ -1,6 +1,6 @@
 public class Map{
   private Tile[][] map;
-  private LinkedList<Tile>
+  private LinkedList<Tile>;
   private int mapWidth;
   private int mapLength;
   public Map(int row, int col, int w, int l){
