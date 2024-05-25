@@ -11,12 +11,13 @@ Completed Tile and Map class
 info
 
 
-## GROUP MEMBER 2
+## William Chen
 
 ### 5/23
 
 Worked on Game class and created Tower class
 
-### date y
+### 5/24
 
-info
+Worked on Tower class and added constructor and attack() and place() abstract methods
+Created Pencil Launcher and Ruler Police (names not finalized) and added constructors
