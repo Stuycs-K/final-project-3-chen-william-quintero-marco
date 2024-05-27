@@ -1,4 +1,5 @@
 int baseHP, cash;
+Map map;
 boolean left = false;
 void keyPressed() {
   left = true;
@@ -7,7 +8,6 @@ void keyPressed() {
 void keyReleased() {
   left = false;
 }
-Map map;
 
 void setup(){
   size(1600,900);
@@ -29,6 +29,8 @@ void draw(){
       fill(0);
       stroke(133,187,101);
       square(grid.getTile().getX(), grid.getTile().getY());
+    }
+  }
   if(left){
     
   }

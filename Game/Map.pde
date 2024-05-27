@@ -19,6 +19,7 @@ public class Map{
       }
     }
   }
+  
   public Tile getTile(int r, int c){
     return map[r][c];
   }
