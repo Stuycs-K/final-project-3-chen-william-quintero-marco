@@ -7,7 +7,6 @@ void keyPressed() {
 void keyReleased() {
   left = false;
 }
-Map map;
 
 void setup(){
   size(1600,900);
