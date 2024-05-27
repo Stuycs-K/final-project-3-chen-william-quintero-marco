@@ -11,6 +11,8 @@ public class Pencil_Launcher extends Tower{
   }
   
   public void place(){
-    
+    fill(0);
+    noStroke();
+    circle(coordX, coordY, 50);
   }
 }
