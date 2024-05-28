@@ -45,6 +45,7 @@ void draw(){
   background(255);
   for (Tower t : towerList){
     t.place();
+    t.attack();
   }
   textSize(30);
   fill(255,0,0);
