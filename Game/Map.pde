@@ -27,4 +27,7 @@ public class Map{
   public int getMapWidth(){
     return mapWidth;
   }
+  public int getMapLength(){
+    return mapLength;
+  }
 }
