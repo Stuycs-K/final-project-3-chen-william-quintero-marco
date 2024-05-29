@@ -22,7 +22,7 @@ void keyPressed() {
     TOWER_PLACING = "None";
   }else if (key == '1'){
     TOWER_MODE = PENCIL_LAUNCHER;
-    TOWER_PLACING = "Pencil Launcer";
+    TOWER_PLACING = "Pencil Launcher";
   }else if (key == '2'){
     TOWER_MODE = RULER_POLICE;
     TOWER_PLACING = "Ruler Police";

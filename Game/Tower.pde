@@ -3,6 +3,7 @@ public abstract class Tower{
   Tile towerTile;
   float coordX,coordY; //temporary coordinates until Map and Tile class are working
   public Tower(float x, float y){
+    
     coordX = x;
     coordY = y;
   }

@@ -17,7 +17,7 @@ info
 
 Worked on Game class and created Tower class
 
-### 5/24
+### 5/26
 
 Worked on Tower class and added constructor and attack() and place() abstract methods
 Created Pencil Launcher and Ruler Police (names not finalized) and added constructors
