@@ -11,7 +11,6 @@ public class Ruler_Police extends Tower{
   }
   
   public void place(){
-    return;
     fill(0);
     noStroke();
     square(coordX, coordY, 50);

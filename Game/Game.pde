@@ -1,13 +1,5 @@
-int baseHP, cash;
-Map map;
-boolean left = false;
-void keyPressed() {
-  left = true;
-}
-
-void keyReleased() {
-  left = false;
-}
+int baseHP;
+float cash;
 Map map;
 ArrayList<Tower> towerList;
 static int NO_TOWER = 0;
@@ -50,6 +42,7 @@ void mouseClicked() {
 }
 
 void draw(){
+  background(255);
   Map grid = new Map(27, 18, 1350, height);
   for (int i = 0; i < 27; i++){
     for (int j = 0; j < 18; j++){
@@ -61,7 +54,7 @@ void draw(){
       stroke(133,187,101);
       square(grid.getTile(i, j).getX(), grid.getTile(i, j).getY(), 50);
     }
-  background(255);
+  }
   for (Tower t : towerList){
     t.place();
   }
