@@ -1,14 +1,7 @@
 int baseHP;
 float cash;
 Map map;
-boolean left = false;
-void keyPressed() {
-  left = true;
-}
 
-void keyReleased() {
-  left = false;
-}
 ArrayList<Tower> towerList;
 static int NO_TOWER = 0;
 static int PENCIL_LAUNCHER = 1;
@@ -42,14 +35,14 @@ void mouseClicked() {
   if (mouseButton == LEFT){
     Tower newTower;
     if (TOWER_MODE == PENCIL_LAUNCHER){
-      newTower = new Pencil_Launcher(mouseX,mouseY);
+      newTower = new Pencil_Launcher(mouseX,mouseY,map);
       if (cash >= newTower.getCost()){
         towerList.add(newTower);
         cash -= newTower.getCost();
       }
     }
     if (TOWER_MODE == RULER_POLICE){
-      newTower = new Ruler_Police(mouseX,mouseY);
+      newTower = new Ruler_Police(mouseX,mouseY,map);
       if (cash >= newTower.getCost()){
         towerList.add(newTower);
         cash -= newTower.getCost();
@@ -59,6 +52,7 @@ void mouseClicked() {
 }
 
 void draw(){
+  background(255);
   Map grid = new Map(27, 18, 1350, height);
   for (int i = 0; i < 27; i++){
     for (int j = 0; j < 18; j++){
@@ -70,16 +64,17 @@ void draw(){
       stroke(133,187,101);
       square(grid.getTile(i, j).getX(), grid.getTile(i, j).getY(), 50);
     }
-  background(255);
+  }
   for (Tower t : towerList){
     t.place();
     t.attack();
   }
   textSize(30);
   fill(255,0,0);
-  text("HP: "+baseHP, 60, 45); 
+  text("HP: "+baseHP, 1375, 45); 
   fill(133,187,101);
-  text("Cash: $"+cash, 180, 45);
+  text("Cash: $"+cash, 1375, 100);
   fill(0);
-  text("Currently Placing: "+TOWER_PLACING, 350, 45);
+  text("Current Tower: ", 1375, 155);
+  text(TOWER_PLACING, 1375, 190);
 }

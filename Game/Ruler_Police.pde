@@ -1,6 +1,6 @@
 public class Ruler_Police extends Tower{
-  public Ruler_Police(float x, float y){
-    super(x,y);
+  public Ruler_Police(float x, float y,Map map){
+    super(x,y,map);
     damage = 3;
     radius = 2;
     attackSpeed = 0.5;
@@ -11,7 +11,6 @@ public class Ruler_Police extends Tower{
   }
   
   public void place(){
-    return;
     fill(0);
     noStroke();
     square(coordX, coordY, 50);

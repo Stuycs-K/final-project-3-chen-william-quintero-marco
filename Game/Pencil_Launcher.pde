@@ -1,6 +1,6 @@
 public class Pencil_Launcher extends Tower{
-  public Pencil_Launcher(float x, float y){
-    super(x,y);
+  public Pencil_Launcher(float x, float y,Map map){
+    super(x,y,map);
     damage = 3;
     radius = 5;
     attackSpeed = 1;
@@ -16,7 +16,6 @@ public class Pencil_Launcher extends Tower{
   }
   
   public void place(){
-    return;
     fill(0);
     noStroke();
     circle(coordX, coordY, 50);
