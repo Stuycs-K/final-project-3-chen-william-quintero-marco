@@ -7,4 +7,7 @@ public class GrassTile extends Tile{
   public void placeUnit(){
     hasUnit = true;
   }
+  public int getType(){
+    return 2;
+  }
 }

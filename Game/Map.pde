@@ -1,7 +1,7 @@
 import java.util.*;
 public class Map{
   private Tile[][] map;
-  private LinkedList<Tile> pathTile;
+  private LinkedList<PathTile> path;
   private int mapWidth;
   private int mapLength;
   public Map(int row, int col, int w, int l){
@@ -14,7 +14,7 @@ public class Map{
           map[i][j] = new PathTile(i * mapWidth / row, j * mapLength / col);
           //pathTile.add(map[i][j]);
         }else{
-        map[i][j] = new Tile(i * mapWidth / row, j * mapLength / col);
+          map[i][j] = new Tile(i * mapWidth / row, j * mapLength / col);
         }
       }
     }

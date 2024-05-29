@@ -11,4 +11,8 @@ public class Tile{
   public float getY(){
     return y;
   }
+  public int getType(){
+    return 0;
+  }
+  
 }
