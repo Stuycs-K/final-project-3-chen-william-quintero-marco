@@ -1,7 +1,10 @@
 int baseHP;
 float cash;
 Map map;
+<<<<<<< HEAD
 
+=======
+>>>>>>> tile_branch
 ArrayList<Tower> towerList;
 static int NO_TOWER = 0;
 static int PENCIL_LAUNCHER = 1;
@@ -56,7 +59,7 @@ void draw(){
   Map grid = new Map(27, 18, 1350, height);
   for (int i = 0; i < 27; i++){
     for (int j = 0; j < 18; j++){
-      if(grid.getTile(i, j).getType() == 0){
+      if(grid.getTile(i, j).getType() == 2){
         fill(255);
       }else{
         fill(0);
