@@ -10,7 +10,7 @@ public class Map{
     mapLength = l;
     for (int i = 0; i < row; i++){
       for (int j = 0; j < col; j++){
-        if (i == 7 && j == 0 || i == 7 && j == 13 || i == 3 && j == 13 || i == 3 && j == 9 || i == 13 && j == 9 || i == 13 && j == 5 || i == 9 && j == 5 || i == 9 && j == 16 || i == 5 && j == 16 || i == 5 && j == 20 || i == 11 && j == 20 || i == 11 && j == 14){
+        if (j == 7 && i == 0 || j == 7 && i == 13 || j == 3 && i == 13 || j == 3 && i == 9 || j == 13 && i == 9 || j == 13 && j == 5 || j == 9 && i == 5 || j == 9 && i == 16 || j == 5 && i == 16 || j == 5 && i == 20 || j == 11 && i == 20 || j == 11 && i == 14){
           map[i][j] = new PathTile(i * mapWidth / row, j * mapLength / col);
           //pathTile.add(map[i][j]);
         }else{
