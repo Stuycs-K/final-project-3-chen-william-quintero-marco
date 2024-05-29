@@ -17,7 +17,16 @@ info
 
 Worked on Game class and created Tower class
 
-### 5/24
+### 5/26
 
 Worked on Tower class and added constructor and attack() and place() abstract methods
 Created Pencil Launcher and Ruler Police (names not finalized) and added constructors
+
+### 5/27
+
+Worked on placing Towers, similar to placing Orbs from the Orb lab. Created keybind 
+system to select Towers to place.
+
+### 5/28
+
+Worked on Towers attack method and creating projectiles.
