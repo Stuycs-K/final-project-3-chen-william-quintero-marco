@@ -21,3 +21,8 @@ Worked on Game class and created Tower class
 
 Worked on Tower class and added constructor and attack() and place() abstract methods
 Created Pencil Launcher and Ruler Police (names not finalized) and added constructors
+
+### 5/26
+
+Worked on Game and Tower class to place units similar to the Orb lab and created Keybind 
+system to select units to place. 
