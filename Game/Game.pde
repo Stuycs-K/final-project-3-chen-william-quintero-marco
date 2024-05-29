@@ -1,4 +1,5 @@
-int baseHP, cash;
+int baseHP;
+float cash;
 boolean left = false;
 Map map;
 ArrayList<Tower> towerList;
@@ -32,11 +33,20 @@ void keyPressed() {
 
 void mouseClicked() {
   if (mouseButton == LEFT){
+    Tower newTower;
     if (TOWER_MODE == PENCIL_LAUNCHER){
-      towerList.add(new Pencil_Launcher(mouseX,mouseY));
+      newTower = new Pencil_Launcher(mouseX,mouseY);
+      if (cash >= newTower.getCost()){
+        towerList.add(newTower);
+        cash -= newTower.getCost();
+      }
     }
     if (TOWER_MODE == RULER_POLICE){
-      towerList.add(new Ruler_Police(mouseX,mouseY));
+      newTower = new Ruler_Police(mouseX,mouseY);
+      if (cash >= newTower.getCost()){
+        towerList.add(newTower);
+        cash -= newTower.getCost();
+      }
     }
   }
 }

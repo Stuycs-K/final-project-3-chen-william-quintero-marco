@@ -10,9 +10,7 @@ public class Pencil_Launcher extends Tower{
     PVector position = new PVector(coordX,coordY);
     PVector velocity = new PVector(10,10);
     for (int i = 0; i < 10; i++){
-      circle(position.x,position.y,10);
-      position.add(velocity);
-      clear();
+      
     }
     //delay((int)(attackSpeed*1000));
   }
