@@ -21,7 +21,11 @@ void draw(){
   Map grid = new Map(27, 18, 1350, height);
   for (int i = 0; i < 27; i++){
     for (int j = 0; j < 18; j++){
-      fill(255);
+      if(grid.getTile(i, j).getType() == 0){
+        fill(255);
+      }else{
+        fill(0);
+      }
       stroke(133,187,101);
       square(grid.getTile(i, j).getX(), grid.getTile(i, j).getY(), 50);
     }

@@ -7,4 +7,7 @@ public class PathTile extends Tile{
   public void placeMob(){
     hasMob = true;
   }
+  public int getType(){
+    return 1;
+  }
 }
