@@ -30,4 +30,10 @@ public class Map{
   public int getMapLength(){
     return mapLength;
   }
+  public Tile getFirstPath(){
+    return path.getFirst();
+  }
+  public Tile getPathAt(int pos){
+    return path.get(pos);
+  }
 }
