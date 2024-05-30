@@ -1,10 +1,7 @@
 int baseHP;
 float cash;
 Map map;
-<<<<<<< HEAD
 
-=======
->>>>>>> tile_branch
 ArrayList<Tower> towerList;
 static int NO_TOWER = 0;
 static int PENCIL_LAUNCHER = 1;

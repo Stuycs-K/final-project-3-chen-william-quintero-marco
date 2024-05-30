@@ -5,10 +5,15 @@ public abstract class Tower{
   public Tower(float x, float y, Map map){
     int tileX = (int)(x/50);
     int tileY = (int)(y/50);
-    //if (map.length > tileY && map[0].length > tileX){
-      
-    //}
-    
+    Tile placeTile = map.getTile(tileY, tileX);
+    if (map.getMapWidth() > x && map.getMapLength() > y){
+      if (placeTile.getType() == 2){
+        if (!placeTile.hasUnit()){
+          towerTile = placeTile;
+          placeTile.placeUnit();
+        }
+      }   
+    }
   }
   
   public float getCost(){
