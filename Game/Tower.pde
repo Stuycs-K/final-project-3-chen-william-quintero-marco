@@ -1,27 +1,37 @@
 public abstract class Tower{
   float damage, radius, attackSpeed, cost;
   Tile towerTile;
-  float coordX,coordY; //temporary coordinates until Map and Tile class are working
-  public Tower(float x, float y, Map map){
-    int tileX = (int)(x/50);
-    int tileY = (int)(y/50);
-    Tile placeTile = map.getTile(tileY, tileX);
-    if (map.getMapWidth() > x && map.getMapLength() > y){
-      if (placeTile.getType() == 2){
-        if (!placeTile.hasUnit()){
-          towerTile = placeTile;
-          placeTile.placeUnit();
-        }
-      }   
-    }
+  float coordX, coordY;
+  int tileX,tileY;
+  Map map;
+  public Tower(float x, float y, Map gameMap){
+    coordX = x;
+    coordY = y;
+    tileX = (int)(x/50);
+    tileY = (int)(y/50);
+    map = gameMap;
   }
   
   public float getCost(){
     return cost;
   }
   
-  
+  public boolean place(){
+    if (map.getMapWidth() > coordX && map.getMapLength() > coordY){
+      Tile placeTile = map.getTile(tileX, tileY);
+      if (placeTile.getType() == 2){
+        if (!placeTile.hasEntity()){
+          towerTile = placeTile;
+          placeTile.placeEntity();
+          coordX = towerTile.getX();
+          coordY = towerTile.getY();
+          return true;
+         }
+       }
+    }
+    return false;
+  }
   public abstract void attack();
-  public abstract void place();
+  public abstract void display();
   
 }
