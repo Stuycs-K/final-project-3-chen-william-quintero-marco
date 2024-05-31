@@ -68,9 +68,13 @@ void draw(){
     t.place();
     t.attack();
   }
-  Mob goon = new Mob(grid.getFirstPath().getX() + 25, grid.getFirstPath().getY() + 25, 25, "standard");
-  goon.move();
-  goon.display();
+  Mob goon = new Mob(grid.getFirstPath().getX() + 25, grid.getFirstPath().getY() + 25, 50, "standard");
+  ArrayList<Mob> goonList = new ArrayList<Mob>();
+  goonList.add(goon);
+  for(Mob g: goonList){
+    g.move();
+    g.display();
+  }
   textSize(30);
   fill(255,0,0);
   text("HP: "+baseHP, 1375, 45); 

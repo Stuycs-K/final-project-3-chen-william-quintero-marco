@@ -10,7 +10,7 @@ public class Mob{
     this.x = x;
     this.y = y;
     this.radius = radius;
-    dx = 1;
+    dx = 50;
     dy = 0;
     health = 5;
     this.type = type;
