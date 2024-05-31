@@ -12,8 +12,9 @@ void setup(){
   size(1600,900);
   background(255);
   baseHP = 100;
-  cash = 500;
+  cash = 50031233;
   towerList = new ArrayList<Tower>();
+  map = new Map(27, 18, 1350, height);
 }
 
 void keyPressed() {
@@ -27,22 +28,25 @@ void keyPressed() {
     TOWER_MODE = RULER_POLICE;
     TOWER_PLACING = "Ruler Police";
   }
-  System.out.println(TOWER_MODE);
 }
 
 void mouseClicked() {
   if (mouseButton == LEFT){
     Tower newTower;
+    boolean inMap = false;
+    if (map.getMapWidth() > mouseX && map.getMapLength() > mouseY){
+      inMap = true;
+    }
     if (TOWER_MODE == PENCIL_LAUNCHER){
       newTower = new Pencil_Launcher(mouseX,mouseY,map);
-      if (cash >= newTower.getCost()){
+      if (cash >= newTower.getCost() && inMap){
         towerList.add(newTower);
         cash -= newTower.getCost();
       }
     }
     if (TOWER_MODE == RULER_POLICE){
       newTower = new Ruler_Police(mouseX,mouseY,map);
-      if (cash >= newTower.getCost()){
+      if (cash >= newTower.getCost() && inMap){
         towerList.add(newTower);
         cash -= newTower.getCost();
       }
@@ -52,20 +56,20 @@ void mouseClicked() {
 
 void draw(){
   background(255);
-  Map grid = new Map(27, 18, 1350, height);
   for (int i = 0; i < 27; i++){
     for (int j = 0; j < 18; j++){
-      if(grid.getTile(i, j).getType() == 2){
+      if(map.getTile(i, j).getType() == 2){
         fill(255);
       }else{
         fill(0);
       }
       stroke(133,187,101);
-      square(grid.getTile(i, j).getX(), grid.getTile(i, j).getY(), 50);
+      square(map.getTile(i, j).getX(), map.getTile(i, j).getY(), 50);
     }
   }
   for (Tower t : towerList){
     t.place();
+    t.display();
     t.attack();
   }
   Mob goon = new Mob(grid.getFirstPath().getX() + 25, grid.getFirstPath().getY() + 25, 50, "standard");
