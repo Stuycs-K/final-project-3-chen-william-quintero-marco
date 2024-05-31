@@ -41,7 +41,6 @@ void mouseClicked() {
     if (TOWER_MODE == PENCIL_LAUNCHER){
       newTower = new Pencil_Launcher(mouseX,mouseY,map);
       if (cash >= newTower.getCost() && inMap){
-        newTower.display();
         towerList.add(newTower);
         cash -= newTower.getCost();
       }
@@ -49,7 +48,6 @@ void mouseClicked() {
     if (TOWER_MODE == RULER_POLICE){
       newTower = new Ruler_Police(mouseX,mouseY,map);
       if (cash >= newTower.getCost() && inMap){
-        newTower.display();
         towerList.add(newTower);
         cash -= newTower.getCost();
       }
@@ -71,6 +69,8 @@ void draw(){
     }
   }
   for (Tower t : towerList){
+    t.place();
+    t.display();
     t.attack();
   }
   textSize(30);

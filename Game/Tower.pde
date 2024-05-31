@@ -3,6 +3,7 @@ public abstract class Tower{
   Tile towerTile;
   float coordX, coordY;
   int tileX,tileY;
+  boolean placed;
   Map map;
   public Tower(float x, float y, Map gameMap){
     coordX = x;
@@ -10,13 +11,14 @@ public abstract class Tower{
     tileX = (int)(x/50);
     tileY = (int)(y/50);
     map = gameMap;
+    placed = false;
   }
   
   public float getCost(){
     return cost;
   }
   
-  public boolean place(){
+  public void place(){
     if (map.getMapWidth() > coordX && map.getMapLength() > coordY){
       Tile placeTile = map.getTile(tileX, tileY);
       if (placeTile.getType() == 2){
@@ -25,11 +27,11 @@ public abstract class Tower{
           placeTile.placeEntity();
           coordX = towerTile.getX();
           coordY = towerTile.getY();
-          return true;
+          placed = true;
+          System.out.println(placed);
          }
        }
     }
-    return false;
   }
   public abstract void attack();
   public abstract void display();
