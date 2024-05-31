@@ -6,7 +6,7 @@ public class Mob{
   public Mob(float x, float y, float radius, String type){
     position = new PVector(x, y);
     this.radius = radius;
-    velocity = new PVector(10, 0);
+    velocity = new PVector(2, 0);
     health = 5;
     this.type = type;
   }

@@ -9,6 +9,7 @@ static int TOWER_MODE = NO_TOWER;
 static String TOWER_PLACING = "None";
 Mob goon;
 ArrayList<Mob> goonList;
+int tile_number = 1;
 void setup(){
   size(1600,900);
   background(255);
@@ -64,6 +65,8 @@ void draw(){
     for (int j = 0; j < 18; j++){
       if(map.getTile(i, j).getType() == 2){
         fill(255);
+      }else if (map.getTile(i, j).getType() == 3){
+        fill(255, 0, 0);
       }else{
         fill(0);
       }
