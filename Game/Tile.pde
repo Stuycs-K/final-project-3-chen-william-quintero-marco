@@ -4,10 +4,11 @@ public class Tile{
   private int tileX;
   private int tileY;
   private boolean hasEntity;
-  private String entityName;
   public Tile(float x, float y, int X, int Y){
     this.x = x;
     this.y = y;
+    this.tileX = X;
+    this.tileY = Y;
     this.hasEntity = false;
   }
   public float getX(){
@@ -16,17 +17,20 @@ public class Tile{
   public float getY(){
     return y;
   }
+  public float getTileX(){
+    return tileX;
+  }
+  public float getTileY(){
+    return tileY;
+  }
   public int getType(){
     return 0;
   }
   public boolean hasEntity(){
     return hasEntity;
   }
-  public void placeEntity(String name){
+  public void placeEntity(){
     hasEntity = true;
-    entityName = name;
   }
-  public String getEntityName(){
-    return entityName;
-  }
+
 }

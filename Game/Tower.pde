@@ -6,7 +6,7 @@ public abstract class Tower{
   int tileX,tileY;
   boolean placed;
   Map map;
-  LinkedList<Tile> path;
+  LinkedList<PathTile> path;
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;
@@ -44,11 +44,10 @@ public abstract class Tower{
       if (placeTile.getType() == 2){
         if (!placeTile.hasEntity()){
           towerTile = placeTile;
-          placeTile.placeEntity(towerName);
+          placeTile.placeEntity();
           coordX = towerTile.getX();
           coordY = towerTile.getY();
           placed = true;
-          System.out.println(placed);
          }
        }
     }

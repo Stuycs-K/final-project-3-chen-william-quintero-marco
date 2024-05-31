@@ -1,7 +1,7 @@
 import java.util.*;
 public class Map{
   private Tile[][] map;
-  private LinkedList<Tile> path = new LinkedList<Tile>();
+  private LinkedList<PathTile> path = new LinkedList<PathTile>();
   private int mapWidth;
   private int mapLength;
   public Map(int row, int col, int w, int l){
@@ -13,7 +13,7 @@ public class Map{
         if (j == 7 && i >= 0 && i <= 13 || j <= 7 && j >= 3 && i == 13 || j == 3 && i <= 13 && i >= 9 || j >= 3 && j <= 13 && i == 9 || j == 13 && i >= 5 && i <= 9 || j >= 9 && j <= 13 && i == 5 || j == 9 && i <= 16 && i >= 5 || j >= 5 && j <= 9 && i == 16 || j == 5 && i <= 20 && i >= 16 || j <= 11 && j >= 5 && i == 20 || j == 11 && i >= 14 && i <= 20 || j >= 11 && j <= 18 && i == 14){
           PathTile nt = new PathTile(i * mapWidth / row, j * mapLength / col, i, j);
           map[i][j] = nt;
-          path.add(map[i][j]);
+          path.add(nt);
         }else{
           map[i][j] = new GrassTile(i * mapWidth / row, j * mapLength / col, i, j);
         }
@@ -30,7 +30,7 @@ public class Map{
   public int getMapLength(){
     return mapLength;
   }
-  public LinkedList<Tile> getPath(){
+  public LinkedList<PathTile> getPath(){
     return path;
   }
 }
