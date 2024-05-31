@@ -7,7 +7,8 @@ static int PENCIL_LAUNCHER = 1;
 static int RULER_POLICE = 2;
 static int TOWER_MODE = NO_TOWER;
 static String TOWER_PLACING = "None";
-
+Mob goon;
+ArrayList<Mob> goonList;
 void setup(){
   size(1600,900);
   background(255);
@@ -15,6 +16,9 @@ void setup(){
   cash = 50031233;
   towerList = new ArrayList<Tower>();
   map = new Map(27, 18, 1350, height);
+  goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard");
+  goonList = new ArrayList<Mob>();
+  goonList.add(goon);
 }
 
 void keyPressed() {
@@ -72,12 +76,9 @@ void draw(){
     t.display();
     t.attack();
   }
-  Mob goon = new Mob(grid.getFirstPath().getX() + 25, grid.getFirstPath().getY() + 25, 50, "standard");
-  ArrayList<Mob> goonList = new ArrayList<Mob>();
-  goonList.add(goon);
-  for(Mob g: goonList){
-    g.move();
-    g.display();
+  for(int i = 0; i < goonList.size(); i++){
+    goonList.get(i).move();
+    goonList.get(i).display();
   }
   textSize(30);
   fill(255,0,0);
