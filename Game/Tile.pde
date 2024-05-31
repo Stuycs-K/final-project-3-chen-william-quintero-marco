@@ -1,8 +1,11 @@
 public class Tile{
   private float x;
   private float y;
+  private int tileX;
+  private int tileY;
   private boolean hasEntity;
-  public Tile(float x, float y){
+  private String entityName;
+  public Tile(float x, float y, int X, int Y){
     this.x = x;
     this.y = y;
     this.hasEntity = false;
@@ -19,8 +22,11 @@ public class Tile{
   public boolean hasEntity(){
     return hasEntity;
   }
-  public void placeEntity(){
+  public void placeEntity(String name){
     hasEntity = true;
+    entityName = name;
   }
-  
+  public String getEntityName(){
+    return entityName;
+  }
 }

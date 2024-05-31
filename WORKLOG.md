@@ -36,4 +36,4 @@ Worked on Towers attack method and creating projectiles.
 Worked on Tower placement on Map.
 
 ### 5/30 
-Completed Tower placement on Map. 
+Completed Tower placement on Map. Game class now displays Tower stats. Added more variables and accessor methods to Map, Tile, and Tower classes. Continued to work on Tower attack method.
