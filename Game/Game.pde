@@ -68,7 +68,9 @@ void draw(){
     t.place();
     t.attack();
   }
-  Mob goon = new Mob(grid.getFirstPath().getX() + 25, grid.getFirstPath().getY() + 25, 25, "standard");
+  ArrayList<Mob> goonList = new ArrayList<Mob>();
+  Mob goon = new Mob(grid.getFirstPath().getX() + 25, grid.getFirstPath().getY() + 25, 50, "standard");
+  goonList.add(goon);
   goon.move();
   goon.display();
   textSize(30);
@@ -79,4 +81,5 @@ void draw(){
   fill(0);
   text("Current Tower: ", 1375, 155);
   text(TOWER_PLACING, 1375, 190);
+  text(frameCount, 20, 20);
 }

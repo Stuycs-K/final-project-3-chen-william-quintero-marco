@@ -10,7 +10,7 @@ public class Mob{
     this.x = x;
     this.y = y;
     this.radius = radius;
-    dx = 1;
+    dx = 50;
     dy = 0;
     health = 5;
     this.type = type;
@@ -20,8 +20,8 @@ public class Mob{
     circle(x, y, radius);
   }
   public void move(){
-    x = x + dx;
-    y = y + dy;
+    x += dx;
+    y += dy;
   }
   public void changeDirection(){
     if (dx > 0){
