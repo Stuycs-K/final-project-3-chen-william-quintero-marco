@@ -52,4 +52,7 @@ public class Map{
     }
     return -1;
   }
+  public Tile getCorner(int index){
+    return corners.get(index);
+  }
 }

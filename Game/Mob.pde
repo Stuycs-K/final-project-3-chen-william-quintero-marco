@@ -6,7 +6,7 @@ public class Mob{
   public Mob(float x, float y, float radius, String type){
     position = new PVector(x, y);
     this.radius = radius;
-    velocity = new PVector(1, 0);
+    velocity = new PVector(5, 0);
     health = 5;
     this.type = type;
   }
@@ -17,15 +17,11 @@ public class Mob{
   public void move(){
     position.add(velocity);
   }
-  public void changeDirection(){
-    PVector newVelocity;
-    if (velocity.x > 0){
-      newVelocity = new PVector(0, velocity.x);
-      velocity = newVelocity;
-    }else{
-      newVelocity = new PVector(velocity.y, 0);
-      velocity = newVelocity;
-    }
+  public void changeDirection(float x, float y){
+    PVector newVelocity = new PVector(this.getX() - x, this.getY() - y);
+    newVelocity.normalize();
+    newVelocity.mult(5);
+    velocity = newVelocity;
   }
   public float getX(){
     return position.x;
