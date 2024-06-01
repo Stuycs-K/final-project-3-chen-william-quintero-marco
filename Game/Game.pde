@@ -82,6 +82,9 @@ void draw(){
   for(int i = 0; i < goonList.size(); i++){
     goonList.get(i).move();
     goonList.get(i).display();
+    if(map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25) != -1){
+      goonList.get(i).changeDirection();
+    }
   }
   textSize(30);
   fill(255,0,0);

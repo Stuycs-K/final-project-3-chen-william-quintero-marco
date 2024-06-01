@@ -2,6 +2,7 @@ import java.util.*;
 public class Map{
   private Tile[][] map;
   private LinkedList<Tile> path = new LinkedList<Tile>();
+  private ArrayList<Tile> corners = new ArrayList<Tile>();
   private int mapWidth;
   private int mapLength;
   public Map(int row, int col, int w, int l){
@@ -14,6 +15,7 @@ public class Map{
           if (j == 7 && i == 13 || j == 3 && i == 13 || j == 3 && i == 9 || j == 13 && i == 9 || j == 13 && i == 5 || j == 9 && i == 5 || j == 9 && i == 16 || j == 5 && i == 16 || j == 5 && i == 20 || j == 15 && i == 20 || j == 11 && i == 20 || j == 11 && i == 14){
             CornerTile nt = new CornerTile(i * mapWidth / row, j * mapLength / col);
             map[i][j] = nt;
+            corners.add(map[i][j]);
           }
           else{
             PathTile nt = new PathTile(i * mapWidth / row, j * mapLength / col);
@@ -41,5 +43,13 @@ public class Map{
   }
   public Tile getPathAt(int pos){
     return path.get(pos);
+  }
+  public int findCorner(float x, float y){
+    for (int i = 0; i < corners.size(); i++){
+      if (corners.get(i).getX() == x && corners.get(i).getY() == y){
+        return i;
+      }
+    }
+    return -1;
   }
 }
