@@ -15,7 +15,6 @@ public class Map{
           if (j == 7 && i == 13 || j == 3 && i == 13 || j == 3 && i == 9 || j == 13 && i == 9 || j == 13 && i == 5 || j == 9 && i == 5 || j == 9 && i == 16 || j == 5 && i == 16 || j == 5 && i == 20 || j == 15 && i == 20 || j == 11 && i == 20 || j == 11 && i == 14){
             CornerTile nt = new CornerTile(i * mapWidth / row, j * mapLength / col);
             map[i][j] = nt;
-            corners.add(map[i][j]);
           }
           else{
             PathTile nt = new PathTile(i * mapWidth / row, j * mapLength / col);
@@ -27,6 +26,18 @@ public class Map{
         }
       }
     }
+    corners.add(map[13][7]);
+    corners.add(map[13][3]);
+    corners.add(map[9][3]);
+    corners.add(map[9][13]);
+    corners.add(map[5][13]);
+    corners.add(map[5][9]);
+    corners.add(map[16][9]);
+    corners.add(map[16][5]);
+    corners.add(map[20][5]);
+    corners.add(map[20][15]);
+    corners.add(map[20][11]);
+    corners.add(map[14][11]);
   }
   
   public Tile getTile(int r, int c){

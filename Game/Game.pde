@@ -9,7 +9,9 @@ static int TOWER_MODE = NO_TOWER;
 static String TOWER_PLACING = "None";
 Mob goon;
 ArrayList<Mob> goonList;
-int tile_number = 1;
+int cornerTile = 0;
+float xDiff = 0;
+float yDiff = 0;
 void setup(){
   size(1600,900);
   background(255);
@@ -84,7 +86,10 @@ void draw(){
     goonList.get(i).display();
     int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
     if(hasCorner != -1){
-      goonList.get(i).changeDirection(map.getCorner(hasCorner).getX() - map.getCorner(hasCorner + 1).getX(), map.getCorner(hasCorner).getY() - map.getCorner(hasCorner + 1).getY());
+      xDiff = map.getCorner(cornerTile + 1).getX() - map.getCorner(cornerTile).getX();
+      yDiff = map.getCorner(cornerTile + 1).getY() - map.getCorner(cornerTile).getY();
+      goonList.get(i).changeDirection(map.getCorner(cornerTile + 1).getX() - map.getCorner(cornerTile).getX(), map.getCorner(cornerTile + 1).getY() - map.getCorner(cornerTile).getY(), cornerTile);
+      cornerTile++;
     }
   }
   textSize(30);
@@ -95,6 +100,8 @@ void draw(){
   fill(0);
   text("Current Tower: ", 1375, 155);
   text(TOWER_PLACING, 1375, 190);
-  text(frameCount, 20, 20);
   text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 40);
+  text(cornerTile, 20, 60);
+  text(goonList.get(0).getVelocity().x + "," + goonList.get(0).getVelocity().y, 20, 80);
+  text(xDiff + "," + yDiff, 20, 100);
 }
