@@ -12,7 +12,7 @@ public class Map{
     for (int i = 0; i < row; i++){
       for (int j = 0; j < col; j++){
         if (j == 7 && i >= 0 && i <= 13 || j <= 7 && j >= 3 && i == 13 || j == 3 && i <= 13 && i >= 9 || j <= 13 && j >= 3 && i == 9 || j == 13 && i >= 5 && i <= 9 || j <= 13 && j >= 9 && i == 5 || j == 9 && i <= 16 && i >= 5 || j >= 5 && j <= 9 && i == 16 || j == 5 && i <= 20 && i >= 16 || j <= 11 && j >= 5 && i == 20 || j == 11 && i >= 14 && i <= 20 || j >= 11 && j <= 18 && i == 14){
-          if (j == 7 && i == 13 || j == 3 && i == 13 || j == 3 && i == 9 || j == 13 && i == 9 || j == 13 && i == 5 || j == 9 && i == 5 || j == 9 && i == 16 || j == 5 && i == 16 || j == 5 && i == 20 || j == 15 && i == 20 || j == 11 && i == 20 || j == 11 && i == 14){
+          if (j == 7 && i == 13 || j == 3 && i == 13 || j == 3 && i == 9 || j == 13 && i == 9 || j == 13 && i == 5 || j == 9 && i == 5 || j == 9 && i == 16 || j == 5 && i == 16 || j == 5 && i == 20 || j == 11 && i == 20 || j == 11 && i == 14 || j == 17 && i == 14){
             CornerTile nt = new CornerTile(i * mapWidth / row, j * mapLength / col);
             map[i][j] = nt;
           }
@@ -35,9 +35,9 @@ public class Map{
     corners.add(map[16][9]);
     corners.add(map[16][5]);
     corners.add(map[20][5]);
-    corners.add(map[20][15]);
     corners.add(map[20][11]);
     corners.add(map[14][11]);
+    corners.add(map[14][17]);
   }
   
   public Tile getTile(int r, int c){
@@ -56,7 +56,7 @@ public class Map{
     return path.get(pos);
   }
   public int findCorner(float x, float y){
-    for (int i = 0; i < corners.size(); i++){
+    for (int i = 0; i < corners.size() - 1; i++){
       if (corners.get(i).getX() == x && corners.get(i).getY() == y){
         return i;
       }
