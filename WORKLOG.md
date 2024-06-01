@@ -4,11 +4,11 @@
 
 ### 5/23
 
-Completed Tile and Map class
+Completed Tile class
 
-### date y
+### 5/28
 
-info
+Completed Map class and updated it visually
 
 
 ## William Chen
@@ -30,3 +30,10 @@ system to select Towers to place.
 ### 5/28
 
 Worked on Towers attack method and creating projectiles.
+
+### 5/29
+
+Worked on Tower placement on Map.
+
+### 5/30 
+Completed Tower placement on Map. 
