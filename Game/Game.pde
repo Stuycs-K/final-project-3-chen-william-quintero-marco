@@ -84,7 +84,7 @@ void draw(){
     goonList.get(i).display();
     int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
     if(hasCorner != -1){
-      goonList.get(i).changeDirection(map.getCorner(hasCorner + 1).getX(), map.getCorner(hasCorner + 1).getX());
+      goonList.get(i).changeDirection(map.getCorner(hasCorner).getX() - map.getCorner(hasCorner + 1).getX(), map.getCorner(hasCorner).getY() - map.getCorner(hasCorner + 1).getY());
     }
   }
   textSize(30);
@@ -96,4 +96,5 @@ void draw(){
   text("Current Tower: ", 1375, 155);
   text(TOWER_PLACING, 1375, 190);
   text(frameCount, 20, 20);
+  text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 40);
 }

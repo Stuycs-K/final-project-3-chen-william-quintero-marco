@@ -1,3 +1,4 @@
+import java.util.*;
 public class Mob{
   private PVector position, velocity;
   private float radius;
@@ -6,7 +7,7 @@ public class Mob{
   public Mob(float x, float y, float radius, String type){
     position = new PVector(x, y);
     this.radius = radius;
-    velocity = new PVector(5, 0);
+    velocity = new PVector(1, 0);
     health = 5;
     this.type = type;
   }
@@ -18,9 +19,12 @@ public class Mob{
     position.add(velocity);
   }
   public void changeDirection(float x, float y){
-    PVector newVelocity = new PVector(this.getX() - x, this.getY() - y);
-    newVelocity.normalize();
-    newVelocity.mult(5);
+    PVector newVelocity;
+    if (x >= 1){
+      newVelocity = new PVector(x / Math.abs(x), 0);
+    }else{
+      newVelocity = new PVector(0, y / Math.abs(y));
+    }
     velocity = newVelocity;
   }
   public float getX(){
