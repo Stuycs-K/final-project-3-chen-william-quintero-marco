@@ -82,8 +82,8 @@ void draw(){
     t.attack();
   }
   for(int i = 0; i < goonList.size(); i++){
-    goonList.get(i).move();
     goonList.get(i).display();
+    goonList.get(i).applyDamage(1);
     int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
     if(hasCorner != -1){
       xDiff = map.getCorner(cornerTile + 1).getX() - map.getCorner(cornerTile).getX();

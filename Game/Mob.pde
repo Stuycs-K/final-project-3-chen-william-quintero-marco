@@ -8,7 +8,7 @@ public class Mob{
     position = new PVector(x, y);
     this.radius = radius;
     velocity = new PVector(2, 0);
-    health = 5;
+    health = 500;
     this.type = type;
   }
   public void display(){
@@ -34,8 +34,17 @@ public class Mob{
   public float getY(){
     return position.y;
   }
+  public int getHealth(){
+    return health;
+  }
   public PVector getVelocity(){
     return velocity;
   }
-  
+  public void applyDamage(int damage){
+    if (health - damage < 0){
+      health = 0;
+    }else{
+      health -= damage;
+    }
+  }
 }
