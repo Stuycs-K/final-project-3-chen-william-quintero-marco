@@ -12,6 +12,7 @@ static String TOWER_PLACING = "None";
 Mob goon;
 ArrayList<Mob> goonList;
 int countdown = 0;
+int cornerTile = 0;
 int wave = 0;
 float xDiff = 0;
 float yDiff = 0;
@@ -65,7 +66,7 @@ void mouseClicked() {
       inMap = true;
       tile = map.getTile(tileX,tileY);
     }
-    if (inMap){
+    if (inMap && activeWave){
     if (TOWER_MODE != 0 && tile.getType() == 2 && !tile.hasEntity()){
       newTower = new Pencil_Launcher(mouseX,mouseY,map);
       if (TOWER_MODE == PENCIL_LAUNCHER){
@@ -152,9 +153,13 @@ void draw(){
     /*if (goonList.get(i).getY() >= 900){
       baseHP -= 100;
     }*/
-    if (goonList.get(i).getHealth() != 0 && goonList.get(i).getY() < 950){
+    Mob currentGoon = goonList.get(i);
+    if (goonList.get(i).getHealth() != 0 && goonList.get(i).getY() < map.getMapLength()){
       goonList.get(i).move();
       goonList.get(i).display();
+      currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
+    }else if (currentGoon.getHealth() <= 0){
+      currentGoon.getCurrentTile().removeEntity();
     }
     int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
     if(hasCorner != -1){
