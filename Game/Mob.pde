@@ -3,10 +3,10 @@ public class Mob{
   PVector position, velocity;
   private float radius;
   private int health;
-  private String type;
-  private ArrayList<PathTile> path;
-  private PathTile currentTile;
-  private int currentCorner = 0;
+  String type;
+  ArrayList<PathTile> path;
+  PathTile currentTile;
+  int currentCorner = 0;
   public Mob(float x, float y, float radius, String type, Map map){
     position = new PVector(x, y);
     this.radius = radius;
@@ -63,7 +63,6 @@ public class Mob{
         currentTile = path.get(i);
       }
     }
-    System.out.println(currentTile.getX()+","+currentTile.getY());
     currentTile.setMob(this);
     currentTile.placeEntity();
   }

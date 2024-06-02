@@ -103,7 +103,7 @@ void draw(){
   if (goonList.size() == 5){
   int numDead = 0;
   for (int i = 0; i < goonList.size(); i++){
-    if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() > 950){
+    if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() > 900){
       numDead++;
     }
   }
@@ -168,7 +168,7 @@ void draw(){
       goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
       goonList.get(i).changeCorner();
     }
-     goonList.get(i).applyDamage(10);
+    //goonList.get(i).applyDamage(10);
   }
   fill(0);
   text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);

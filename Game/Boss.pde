@@ -4,6 +4,10 @@ public class Boss extends Mob{
   }
   public void display(){
     fill(0, 0, 200);
-    ellipse(position.x, position.y, 150, 50);
+    if (currentCorner % 2 == 0){
+      ellipse(position.x, position.y, 150, 50);
+    }else{
+      ellipse(position.x, position.y, 50, 150);
+    }
   }
 }
