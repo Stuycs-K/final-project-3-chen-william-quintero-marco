@@ -11,7 +11,7 @@ public class Mob{
     position = new PVector(x, y);
     this.radius = radius;
     velocity = new PVector(2, 0);
-    health = 200;
+    health = 500;
     this.type = type;
     path = map.getPath();
     currentTile = map.getPath().get(0);
@@ -81,5 +81,8 @@ public class Mob{
   }
   public void changeCorner(){
     currentCorner++;
+  }
+  public int getType(){
+    return 0;
   }
 }

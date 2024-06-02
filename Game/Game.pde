@@ -157,6 +157,15 @@ void draw(){
       goonList.get(i).display();
       currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
     }else if (currentGoon.getHealth() <= 0){
+      if (currentGoon.getType() == 1){
+        int tileIndex = map.getPath().indexOf(currentGoon.getCurrentTile());
+        Mob newGoon1 = new Mob(map.getPath().get(tileIndex).getX() + 25, map.getPath().get(tileIndex).getY() + 25, 50, "standard", map);
+        Mob newGoon2 = new Mob(map.getPath().get(tileIndex + 1).getX() + 25, map.getPath().get(tileIndex + 1).getY() + 25, 50, "standard", map);
+        Mob newGoon3 = new Mob(map.getPath().get(tileIndex - 1).getX() + 25, map.getPath().get(tileIndex - 1).getY() + 25, 50, "standard", map);
+        goonList.add(newGoon1);
+        goonList.add(newGoon2);
+        goonList.add(newGoon3);
+      }
       currentGoon.getCurrentTile().removeEntity();
     }
     int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
@@ -166,7 +175,7 @@ void draw(){
       goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
       goonList.get(i).changeCorner();
     }
-    //goonList.get(i).applyDamage(10);
+    goonList.get(i).applyDamage(10);
   }
   fill(0);
   text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);

@@ -10,4 +10,7 @@ public class Boss extends Mob{
       ellipse(position.x, position.y, 50, 150);
     }
   }
+  public int getType(){
+    return 1;
+  }
 }
