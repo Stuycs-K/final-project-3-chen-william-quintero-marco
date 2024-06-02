@@ -149,10 +149,13 @@ void draw(){
     /*if (goonList.get(i).getY() >= 900){
       baseHP -= 100;
     }*/
+    Mob currentGoon = goonList.get(i);
     if (goonList.get(i).getHealth() != 0 && goonList.get(i).getY() < map.getMapLength()){
       goonList.get(i).move();
       goonList.get(i).display();
-    }else{
+      currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
+    }else if (currentGoon.getHealth() <= 0){
+      currentGoon.getCurrentTile().removeEntity();
     }
     int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
     if(hasCorner != -1){

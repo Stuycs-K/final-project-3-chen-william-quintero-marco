@@ -8,23 +8,20 @@ public class Pencil_Launcher extends Tower{
     cost = 300;
   }
   
-  public boolean findEnemy(){
-      for (int i = path.toArray().length-1; i >= 0; i--){
-        PathTile pathTile = path.get(i);
-        if (pathTile.hasEntity()){
-          if (Math.abs(tileX - pathTile.getTileX()) <= radius && Math.abs(tileY - pathTile.getTileY()) <= radius){
-            targetMob = pathTile.getMob();
-            return true;
-          }
+  public void attack(){
+    for (int i = path.size()-1; i >= 0; i--){
+      PathTile pathTile = path.get(i);
+      if (pathTile.hasEntity()){
+        if (Math.abs(tileX - pathTile.getTileX()) <= radius && Math.abs(tileY - pathTile.getTileY()) <= radius){
+          pathTile.getMob().applyDamage((int)damage);
+          System.out.println(pathTile.getMob().getHealth());
         }
       }
-    return false;
-  }
-  public void attack(){
-    if (findEnemy()){
-      targetMob.applyDamage((int)damage);
-      System.out.println(targetMob.getHealth());
     }
+    //if (findEnemy()){
+    //  targetMob.applyDamage((int)damage);
+    //  System.out.println(targetMob.getHealth());
+    //}
   }
   
   public void display(){
