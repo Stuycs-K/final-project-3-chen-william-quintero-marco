@@ -82,8 +82,10 @@ void draw(){
     t.attack();
   }
   for(int i = 0; i < goonList.size(); i++){
-    goonList.get(i).display();
-    goonList.get(i).applyDamage(1);
+    if (goonList.get(i).getHealth() != 0){
+      goonList.get(i).move();
+      goonList.get(i).display();
+    }
     int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
     if(hasCorner != -1){
       xDiff = map.getCorner(cornerTile + 1).getX() - map.getCorner(cornerTile).getX();
@@ -91,6 +93,7 @@ void draw(){
       goonList.get(i).changeDirection(map.getCorner(cornerTile + 1).getX() - map.getCorner(cornerTile).getX(), map.getCorner(cornerTile + 1).getY() - map.getCorner(cornerTile).getY(), cornerTile);
       cornerTile++;
     }
+    goonList.get(i).applyDamage(1);
   }
   textSize(30);
   fill(255,0,0);
