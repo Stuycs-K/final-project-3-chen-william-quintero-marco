@@ -6,6 +6,7 @@ public class Mob{
   private String type;
   private ArrayList<PathTile> path;
   private PathTile currentTile;
+  private int currentCorner = 0;
   public Mob(float x, float y, float radius, String type, Map map){
     position = new PVector(x, y);
     this.radius = radius;
@@ -52,8 +53,24 @@ public class Mob{
       health -= damage;
     }
   }
-  public void setCurrentTile(float x, float y){
+  public void setCurrentTile(){
     currentTile = path.get(path.indexOf(currentTile)+1);
     currentTile.setMob(this);
+  }
+  public void changeVelocity(float speed){
+    PVector sub;
+    if(velocity.x == 0){
+      sub = new PVector(0, speed);
+      velocity.sub(sub);
+    }else{
+      sub = new PVector(speed, 0);
+      velocity.sub(sub);
+    }
+  }
+  public int getCorner(){
+    return currentCorner;
+  }
+  public void changeCorner(){
+    currentCorner++;
   }
 }
