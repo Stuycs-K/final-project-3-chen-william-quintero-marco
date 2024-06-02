@@ -33,7 +33,7 @@ void setup(){
       TOWER_STATS[i] = new String[]{""+towerData.getDamage(),""+towerData.getRadius(),""+towerData.getAttackSpeed(),""+towerData.getCost()};
     }
   }
-  goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard");
+  goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
   goonList = new ArrayList<Mob>();
   goonList.add(goon);
 }
@@ -112,7 +112,6 @@ void draw(){
     }
     if (countdown == 0){
       t.attack();
-      System.out.println("SHOT");
       countdown = t.getAttackSpeed();
     }
   }
