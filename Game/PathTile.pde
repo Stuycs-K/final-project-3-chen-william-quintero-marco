@@ -10,6 +10,6 @@ public class PathTile extends Tile{
     currentMob = mob;
   }
   public Mob getMob(){
-    return currentMob;
+     return currentMob;
   }
 }

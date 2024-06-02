@@ -7,6 +7,11 @@ public class Ruler_Police extends Tower{
     attackSpeed = 1;
     cost = 200;
   }
+  
+  public boolean findEnemy(){
+    return false;
+  }
+  
   public void attack(){
     return;
   }

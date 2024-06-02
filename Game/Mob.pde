@@ -11,7 +11,7 @@ public class Mob{
     position = new PVector(x, y);
     this.radius = radius;
     velocity = new PVector(2, 0);
-    health = 10;
+    health = 1000;
     this.type = type;
     path = map.getPath();
     currentTile = map.getPath().get(0);
@@ -53,9 +53,19 @@ public class Mob{
       health -= damage;
     }
   }
-  public void setCurrentTile(){
-    currentTile = path.get(path.indexOf(currentTile)+1);
+  public PathTile getCurrentTile(){
+    return currentTile;
+  }
+  public void setCurrentTile(float x, float y){
+    for (int i = 0; i < path.size(); i++){
+      if (Math.abs(path.get(i).getX() - x) <= 50 && Math.abs(path.get(i).getY() - y) <= 50){
+        currentTile.removeEntity();
+        currentTile = path.get(i);
+      }
+    }
+    System.out.println(currentTile.getX()+","+currentTile.getY());
     currentTile.setMob(this);
+    currentTile.placeEntity();
   }
   public void changeVelocity(float speed){
     PVector sub;

@@ -7,6 +7,7 @@ public abstract class Tower{
   boolean placed;
   Map map;
   ArrayList<PathTile> path;
+  Mob targetMob;
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;
@@ -37,6 +38,13 @@ public abstract class Tower{
     return cost;
   }
   
+  public Mob getTargetMob(){
+    return targetMob;
+  }
+  
+  public void setTargetMob(Mob mob){
+    targetMob = mob;
+  }
   
   public void place(){
     if (map.getMapWidth() > coordX && map.getMapLength() > coordY){
@@ -52,6 +60,7 @@ public abstract class Tower{
        }
     }
   }
+  public abstract boolean findEnemy();
   public abstract void attack();
   public abstract void display();
   

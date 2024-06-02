@@ -11,11 +11,6 @@ static int TOWER_MODE = NO_TOWER;
 static String TOWER_PLACING = "None";
 Mob goon;
 ArrayList<Mob> goonList;
-int countdown;
-int cornerTile = 0;
-float xDiff = 0;
-float yDiff = 0;
-boolean start = false;
 void setup(){
   size(1600,900);
   background(255);
@@ -37,6 +32,9 @@ void setup(){
   }
   goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
   goonList = new ArrayList<Mob>();
+  goonList.add(goon);
+  goonList.add(goon);
+  goonList.add(goon);
 }
 
 void keyPressed() {
@@ -86,22 +84,13 @@ void mouseClicked() {
       }
       //WORK ON THIS ONLY FOR POLISHING
     }
-    if (mouseX > 1375 && mouseX < 1575 && mouseY > 700 && mouseY < 800){
-      start = true;
-    }
   }
 }
 
 void draw(){
   background(255);
-  if (countdown > 0){
-    countdown--;
-  }
-  if (start && countdown == 0){
-    countdown += 300;
-    goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
-    goonList.add(goon);
-  }
+  //goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+  //goonList.add(goon);
   for (int i = 0; i < 27; i++){
     for (int j = 0; j < 18; j++){
       if(map.getTile(i, j).getType() == 2){
@@ -118,33 +107,36 @@ void draw(){
   for (Tower t : towerList){
     t.place();
     t.display();
-    float countdown = t.getAttackSpeed();
+    int countdown = (int)(t.getAttackSpeed());
     if(countdown > 0){
       countdown--;
     }
     if (countdown == 0){
+      countdown = (int)(t.getAttackSpeed());
       t.attack();
-      countdown = t.getAttackSpeed();
     }
   }
   if (goonList.size() > 0){
-  for(int i = 0; i < goonList.size(); i++){
+  for (Mob m : goonList){
+    if (m.getHealth() > 0 && m.getX() < map.getMapWidth() && m.getY() < map.getMapLength()){
+      m.move();
+      m.display();
+      m.setCurrentTile(m.getX(),m.getY());
+    }else if (m.getHealth() <= 0){
+      m.getCurrentTile().removeEntity();
+      goonList.remove(m);
+    }
+  }
+  //for(int i = 0; i < goonList.size(); i++){
     /*if (goonList.get(i).getY() >= 900){
       baseHP -= 100;
     }*/
-    if (goonList.get(i).getHealth() != 0 && goonList.get(i).getY() < 950){
-      goonList.get(i).move();
-      goonList.get(i).display();
-    }
-    int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
-    if(hasCorner != -1){
-      xDiff = map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX();
-      yDiff = map.getCorner(goonList.get(i).getCorner()).getY() - map.getCorner(goonList.get(i).getCorner()).getY();
-      goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
-      goonList.get(i).changeCorner();
-    }
+    //if (goonList.get(i).getHealth() != 0 && goonList.get(i).getY() < 950 && goonList.get(i).getX() < map.getMapWidth()){
+      //goonList.get(i).move();
+      //goonList.get(i).display();
+    //}
     // goonList.get(i).applyDamage(1);
-  }
+  //}
   fill(0);
   text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 40);
   text(goonList.get(0).getVelocity().x + "," + goonList.get(0).getVelocity().y, 20, 80);
@@ -162,9 +154,4 @@ void draw(){
       text(TOWER_STATS[0][i] + TOWER_STATS[TOWER_MODE][i], 1375, 225 + (i*35));
     }
   }
-  text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 40);
-  text(cornerTile, 20, 60);
-  text(xDiff + "," + yDiff, 20, 100);
-  fill(0, 150, 0);
-  rect(1375, 700, 200, 100);
 }
