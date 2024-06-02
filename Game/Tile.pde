@@ -4,11 +4,11 @@ public class Tile{
   private int tileX;
   private int tileY;
   private boolean hasEntity;
-  public Tile(float x, float y){
+  public Tile(float x, float y, int X, int Y){
     this.x = x;
     this.y = y;
-    //this.tileX = X;
-    //this.tileY = Y;
+    this.tileX = X;
+    this.tileY = Y;
     this.hasEntity = false;
   }
   public float getX(){
@@ -32,5 +32,4 @@ public class Tile{
   public void placeEntity(){
     hasEntity = true;
   }
-
 }

@@ -1,7 +1,7 @@
 import java.util.*;
 public class Map{
   private Tile[][] map;
-  private LinkedList<Tile> path = new LinkedList<Tile>();
+  private ArrayList<PathTile> path = new ArrayList<PathTile>();
   private ArrayList<Tile> corners = new ArrayList<Tile>();
   private int mapWidth;
   private int mapLength;
@@ -13,15 +13,16 @@ public class Map{
       for (int j = 0; j < col; j++){
         if (j == 7 && i >= 0 && i <= 13 || j <= 7 && j >= 3 && i == 13 || j == 3 && i <= 13 && i >= 9 || j <= 13 && j >= 3 && i == 9 || j == 13 && i >= 5 && i <= 9 || j <= 13 && j >= 9 && i == 5 || j == 9 && i <= 16 && i >= 5 || j >= 5 && j <= 9 && i == 16 || j == 5 && i <= 20 && i >= 16 || j <= 11 && j >= 5 && i == 20 || j == 11 && i >= 14 && i <= 20 || j >= 11 && j <= 18 && i == 14){
           if (j == 7 && i == 13 || j == 3 && i == 13 || j == 3 && i == 9 || j == 13 && i == 9 || j == 13 && i == 5 || j == 9 && i == 5 || j == 9 && i == 16 || j == 5 && i == 16 || j == 5 && i == 20 || j == 11 && i == 20 || j == 11 && i == 14 || j == 17 && i == 14){
-            CornerTile nt = new CornerTile(i * mapWidth / row, j * mapLength / col);
+            CornerTile nt = new CornerTile(i * mapWidth / row, j * mapLength / col, i, j);
             map[i][j] = nt;
+            path.add(nt);
           }else{
-            PathTile nt = new PathTile(i * mapWidth / row, j * mapLength / col);
+            PathTile nt = new PathTile(i * mapWidth / row, j * mapLength / col, i, j);
             map[i][j] = nt;
+            path.add(nt);
           }
-          path.add(map[i][j]);
         }else{
-          map[i][j] = new GrassTile(i * mapWidth / row, j * mapLength / col);
+          map[i][j] = new GrassTile(i * mapWidth / row, j * mapLength / col, i, j);
         }
       }
     }
@@ -48,12 +49,12 @@ public class Map{
   public int getMapLength(){
     return mapLength;
   }
-  public LinkedList<Tile> getPath(){
+  public ArrayList<PathTile> getPath(){
     return path;
   }
   
   public Tile getFirstPath(){
-    return path.getFirst();
+    return path.get(0);
   }
   
   public Tile getPathAt(int pos){
