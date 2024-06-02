@@ -47,4 +47,14 @@ public class Mob{
       health -= damage;
     }
   }
+  public void changeVelocity(float speed){
+    PVector sub;
+    if(velocity.x == 0){
+      sub = new PVector(0, speed);
+      velocity.sub(sub);
+    }else{
+      sub = new PVector(speed, 0);
+      velocity.sub(sub);
+    }
+  }
 }
