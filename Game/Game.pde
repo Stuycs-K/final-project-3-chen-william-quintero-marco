@@ -12,7 +12,7 @@ static String TOWER_PLACING = "None";
 Mob goon;
 ArrayList<Mob> goonList;
 int countdown = 0;
-int wave = 1;
+int wave = 0;
 float xDiff = 0;
 float yDiff = 0;
 boolean activeWave = false;
@@ -89,8 +89,9 @@ void mouseClicked() {
       //WORK ON THIS ONLY FOR POLISHING
     }
     }else{
-    if (mouseX > 1375 && mouseX < 1575 && mouseY > 700 && mouseY < 800){
+    if (mouseX > 1375 && mouseX < 1575 && mouseY > 700 && mouseY < 800 && !activeWave){
       activeWave = true;
+      wave++;
     }
     }
   }
@@ -158,10 +159,13 @@ void draw(){
       goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
       goonList.get(i).changeCorner();
     }
-     goonList.get(i).applyDamage(1);
+     goonList.get(i).applyDamage(10);
   }
   fill(0);
   text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
+  if(!activeWave){
+    goonList = new ArrayList<Mob>();
+  }
   }
   textSize(30);
   fill(255,0,0);
