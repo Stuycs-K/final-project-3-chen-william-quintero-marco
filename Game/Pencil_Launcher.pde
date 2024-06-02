@@ -6,6 +6,7 @@ public class Pencil_Launcher extends Tower{
     radius = 5;
     attackSpeed = 1;
     cost = 300;
+    cooldown = (int)(attackSpeed)*60;
   }
   
   public void attack(){

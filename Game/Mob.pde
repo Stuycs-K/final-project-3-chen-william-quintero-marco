@@ -63,7 +63,6 @@ public class Mob{
         currentTile = path.get(i);
       }
     }
-    System.out.println(currentTile.getX()+","+currentTile.getY());
     currentTile.setMob(this);
     currentTile.placeEntity();
   }

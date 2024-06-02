@@ -7,7 +7,8 @@ public abstract class Tower{
   boolean placed;
   Map map;
   ArrayList<PathTile> path;
-  Mob targetMob;
+  //Mob targetMob;
+  int cooldown;
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;
@@ -38,14 +39,20 @@ public abstract class Tower{
     return cost;
   }
   
-  public Mob getTargetMob(){
-    return targetMob;
+  //public Mob getTargetMob(){
+  //  return targetMob;
+  //}
+  
+  //public void setTargetMob(Mob mob){
+  //  targetMob = mob;
+  //}
+  public int getCooldown(){
+    return cooldown;
   }
   
-  public void setTargetMob(Mob mob){
-    targetMob = mob;
+  public void setCooldown(int n){
+    cooldown = n;
   }
-  
   public void place(){
     if (map.getMapWidth() > coordX && map.getMapLength() > coordY){
       Tile placeTile = map.getTile(tileX, tileY);
