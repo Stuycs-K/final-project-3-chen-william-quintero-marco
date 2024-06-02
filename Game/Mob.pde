@@ -1,6 +1,6 @@
 import java.util.*;
 public class Mob{
-  private PVector position, velocity;
+  PVector position, velocity;
   private float radius;
   private int health;
   private String type;
@@ -11,7 +11,7 @@ public class Mob{
     position = new PVector(x, y);
     this.radius = radius;
     velocity = new PVector(2, 0);
-    health = 10;
+    health = 200;
     this.type = type;
     path = map.getPath();
     currentTile = map.getPath().get(0);

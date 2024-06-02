@@ -115,7 +115,11 @@ void draw(){
   }
   if (goonList.size() < 5 && activeWave && countdown == 0){
     countdown += 300;
-    goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+    if(wave == 1){
+      goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+    }else{
+      goon = new Boss(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+    }
     goonList.add(goon);
   }
   for (int i = 0; i < 27; i++){
@@ -159,7 +163,7 @@ void draw(){
       goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
       goonList.get(i).changeCorner();
     }
-     //goonList.get(i).applyDamage(10);
+     goonList.get(i).applyDamage(10);
   }
   fill(0);
   text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
