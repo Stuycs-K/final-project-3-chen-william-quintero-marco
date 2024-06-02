@@ -4,6 +4,7 @@ public class Mob{
   private float radius;
   private int health;
   private String type;
+  private int currentCorner = 0;
   public Mob(float x, float y, float radius, String type){
     position = new PVector(x, y);
     this.radius = radius;
@@ -56,5 +57,11 @@ public class Mob{
       sub = new PVector(speed, 0);
       velocity.sub(sub);
     }
+  }
+  public int getCorner(){
+    return currentCorner;
+  }
+  public void changeCorner(){
+    currentCorner++;
   }
 }
