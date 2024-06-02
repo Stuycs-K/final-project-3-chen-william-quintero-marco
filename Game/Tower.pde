@@ -6,7 +6,7 @@ public abstract class Tower{
   int tileX,tileY;
   boolean placed;
   Map map;
-  LinkedList<PathTile> path;
+  LinkedList<Tile> path;
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;

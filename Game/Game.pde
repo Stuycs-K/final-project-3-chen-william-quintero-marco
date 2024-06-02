@@ -1,7 +1,6 @@
 int baseHP;
 float cash;
 Map map;
-
 ArrayList<Tower> towerListData;
 ArrayList<Tower> towerList;
 String[][] TOWER_STATS;
@@ -10,7 +9,11 @@ static int PENCIL_LAUNCHER = 1;
 static int RULER_POLICE = 2;
 static int TOWER_MODE = NO_TOWER;
 static String TOWER_PLACING = "None";
-
+Mob goon;
+ArrayList<Mob> goonList;
+int cornerTile = 0;
+float xDiff = 0;
+float yDiff = 0;
 void setup(){
   size(1600,900);
   background(255);
@@ -30,6 +33,9 @@ void setup(){
       TOWER_STATS[i] = new String[]{""+towerData.getDamage(),""+towerData.getRadius(),""+towerData.getAttackSpeed(),""+towerData.getCost()};
     }
   }
+  goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard");
+  goonList = new ArrayList<Mob>();
+  goonList.add(goon);
 }
 
 void keyPressed() {
@@ -88,6 +94,8 @@ void draw(){
     for (int j = 0; j < 18; j++){
       if(map.getTile(i, j).getType() == 2){
         fill(255);
+      }else if (map.getTile(i, j).getType() == 3){
+        fill(255, 0, 0);
       }else{
         fill(0);
       }
@@ -108,6 +116,20 @@ void draw(){
       countdown = t.getAttackSpeed();
     }
   }
+  for(int i = 0; i < goonList.size(); i++){
+    if (goonList.get(i).getHealth() != 0){
+      goonList.get(i).move();
+      goonList.get(i).display();
+    }
+    int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
+    if(hasCorner != -1){
+      xDiff = map.getCorner(cornerTile + 1).getX() - map.getCorner(cornerTile).getX();
+      yDiff = map.getCorner(cornerTile + 1).getY() - map.getCorner(cornerTile).getY();
+      goonList.get(i).changeDirection(map.getCorner(cornerTile + 1).getX() - map.getCorner(cornerTile).getX(), map.getCorner(cornerTile + 1).getY() - map.getCorner(cornerTile).getY(), cornerTile);
+      cornerTile++;
+    }
+    goonList.get(i).applyDamage(1);
+  }
   textSize(30);
   fill(255,0,0);
   text("HP: "+baseHP, 1375, 45); 
@@ -121,4 +143,8 @@ void draw(){
       text(TOWER_STATS[0][i] + TOWER_STATS[TOWER_MODE][i], 1375, 225 + (i*35));
     }
   }
+  text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 40);
+  text(cornerTile, 20, 60);
+  text(goonList.get(0).getVelocity().x + "," + goonList.get(0).getVelocity().y, 20, 80);
+  text(xDiff + "," + yDiff, 20, 100);
 }

@@ -12,10 +12,10 @@ public class Pencil_Launcher extends Tower{
     PVector velocity = new PVector(0,0);
     PVector enemyPos = new PVector(0,0);
     for (int i = path.toArray().length-1; i >= 0; i--){
-      PathTile pathTile = path.get(i);
+      Tile pathTile = path.get(i);
       if (pathTile.hasEntity()){
         enemyPos = new PVector(pathTile.getX(),pathTile.getY());
-        velocity = PVector.sub(enemyPos,pencilPos);
+        velocity = PVector.sub(pencilPos,enemyPos);
       }
     }
     pencilPos.add(velocity);

@@ -4,11 +4,11 @@
 
 ### 5/23
 
-Completed Tile and Map class
+Completed Tile class
 
-### date y
+### 5/28
 
-info
+Completed Map class and updated it visually
 
 
 ## William Chen
