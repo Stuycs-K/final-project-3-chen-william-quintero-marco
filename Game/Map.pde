@@ -15,8 +15,7 @@ public class Map{
           if (j == 7 && i == 13 || j == 3 && i == 13 || j == 3 && i == 9 || j == 13 && i == 9 || j == 13 && i == 5 || j == 9 && i == 5 || j == 9 && i == 16 || j == 5 && i == 16 || j == 5 && i == 20 || j == 11 && i == 20 || j == 11 && i == 14 || j == 17 && i == 14){
             CornerTile nt = new CornerTile(i * mapWidth / row, j * mapLength / col);
             map[i][j] = nt;
-          }
-          else{
+          }else{
             PathTile nt = new PathTile(i * mapWidth / row, j * mapLength / col);
             map[i][j] = nt;
           }
@@ -49,12 +48,18 @@ public class Map{
   public int getMapLength(){
     return mapLength;
   }
+  public LinkedList<Tile> getPath(){
+    return path;
+  }
+  
   public Tile getFirstPath(){
     return path.getFirst();
   }
+  
   public Tile getPathAt(int pos){
     return path.get(pos);
   }
+  
   public int findCorner(float x, float y){
     for (int i = 0; i < corners.size() - 1; i++){
       if (corners.get(i).getX() == x && corners.get(i).getY() == y){
@@ -63,6 +68,7 @@ public class Map{
     }
     return -1;
   }
+  
   public Tile getCorner(int index){
     return corners.get(index);
   }
