@@ -32,4 +32,7 @@ public class Tile{
   public void placeEntity(){
     hasEntity = true;
   }
+  public void removeEntity(){
+    hasEntity = false;
+  }
 }
