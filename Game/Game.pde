@@ -139,13 +139,11 @@ void draw(){
   for (Tower t : towerList){
     t.place();
     t.display();
-    float countdown = t.getAttackSpeed();
-    if(countdown > 0){
-      countdown--;
-    }
-    if (countdown == 0){
+    if (t.getCooldown() == 0){
       t.attack();
-      countdown = t.getAttackSpeed();
+      t.setCooldown((int)(t.getAttackSpeed())*60);
+    }else{
+      t.setCooldown(t.getCooldown()-1);
     }
   }
   if (goonList.size() > 0){
@@ -189,8 +187,11 @@ void draw(){
       text(TOWER_STATS[0][i] + TOWER_STATS[TOWER_MODE][i], 1375, 225 + (i*35));
     }
   }
-  text("Wave:" + wave, 20, 40);
-  text("Active Wave?: " + activeWave, 20, 60);
+  text("Wave: " + wave, 1375, 620);
+  text("Active Wave?:", 1375, 650);
+  text(""+activeWave, 1375, 680);
   fill(0, 150, 0);
   rect(1375, 700, 200, 100);
+  fill(0);
+  text("START", 1435, 760);
 }
