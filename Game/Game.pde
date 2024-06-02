@@ -11,7 +11,7 @@ static int TOWER_MODE = NO_TOWER;
 static String TOWER_PLACING = "None";
 Mob goon;
 ArrayList<Mob> goonList;
-int countdown;
+int countdown = 0;
 int cornerTile = 0;
 float xDiff = 0;
 float yDiff = 0;
