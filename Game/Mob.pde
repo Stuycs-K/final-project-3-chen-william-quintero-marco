@@ -7,11 +7,12 @@ public class Mob{
   ArrayList<PathTile> path;
   PathTile currentTile;
   int currentCorner = 0;
+  boolean broke = false;
   public Mob(float x, float y, float radius, String type, Map map){
     position = new PVector(x, y);
     this.radius = radius;
     velocity = new PVector(2, 0);
-    health = 500;
+    health = 20;
     this.type = type;
     path = map.getPath();
     currentTile = map.getPath().get(0);
@@ -84,5 +85,11 @@ public class Mob{
   }
   public int getType(){
     return 0;
+  }
+  public void breakMob(){
+    broke = true;
+  }
+  public boolean isBroke(){
+    return broke;
   }
 }
