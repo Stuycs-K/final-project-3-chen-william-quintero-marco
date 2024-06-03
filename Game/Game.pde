@@ -218,12 +218,13 @@ void draw(){
                 //newGoon3.changeDirection((float)0, (float)-2, cornerIndex);
               }
             }
-            goonList.add(newGoon1);*/
+            goonList.add(newGoon1);
             //goonList.add(newGoon2);
             //goonList.add(newGoon3);
             currentGoon.breakMob();
-          }
+          }*/
           currentGoon.getCurrentTile().removeEntity();
+        }
           if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() > map.getMapWidth() || goonList.get(i).getY() > map.getMapLength()){
             baseHP -= currentGoon.getHealth();
             goonList.get(i).applyDamage(100000000);
@@ -232,7 +233,6 @@ void draw(){
           //  goonList.remove(currentGoon);
           //  System.out.println("bruh");
           //}
-        }
         int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
         if(hasCorner != -1){
           xDiff = map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX();
@@ -246,6 +246,11 @@ void draw(){
       if(!activeWave){
         goonList = new ArrayList<Mob>();
       }
+    }
+    }else{
+    fill(255,0,0);
+    textSize(100);
+    text("GAME OVER", 550, 450);
     }
     textSize(30);
     fill(255,0,0);
@@ -267,9 +272,4 @@ void draw(){
     rect(1375, 700, 200, 100);
     fill(0);
     text("START", 1435, 760);
-  }else{
-    fill(255,0,0);
-    textSize(100);
-    text("GAME OVER", 550, 450);
   }
-}
