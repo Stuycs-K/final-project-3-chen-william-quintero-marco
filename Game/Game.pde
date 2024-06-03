@@ -100,7 +100,7 @@ void mouseClicked() {
 
 void draw(){
   background(255);
-  if (goonList.size() == 5){
+  if ((wave == 1 && goonList.size() == 5) || (wave == 2 && goonList.size() == 5 * 4)){
   int numDead = 0;
   for (int i = 0; i < goonList.size(); i++){
     if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() > 900){
@@ -114,7 +114,7 @@ void draw(){
   if (countdown > 0){
     countdown--;
   }
-  if (goonList.size() < 5 && activeWave && countdown == 0){
+  if ((wave == 1 && goonList.size() < 5 || wave == 2 && goonList.size() < 5 * 4) && activeWave && countdown == 0){
     countdown += 300;
     if(wave == 2){
       goon = new Boss(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
