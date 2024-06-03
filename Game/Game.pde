@@ -104,6 +104,7 @@ void mouseClicked() {
 
 void draw(){
   background(255);
+  if (baseHP > 0){
   for (int i = 0; i < 27; i++){
     for (int j = 0; j < 18; j++){
       if(map.getTile(i, j).getType() == 2){
@@ -149,23 +150,20 @@ void draw(){
       baseHP -= 100;
     }*/
     Mob currentGoon = goonList.get(i);
-    if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() < map.getMapWidth() && goonList.get(i).getY() < map.getMapLength()){
+    if (goonList.get(i).getHealth() > 0 && goonList.get(i).getX() < map.getMapWidth() && goonList.get(i).getY() < map.getMapLength()){
       goonList.get(i).move();
       goonList.get(i).display();
       currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
       fill(255);
       text(currentGoon.getHealth(), currentGoon.getX()-20, currentGoon.getY()+10);
     }else{
-      if (currentGoon.getHealth() <= 0){
-        currentGoon.getCurrentTile().removeEntity();
-      }
-      if (currentGoon.getCurrentTile() == map.getPath().get(map.getPath().size()-1)){
+      currentGoon.getCurrentTile().removeEntity();
+      if (goonList.get(i).getX() > map.getMapWidth() || goonList.get(i).getY() > map.getMapLength()){
         baseHP -= currentGoon.getHealth();
-        currentGoon.getCurrentTile().removeEntity();
       }
       if (goonList.size() > 1){
         goonList.remove(currentGoon);
-        System.out.println("bruh");
+        System.out.println(currentGoon.getX() + ", " + currentGoon.getY());
       }
     }
     int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
@@ -202,4 +200,9 @@ void draw(){
   rect(1375, 700, 200, 100);
   fill(0);
   text("START", 1435, 760);
+  }else{
+    fill(255,0,0);
+    textSize(100);
+    text("GAME OVER", 550, 450);
+  }
 }
