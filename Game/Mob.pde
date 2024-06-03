@@ -2,7 +2,7 @@ import java.util.*;
 public class Mob{
   PVector position, velocity;
   private float radius;
-  private int health;
+  int health;
   String type;
   ArrayList<PathTile> path;
   PathTile currentTile;

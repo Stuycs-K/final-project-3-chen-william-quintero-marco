@@ -162,18 +162,65 @@ void draw(){
           fill(255);
           text(currentGoon.getHealth(), currentGoon.getX()-20, currentGoon.getY()+10);
         }else{
-          if (currentGoon.getType() == 1 && !currentGoon.isBroke()){
+          /*if (currentGoon.getType() == 1 && !currentGoon.isBroke()){
             Tile currentTile = currentGoon.getCurrentTile();
             Mob newGoon1 = new Mob(currentTile.getX() + 25, currentTile.getY() + 25, 50, "standard", map);
-            Mob newGoon2 = new Mob(currentTile.getX() - 25, currentTile.getY() + 25, 50, "standard", map);
-            Mob newGoon3 = new Mob(currentTile.getX() + 75, currentTile.getY() + 25, 50, "standard", map);
-            if (currentGoon.getVelocity().x == 0){
-              newGoon2 = new Mob(currentTile.getX() + 25, currentTile.getY() - 25, 50, "standard", map);
-              newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() + 75, 50, "standard", map);
+            //Mob newGoon2 = new Mob(currentTile.getX() - 25, currentTile.getY() + 25, 50, "standard", map);
+            //Mob newGoon3 = new Mob(currentTile.getX() + 75, currentTile.getY() + 25, 50, "standard", map);
+            int cornerIndex = map.findCorner(currentTile.getX(), currentTile.getY());
+            if (currentGoon.getVelocity().x == -2){
+              newGoon1.changeDirection((float)-2, (float)0, cornerIndex);
+              //newGoon2.changeDirection((float)-2, (float)0, cornerIndex);
+              //newGoon3.changeDirection((float)-2, (float)0, cornerIndex);
             }
-            goonList.add(newGoon1);
-            goonList.add(newGoon2);
-            goonList.add(newGoon3);
+            if (cornerIndex == 0 || cornerIndex == 3 || cornerIndex == 6 || cornerIndex == 9){
+              //newGoon2 = new Mob(currentTile.getX() - 25, currentTile.getY() + 25, 50, "standard", map);
+              //newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() - 25, 50, "standard", map);
+              if (cornerIndex == 0 || cornerIndex == 9){
+                newGoon1.changeDirection((float)0, (float)-2, cornerIndex);
+                //newGoon3.changeDirection((float)0, (float)-2, cornerIndex);
+              }else{
+                newGoon1.changeDirection((float)-2, (float)0, cornerIndex);
+                //newGoon2.changeDirection((float)-2, (float)0, cornerIndex);
+              }
+            }else if (cornerIndex == 1 || cornerIndex == 8){
+              //newGoon2 = new Mob(currentTile.getX() - 25, currentTile.getY() + 25, 50, "standard", map);
+              //newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() + 75, 50, "standard", map);
+              if (cornerIndex == 1){
+                newGoon1.changeDirection((float)-2, (float)0, cornerIndex);
+                //newGoon2.changeDirection((float)-2, (float)0, cornerIndex);
+              }else{
+                newGoon1.changeDirection((float)0, (float)2, cornerIndex);
+                //newGoon3.changeDirection((float)0, (float)2, cornerIndex);
+              }
+            }else if (cornerIndex == 2 || cornerIndex == 5 || cornerIndex == 7 || cornerIndex == 10){
+              //newGoon2 = new Mob(currentTile.getX() + 75, currentTile.getY() + 25, 50, "standard", map);
+              //newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() + 75, 50, "standard", map);
+              if(cornerIndex == 2 || cornerIndex == 10){
+                newGoon1.changeDirection((float)0, (float)2, cornerIndex);
+                //newGoon3.changeDirection((float)0, (float)2, cornerIndex);
+              }
+            }else if (cornerIndex == 4){
+              //newGoon2 = new Mob(currentTile.getX() + 75, currentTile.getY() + 25, 50, "standard", map);
+              //newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() - 25, 50, "standard", map);
+              newGoon1.changeDirection((float)0, (float)2, cornerIndex);
+              //newGoon3.changeDirection((float)0, (float)2, cornerIndex);
+            }else if (currentGoon.getVelocity().x == 0){
+              //newGoon2 = new Mob(currentTile.getX() + 25, currentTile.getY() - 25, 50, "standard", map);
+              //newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() + 75, 50, "standard", map);
+              if (currentGoon.getVelocity().y == 2){
+                newGoon1.changeDirection((float)0, (float)2, cornerIndex);
+                //newGoon2.changeDirection((float)0, (float)2, cornerIndex);
+               // newGoon3.changeDirection((float)0, (float)2, cornerIndex);
+              }else{
+                //newGoon1.changeDirection((float)0, (float)-2, cornerIndex);
+                //newGoon2.changeDirection((float)0, (float)-2, cornerIndex);
+                //newGoon3.changeDirection((float)0, (float)-2, cornerIndex);
+              }
+            }
+            goonList.add(newGoon1);*/
+            //goonList.add(newGoon2);
+            //goonList.add(newGoon3);
             currentGoon.breakMob();
           }
           currentGoon.getCurrentTile().removeEntity();
