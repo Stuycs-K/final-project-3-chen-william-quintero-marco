@@ -1,17 +1,18 @@
 import java.util.*;
 public class Mob{
-  private PVector position, velocity;
+  PVector position, velocity;
   private float radius;
   private int health;
-  private String type;
-  private ArrayList<PathTile> path;
-  private PathTile currentTile;
-  private int currentCorner = 0;
+  String type;
+  ArrayList<PathTile> path;
+  PathTile currentTile;
+  int currentCorner = 0;
+  boolean broke = false;
   public Mob(float x, float y, float radius, String type, Map map){
     position = new PVector(x, y);
     this.radius = radius;
     velocity = new PVector(2, 0);
-    health = 100;
+    health = 20;
     this.type = type;
     path = map.getPath();
     currentTile = map.getPath().get(0);
@@ -81,5 +82,14 @@ public class Mob{
   }
   public void changeCorner(){
     currentCorner++;
+  }
+  public int getType(){
+    return 0;
+  }
+  public void breakMob(){
+    broke = true;
+  }
+  public boolean isBroke(){
+    return broke;
   }
 }

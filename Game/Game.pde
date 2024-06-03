@@ -73,31 +73,31 @@ void mouseClicked() {
       tile = map.getTile(tileX,tileY);
     }
     if (inMap && activeWave){
-    if (TOWER_MODE != 0 && tile.getType() == 2 && !tile.hasEntity()){
-      newTower = new Pencil_Launcher(mouseX,mouseY,map);
-      if (TOWER_MODE == PENCIL_LAUNCHER){
+      if (TOWER_MODE != 0 && tile.getType() == 2 && !tile.hasEntity()){
         newTower = new Pencil_Launcher(mouseX,mouseY,map);
-      }
-      if (TOWER_MODE == RULER_POLICE){
-        newTower = new Ruler_Police(mouseX,mouseY,map);
-      }
-      if (cash >= newTower.getCost() && inMap){
+        if (TOWER_MODE == PENCIL_LAUNCHER){
+          newTower = new Pencil_Launcher(mouseX,mouseY,map);
+        }  
+        if (TOWER_MODE == RULER_POLICE){
+          newTower = new Ruler_Police(mouseX,mouseY,map);
+        }
+        if (cash >= newTower.getCost() && inMap){
           towerList.add(newTower);
           cash -= newTower.getCost();
-      }
-    }else{
+        }
+      }else{
       //CLICK ON UNITS TO SHOW THEIR RANGE
         Tile clickTile = map.getTile(tileX,tileY);
         if (clickTile.getType() == 2 && clickTile.hasEntity()){
           
         }
       //WORK ON THIS ONLY FOR POLISHING
-    }
+      }
     }else{
-    if (mouseX > 1375 && mouseX < 1575 && mouseY > 700 && mouseY < 800 && !activeWave){
-      activeWave = true;
-      wave++;
-    }
+      if (mouseX > 1375 && mouseX < 1575 && mouseY > 700 && mouseY < 800 && !activeWave){
+        activeWave = true;
+        wave++;
+      }
     }
   }
 }
@@ -105,101 +105,121 @@ void mouseClicked() {
 void draw(){
   background(255);
   if (baseHP > 0){
-  for (int i = 0; i < 27; i++){
-    for (int j = 0; j < 18; j++){
-      if(map.getTile(i, j).getType() == 2){
-        image(grassTile,map.getTile(i, j).getX(), map.getTile(i, j).getY());
-      }else if (map.getTile(i, j).getType() == 1 || map.getTile(i, j).getType() == 3){
-        image(pathTile,map.getTile(i, j).getX(), map.getTile(i, j).getY());
+    for (int i = 0; i < 27; i++){
+      for (int j = 0; j < 18; j++){
+        if(map.getTile(i, j).getType() == 2){
+          image(grassTile,map.getTile(i, j).getX(), map.getTile(i, j).getY());
+        }else if (map.getTile(i, j).getType() == 1 || map.getTile(i, j).getType() == 3){
+          image(pathTile,map.getTile(i, j).getX(), map.getTile(i, j).getY());
+        }
       }
     }
-  }
-  if (goonList.size() == 5){
-  int numDead = 0;
-  for (int i = 0; i < goonList.size(); i++){
-    if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() > 950){
-      numDead++;
-    }
-  }
-  if (numDead == goonList.size()){
-    activeWave = false;
-  }
-  }
-  if (countdown > 0){
-    countdown--;
-  }
-  if (goonList.size() < 5 && activeWave && countdown == 0){
-    countdown += 300;
-    goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
-    goonList.add(goon);
-  }
-  for (Tower t : towerList){
-    t.place();
-    t.display();
-    if (t.getCooldown() == 0){
-      t.attack();
-      t.setCooldown((int)(t.getAttackSpeed()*60));
-      cash += t.getDamage();
-    }else{
-      t.setCooldown(t.getCooldown()-1);
-    }
-  }
-  if (goonList.size() > 0){
-  for(int i = 0; i < goonList.size(); i++){
-    /*if (goonList.get(i).getY() >= 900){
-      baseHP -= 100;
-    }*/
-    Mob currentGoon = goonList.get(i);
-    if (goonList.get(i).getHealth() > 0 && goonList.get(i).getX() < map.getMapWidth() && goonList.get(i).getY() < map.getMapLength()){
-      goonList.get(i).move();
-      goonList.get(i).display();
-      currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
-      fill(255);
-      text(currentGoon.getHealth(), currentGoon.getX()-20, currentGoon.getY()+10);
-    }else{
-      currentGoon.getCurrentTile().removeEntity();
-      if (goonList.get(i).getX() > map.getMapWidth() || goonList.get(i).getY() > map.getMapLength()){
-        baseHP -= currentGoon.getHealth();
+    if ((wave == 1 && goonList.size() == 5) || (wave == 2 && goonList.size() == 5 * 4)){
+      int numDead = 0;
+      for (int i = 0; i < goonList.size(); i++){
+       if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() > 900){
+          numDead++;
+        }
       }
-      if (goonList.size() > 1){
-        goonList.remove(currentGoon);
-        System.out.println(currentGoon.getX() + ", " + currentGoon.getY());
+      if (numDead == goonList.size()){
+        activeWave = false;
       }
     }
-    int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
-    if(hasCorner != -1){
-      xDiff = map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX();
-      yDiff = map.getCorner(goonList.get(i).getCorner()).getY() - map.getCorner(goonList.get(i).getCorner()).getY();
-      goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
-      goonList.get(i).changeCorner();
+    
+    if (countdown > 0){
+      countdown--;
     }
-  }
-  fill(0);
-  text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
-  if(!activeWave){
-    goonList = new ArrayList<Mob>();
-  }
-  }
-  textSize(30);
-  fill(255,0,0);
-  text("HP: "+baseHP, 1375, 45); 
-  fill(133,187,101);
-  text("Cash: $"+cash, 1375, 100);
-  fill(0);
-  text("Current Tower: ", 1375, 155);
-  text(TOWER_PLACING, 1375, 190);
-  if (TOWER_MODE != 0){
-    for (int i = 0; i < TOWER_STATS[TOWER_MODE].length; i++){
-      text(TOWER_STATS[0][i] + TOWER_STATS[TOWER_MODE][i], 1375, 225 + (i*35));
+    if ((wave == 1 && goonList.size() < 5 || wave == 2 && goonList.size() < 5 * 4) && activeWave && countdown == 0){
+      countdown += 300;
+      if(wave == 2){
+        goon = new Boss(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }else{
+        goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }
+      goonList.add(goon);
     }
-  }
-  text("Wave: " + wave, 1375, 620);
-  text("Active Wave?:", 1375, 650);
-  text(""+activeWave, 1375, 680);
-  fill(0, 150, 0);
-  rect(1375, 700, 200, 100);
-  fill(0);
-  text("START", 1435, 760);
+    for (Tower t : towerList){
+      t.place();
+      t.display();
+      if (t.getCooldown() == 0){
+        t.attack();
+        t.setCooldown((int)(t.getAttackSpeed()*60));
+        cash += t.getDamage();
+      }else{
+        t.setCooldown(t.getCooldown()-1);
+      }
+    }
+    if (goonList.size() > 0){
+      for(int i = 0; i < goonList.size(); i++){
+        /*if (goonList.get(i).getY() >= 900){
+        baseHP -= 100;
+        }*/
+        Mob currentGoon = goonList.get(i);
+        if (goonList.get(i).getHealth() > 0 && goonList.get(i).getX() < map.getMapWidth() && goonList.get(i).getY() < map.getMapLength()){
+          goonList.get(i).move();
+          goonList.get(i).display();
+          currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
+          fill(255);
+          text(currentGoon.getHealth(), currentGoon.getX()-20, currentGoon.getY()+10);
+        }else{
+          if (currentGoon.getType() == 1 && !currentGoon.isBroke()){
+            Tile currentTile = currentGoon.getCurrentTile();
+            Mob newGoon1 = new Mob(currentTile.getX() + 25, currentTile.getY() + 25, 50, "standard", map);
+            Mob newGoon2 = new Mob(currentTile.getX() - 25, currentTile.getY() + 25, 50, "standard", map);
+            Mob newGoon3 = new Mob(currentTile.getX() + 75, currentTile.getY() + 25, 50, "standard", map);
+            if (currentGoon.getVelocity().x == 0){
+              newGoon2 = new Mob(currentTile.getX() + 25, currentTile.getY() - 25, 50, "standard", map);
+              newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() + 75, 50, "standard", map);
+            }
+            goonList.add(newGoon1);
+            goonList.add(newGoon2);
+            goonList.add(newGoon3);
+            currentGoon.breakMob();
+          }
+          currentGoon.getCurrentTile().removeEntity();
+          if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() > map.getMapWidth() || goonList.get(i).getY() > map.getMapLength()){
+            baseHP -= currentGoon.getHealth();
+            goonList.get(i).applyDamage(100000000);
+          }
+          //if (goonList.size() > 1){
+          //  goonList.remove(currentGoon);
+          //  System.out.println("bruh");
+          //}
+        }
+        int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
+        if(hasCorner != -1){
+          xDiff = map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX();
+          yDiff = map.getCorner(goonList.get(i).getCorner()).getY() - map.getCorner(goonList.get(i).getCorner()).getY();
+          goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
+          goonList.get(i).changeCorner();
+        }
+      }
+      fill(0);
+      text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
+      if(!activeWave){
+        goonList = new ArrayList<Mob>();
+      }
+    }
+    textSize(30);
+    fill(255,0,0);
+    text("HP: "+baseHP, 1375, 45); 
+    fill(133,187,101);
+    text("Cash: $"+cash, 1375, 100);
+    fill(0);
+    text("Current Tower: ", 1375, 155);
+    text(TOWER_PLACING, 1375, 190);
+    if (TOWER_MODE != 0){
+      for (int i = 0; i < TOWER_STATS[TOWER_MODE].length; i++){
+        text(TOWER_STATS[0][i] + TOWER_STATS[TOWER_MODE][i], 1375, 225 + (i*35));
+      }
+    }
+    text("Wave: " + wave, 1375, 620);
+    text("Active Wave?:", 1375, 650);
+    text(""+activeWave, 1375, 680);
+    fill(0, 150, 0);
+    rect(1375, 700, 200, 100);
+    fill(0);
+    text("START", 1435, 760);
   }else{
     fill(255,0,0);
     textSize(100);
