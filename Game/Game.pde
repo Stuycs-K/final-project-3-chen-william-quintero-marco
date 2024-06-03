@@ -100,10 +100,10 @@ void mouseClicked() {
 
 void draw(){
   background(255);
-  if (goonList.size() == 5){
+  if ((wave == 1 && goonList.size() == 5) || (wave == 2 && goonList.size() == 5 * 4)){
   int numDead = 0;
   for (int i = 0; i < goonList.size(); i++){
-    if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() > 950){
+    if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() > 900){
       numDead++;
     }
   }
@@ -114,9 +114,13 @@ void draw(){
   if (countdown > 0){
     countdown--;
   }
-  if (goonList.size() < 5 && activeWave && countdown == 0){
+  if ((wave == 1 && goonList.size() < 5 || wave == 2 && goonList.size() < 5 * 4) && activeWave && countdown == 0){
     countdown += 300;
-    goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+    if(wave == 2){
+      goon = new Boss(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+    }else{
+      goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+    }
     goonList.add(goon);
   }
   for (int i = 0; i < 27; i++){
@@ -153,6 +157,20 @@ void draw(){
       goonList.get(i).display();
       currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
     }else if (currentGoon.getHealth() <= 0){
+      if (currentGoon.getType() == 1 && !currentGoon.isBroke()){
+        Tile currentTile = currentGoon.getCurrentTile();
+        Mob newGoon1 = new Mob(currentTile.getX() + 25, currentTile.getY() + 25, 50, "standard", map);
+        Mob newGoon2 = new Mob(currentTile.getX() - 25, currentTile.getY() + 25, 50, "standard", map);
+        Mob newGoon3 = new Mob(currentTile.getX() + 75, currentTile.getY() + 25, 50, "standard", map);
+        if (currentGoon.getVelocity().x == 0){
+          newGoon2 = new Mob(currentTile.getX() + 25, currentTile.getY() - 25, 50, "standard", map);
+          newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() + 75, 50, "standard", map);
+        }
+        goonList.add(newGoon1);
+        goonList.add(newGoon2);
+        goonList.add(newGoon3);
+        currentGoon.breakMob();
+      }
       currentGoon.getCurrentTile().removeEntity();
     }
     int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
