@@ -46,6 +46,7 @@ public abstract class Tower{
   //public void setTargetMob(Mob mob){
   //  targetMob = mob;
   //}
+  
   public int getCooldown(){
     return cooldown;
   }

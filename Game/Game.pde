@@ -1,6 +1,8 @@
 int baseHP;
 float cash;
 Map map;
+PImage grassTile;
+PImage pathTile;
 ArrayList<Tower> towerListData;
 ArrayList<Tower> towerList;
 String[][] TOWER_STATS;
@@ -21,8 +23,12 @@ void setup(){
   size(1600,900);
   background(255);
   baseHP = 100;
-  cash = 2169420;
+  cash = 500000;
   map = new Map(27, 18, 1350, height);
+  grassTile = loadImage("GrassTile.png");
+  pathTile = loadImage("PathTile.png");
+  grassTile.resize(50,50);
+  pathTile.resize(50,50);
   towerListData = new ArrayList<Tower>();
   towerListData.add(new Pencil_Launcher(0,0,map));
   towerListData.add(new Ruler_Police(0,0,map));
@@ -81,12 +87,10 @@ void mouseClicked() {
       }
     }else{
       //CLICK ON UNITS TO SHOW THEIR RANGE
-      if (inMap){
         Tile clickTile = map.getTile(tileX,tileY);
         if (clickTile.getType() == 2 && clickTile.hasEntity()){
           
         }
-      }
       //WORK ON THIS ONLY FOR POLISHING
     }
     }else{
@@ -100,6 +104,15 @@ void mouseClicked() {
 
 void draw(){
   background(255);
+  for (int i = 0; i < 27; i++){
+    for (int j = 0; j < 18; j++){
+      if(map.getTile(i, j).getType() == 2){
+        image(grassTile,map.getTile(i, j).getX(), map.getTile(i, j).getY());
+      }else if (map.getTile(i, j).getType() == 1 || map.getTile(i, j).getType() == 3){
+        image(pathTile,map.getTile(i, j).getX(), map.getTile(i, j).getY());
+      }
+    }
+  }
   if (goonList.size() == 5){
   int numDead = 0;
   for (int i = 0; i < goonList.size(); i++){
@@ -119,25 +132,13 @@ void draw(){
     goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
     goonList.add(goon);
   }
-  for (int i = 0; i < 27; i++){
-    for (int j = 0; j < 18; j++){
-      if(map.getTile(i, j).getType() == 2){
-        fill(255);
-      }else if (map.getTile(i, j).getType() == 3){
-        fill(255, 0, 0);
-      }else{
-        fill(0);
-      }
-      stroke(133,187,101);
-      square(map.getTile(i, j).getX(), map.getTile(i, j).getY(), 50);
-    }
-  }
   for (Tower t : towerList){
     t.place();
     t.display();
     if (t.getCooldown() == 0){
       t.attack();
-      t.setCooldown((int)(t.getAttackSpeed())*60);
+      t.setCooldown((int)(t.getAttackSpeed()*60));
+      cash += t.getDamage();
     }else{
       t.setCooldown(t.getCooldown()-1);
     }
@@ -148,12 +149,24 @@ void draw(){
       baseHP -= 100;
     }*/
     Mob currentGoon = goonList.get(i);
-    if (goonList.get(i).getHealth() != 0 && goonList.get(i).getY() < map.getMapLength()){
+    if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() < map.getMapWidth() && goonList.get(i).getY() < map.getMapLength()){
       goonList.get(i).move();
       goonList.get(i).display();
       currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
-    }else if (currentGoon.getHealth() <= 0){
-      currentGoon.getCurrentTile().removeEntity();
+      fill(255);
+      text(currentGoon.getHealth(), currentGoon.getX()-20, currentGoon.getY()+10);
+    }else{
+      if (currentGoon.getHealth() <= 0){
+        currentGoon.getCurrentTile().removeEntity();
+      }
+      if (currentGoon.getCurrentTile() == map.getPath().get(map.getPath().size()-1)){
+        baseHP -= currentGoon.getHealth();
+        currentGoon.getCurrentTile().removeEntity();
+      }
+      if (goonList.size() > 1){
+        goonList.remove(currentGoon);
+        System.out.println("bruh");
+      }
     }
     int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
     if(hasCorner != -1){

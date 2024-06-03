@@ -11,7 +11,7 @@ public class Mob{
     position = new PVector(x, y);
     this.radius = radius;
     velocity = new PVector(2, 0);
-    health = 10;
+    health = 100;
     this.type = type;
     path = map.getPath();
     currentTile = map.getPath().get(0);
@@ -58,7 +58,7 @@ public class Mob{
   }
   public void setCurrentTile(float x, float y){
     for (int i = 0; i < path.size(); i++){
-      if (Math.abs(path.get(i).getX() - x) <= 50 && Math.abs(path.get(i).getY() - y) <= 50){
+      if (Math.abs(path.get(i).getX() - x) <= 25 && Math.abs(path.get(i).getY() - y) <= 25){
         currentTile.removeEntity();
         currentTile = path.get(i);
       }
