@@ -240,6 +240,7 @@ void draw(){
           goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
           goonList.get(i).changeCorner();
         }
+        //currentGoon.applyDamage(1);
       }
       fill(0);
       text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
