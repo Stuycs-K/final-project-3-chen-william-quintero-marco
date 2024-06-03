@@ -59,7 +59,7 @@ public class Mob{
   }
   public void setCurrentTile(float x, float y){
     for (int i = 0; i < path.size(); i++){
-      if (Math.abs(path.get(i).getX() - x) <= 50 && Math.abs(path.get(i).getY() - y) <= 50){
+      if (Math.abs(path.get(i).getX() - x) <= 25 && Math.abs(path.get(i).getY() - y) <= 25){
         currentTile.removeEntity();
         currentTile = path.get(i);
       }
