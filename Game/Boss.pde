@@ -1,6 +1,7 @@
 public class Boss extends Mob{
   public Boss(float x, float y, float radius, String type, Map map){
     super(x, y, radius, type, map);
+    health = 40;
   }
   public void display(){
     fill(0, 0, 200);
