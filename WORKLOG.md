@@ -37,3 +37,12 @@ Worked on Tower placement on Map.
 
 ### 5/30 
 Completed Tower placement on Map. Game class now displays Tower stats. Added more variables and accessor methods to Map, Tile, and Tower classes. Continued to work on Tower attack method.
+
+### 5/31
+Worked on Tower attack cooldown and completed placing Towers.
+
+### 6/2
+Completed Attack method without projectiles. Attack doolwon and projectiles working. Added Game Over screen and losing health.
+
+### 6/3
+Fixed bug that made Game slower becaues of loadImage.
