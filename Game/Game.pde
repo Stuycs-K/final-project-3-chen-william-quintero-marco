@@ -50,7 +50,7 @@ void keyPressed() {
   if (key == '0'){
     TOWER_MODE = NO_TOWER;
     TOWER_PLACING = "None";
-  }else{
+  }else if (key == '1' || key == '2'){
     if (key == '1'){
       TOWER_MODE = PENCIL_LAUNCHER;
     }
@@ -265,7 +265,7 @@ void draw(){
       }
     }
     text("Wave: " + wave, 1375, 620);
-    text("Active Wave?:", 1375, 650);
+    text("Active Wave: ", 1375, 650);
     text(""+activeWave, 1375, 680);
     fill(0, 150, 0);
     rect(1375, 700, 200, 100);
