@@ -9,6 +9,7 @@ public abstract class Tower{
   ArrayList<PathTile> path;
   //Mob targetMob;
   int cooldown;
+  PImage towerImage;
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;
@@ -68,7 +69,19 @@ public abstract class Tower{
        }
     }
   }
-  public abstract void attack();
+  
+  public Mob findMob(){
+    for (int i = path.size()-1; i >= 0; i--){
+      PathTile pathTile = path.get(i);
+      if (pathTile.hasEntity()){
+        if (Math.abs(tileX - pathTile.getTileX()) <= radius && Math.abs(tileY - pathTile.getTileY()) <= radius){
+          return pathTile.getMob();
+        }
+      }
+    }
+    return null;
+  }
+  public abstract boolean attack();
   public abstract void display();
   
 }
