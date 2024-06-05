@@ -10,6 +10,14 @@ Completed Tile class
 
 Completed Map class and updated it visually
 
+### 6/1
+
+Completed Mob class and their interaction with Tile class (goes through the path smoothly)
+
+### 6/2
+
+Completed functional wave system and started working on boss class
+
 
 ## William Chen
 
