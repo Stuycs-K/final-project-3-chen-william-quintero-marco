@@ -3,6 +3,7 @@ public class Map{
   private Tile[][] map;
   private ArrayList<PathTile> path = new ArrayList<PathTile>();
   private ArrayList<Tile> corners = new ArrayList<Tile>();
+  private ArrayList<GrassTile> grass = new ArrayList<GrassTile>();
   private int mapWidth;
   private int mapLength;
   public Map(int row, int col, int w, int l){
@@ -22,7 +23,9 @@ public class Map{
             path.add(nt);
           }
         }else{
-          map[i][j] = new GrassTile(i * mapWidth / row, j * mapLength / col, i, j);
+          GrassTile nt = new GrassTile(i * mapWidth / row, j * mapLength / col, i, j);
+          map[i][j] = nt;
+          grass.add(nt);
         }
       }
     }
@@ -51,6 +54,9 @@ public class Map{
   }
   public ArrayList<PathTile> getPath(){
     return path;
+  }
+  public ArrayList<GrassTile> getGrass(){
+    return grass;
   }
   
   public Tile getFirstPath(){

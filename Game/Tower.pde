@@ -7,6 +7,8 @@ public abstract class Tower{
   boolean placed;
   Map map;
   ArrayList<PathTile> path;
+  ArrayList<GrassTile> grass;
+  GrassTile currentTile;
   //Mob targetMob;
   int cooldown;
   PImage towerImage;
@@ -17,6 +19,7 @@ public abstract class Tower{
     tileY = (int)(y/50);
     map = gameMap;
     path = gameMap.getPath();
+    grass = gameMap.getGrass();
     placed = false;
   }
   
@@ -80,6 +83,17 @@ public abstract class Tower{
       }
     }
     return null;
+  }
+  
+  public void setCurrentTile(float x, float y){
+    for (int i = 0; i < grass.size(); i++){
+      if (Math.abs(grass.get(i).getX() - x) <= 25 && Math.abs(grass.get(i).getY() - y) <= 25){
+        currentTile.removeEntity();
+        currentTile = grass.get(i);
+      }
+    }
+    currentTile.setTower(this);
+    currentTile.placeEntity();
   }
   public abstract boolean attack();
   public abstract void display();

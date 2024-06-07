@@ -73,16 +73,17 @@ void mouseClicked() {
       tile = map.getTile(tileX,tileY);
     }
     if (inMap && activeWave){
-      if (TOWER_MODE != 0 && tile.getType() == 2 && !tile.hasEntity()){
+      if (TOWER_MODE != 0 && TOWER_MODE <= towerListData.size() && tile.getType() == 2 && !tile.hasEntity()){
         newTower = new Pencil_Launcher(mouseX,mouseY,map);
         if (TOWER_MODE == PENCIL_LAUNCHER){
           newTower = new Pencil_Launcher(mouseX,mouseY,map);
-        }  
+        }
         if (TOWER_MODE == RULER_POLICE){
           newTower = new Ruler_Police(mouseX,mouseY,map);
         }
         if (cash >= newTower.getCost() && inMap){
           towerList.add(newTower);
+          newTower.setCurrentTile(mouseX,mouseY);
           cash -= newTower.getCost();
         }
       }else{
