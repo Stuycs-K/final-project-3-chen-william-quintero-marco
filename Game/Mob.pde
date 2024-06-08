@@ -9,11 +9,12 @@ public class Mob{
   int currentCorner = 0;
   boolean broke = false;
   boolean slowed = false;
-  float speed = 5;
+  float speed;
   public Mob(float x, float y, float radius, String type, Map map){
     position = new PVector(x, y);
     this.radius = radius;
-    velocity = new PVector(5, 0);
+    speed = 2;
+    velocity = new PVector(2, 0);
     health = 20;
     this.type = type;
     path = map.getPath();
@@ -42,6 +43,9 @@ public class Mob{
   }
   public float getY(){
     return position.y;
+  }
+  public void changePosition(float x, float y){
+    position = new PVector(x, y);
   }
   public int getHealth(){
     return health;

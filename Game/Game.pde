@@ -117,7 +117,7 @@ void draw(){
     if ((wave == 1 && goonList.size() == 5) || (wave == 2 && goonList.size() == 5 * 4)){
       int numDead = 0;
       for (int i = 0; i < goonList.size(); i++){
-       if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() > 900){
+       if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() >= 900){
           numDead++;
         }
       }
@@ -225,7 +225,7 @@ void draw(){
           }*/
           currentGoon.getCurrentTile().removeEntity();
         }
-          if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() > map.getMapWidth() || goonList.get(i).getY() > map.getMapLength()){
+          if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() >= map.getMapWidth() || goonList.get(i).getY() >= map.getMapLength()){
             baseHP -= currentGoon.getHealth();
             goonList.get(i).applyDamage(100000000);
           }
@@ -235,6 +235,7 @@ void draw(){
           //}
         int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
         if(hasCorner != -1){
+          currentGoon.changePosition(map.getCorner((hasCorner)).getX() + 25, map.getCorner((hasCorner)).getY() + 25);
           xDiff = map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX();
           yDiff = map.getCorner(goonList.get(i).getCorner()).getY() - map.getCorner(goonList.get(i).getCorner()).getY();
           goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
