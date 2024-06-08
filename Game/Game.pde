@@ -114,7 +114,7 @@ void draw(){
         }
       }
     }
-    if ((wave == 1 && goonList.size() == 5) || (wave == 2 && goonList.size() == 5 * 4)){
+    if (goonList.size() == 20){
       int numDead = 0;
       for (int i = 0; i < goonList.size(); i++){
        if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() >= 900){
@@ -129,8 +129,8 @@ void draw(){
     if (countdown > 0){
       countdown--;
     }
-    if ((wave == 1 && goonList.size() < 5 || wave == 2 && goonList.size() < 5 * 4) && activeWave && countdown == 0){
-      countdown += 300;
+    if (goonList.size() < 20 && activeWave && countdown == 0){
+      countdown += 30;
       if(wave == 2){
         goon = new Boss(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
       }else{
@@ -159,8 +159,8 @@ void draw(){
           goonList.get(i).move();
           goonList.get(i).display();
           currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
-          fill(255);
-          text(currentGoon.getHealth(), currentGoon.getX()-20, currentGoon.getY()+10);
+          fill(0, 200, 0);
+          text(100 - currentGoon.getHealth(), currentGoon.getX()-17, currentGoon.getY()+10);
         }else{
           /*if (currentGoon.getType() == 1 && !currentGoon.isBroke()){
             Tile currentTile = currentGoon.getCurrentTile();
