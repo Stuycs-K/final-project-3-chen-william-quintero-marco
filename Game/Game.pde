@@ -1,6 +1,8 @@
 int baseHP;
 float cash;
 Map map;
+ArrayList<PathTile> path;
+ArrayList<GrassTile> grass;
 PImage grassTile;
 PImage pathTile;
 ArrayList<Tower> towerListData;
@@ -19,6 +21,28 @@ int wave = 0;
 float xDiff = 0;
 float yDiff = 0;
 boolean activeWave = false;
+int startX = 1375;
+int startY = 740;
+int startL = 200;
+int startW = 100;
+//boolean draggingTower = false;
+boolean towerSelected = false;
+GrassTile selectTowerTile;
+Tower selectedTower;
+int Pencil_LauncherX = 1375;
+int Pencil_LauncherY = 190;
+PImage Pencil_LauncherImage;
+int Ruler_PoliceX = 1485;
+int Ruler_PoliceY = 190;
+int TowerButtonSize = 100;
+PImage Ruler_PoliceImage;
+int towerInfoX = 800;
+int towerInfoY = 640;
+int towerInfoL = 500;
+int towerInfoW = 250;
+int sellXY = 825;
+int sellL = 125;
+int sellW = 50;
 void setup(){
   size(1600,900);
   background(255);
@@ -29,9 +53,13 @@ void setup(){
   pathTile = loadImage("PathTile.png");
   grassTile.resize(50,50);
   pathTile.resize(50,50);
+  path = map.getPath();
+  grass = map.getGrass();
   towerListData = new ArrayList<Tower>();
   towerListData.add(new Pencil_Launcher(0,0,map));
   towerListData.add(new Ruler_Police(0,0,map));
+  Pencil_LauncherImage = towerListData.get(0).getTowerImage();
+  Ruler_PoliceImage = towerListData.get(1).getTowerImage();
   towerList = new ArrayList<Tower>();
   TOWER_STATS = new String[towerListData.size()+1][5];
   for (int i = 0; i < TOWER_STATS.length; i++){
@@ -47,10 +75,14 @@ void setup(){
 }
 
 void keyPressed() {
-  if (key == '0'){
+  if (key == '0' || key == 'q' || key == 'Q'){
     TOWER_MODE = NO_TOWER;
     TOWER_PLACING = "None";
-  }else{
+    for (Tower t : towerList){
+      t.setSelected(false);
+    }
+    towerSelected = false;
+  }else if (key == '1' || key == '2'){
     if (key == '1'){
       TOWER_MODE = PENCIL_LAUNCHER;
     }
@@ -67,36 +99,66 @@ void mouseClicked() {
     boolean inMap = false;
     int tileX = (int)(mouseX/50);
     int tileY = (int)(mouseY/50);
-    Tile tile = map.getTile(0, 0);
+    Tile clickTile = map.getTile(0, 0);
     if (map.getMapWidth() > mouseX && map.getMapLength() > mouseY){
       inMap = true;
-      tile = map.getTile(tileX,tileY);
+      clickTile = map.getTile(tileX,tileY);
     }
-    if (inMap && activeWave){
-      if (TOWER_MODE != 0 && tile.getType() == 2 && !tile.hasEntity()){
+    if (inMap){
+      if (TOWER_MODE != 0 && TOWER_MODE <= towerListData.size() && clickTile.getType() == 2 && !clickTile.hasEntity() && !towerSelected){
         newTower = new Pencil_Launcher(mouseX,mouseY,map);
         if (TOWER_MODE == PENCIL_LAUNCHER){
           newTower = new Pencil_Launcher(mouseX,mouseY,map);
-        }  
+        }
         if (TOWER_MODE == RULER_POLICE){
           newTower = new Ruler_Police(mouseX,mouseY,map);
         }
         if (cash >= newTower.getCost() && inMap){
           towerList.add(newTower);
+          newTower.place();
           cash -= newTower.getCost();
         }
-      }else{
+      }else if (clickTile.getType() == 2 && clickTile.hasEntity()){
       //CLICK ON UNITS TO SHOW THEIR RANGE
-        Tile clickTile = map.getTile(tileX,tileY);
-        if (clickTile.getType() == 2 && clickTile.hasEntity()){
-          
+        for (int i = 0; i < grass.size(); i++){
+        //clickTile.getX() == grass.get(i).getX() && clickTile.getY() == grass.get(i).getY()
+          if (clickTile.equals(grass.get(i))){
+            selectTowerTile = grass.get(i);
+            selectedTower = selectTowerTile.getTower();
+            System.out.println("Tower Selected: "+selectedTower.getTowerName());
+          }
+        }
+        if (!selectedTower.getSelected()){
+          for (Tower t : towerList){
+            t.setSelected(false);
+          }
+          selectedTower.setSelected(true);
+          towerSelected = true;
+        }else{
+          selectedTower.setSelected(false);
+          towerSelected = false;
         }
       //WORK ON THIS ONLY FOR POLISHING
       }
+      if (towerSelected && overSellButton()){
+        selectedTower.getTowerTile().removeEntity();
+        cash += selectedTower.getCost()/2;
+        towerList.remove(selectedTower);
+        towerSelected = false;
+      }
     }else{
-      if (mouseX > 1375 && mouseX < 1575 && mouseY > 700 && mouseY < 800 && !activeWave){
+      if (overStartButton() && !activeWave){
         activeWave = true;
         wave++;
+      }
+      if (overPencilLauncherButton()){
+        TOWER_MODE = PENCIL_LAUNCHER;
+      }
+      if (overRulerPoliceButton()){
+        TOWER_MODE = RULER_POLICE;
+      }
+      if (TOWER_MODE != 0){
+        TOWER_PLACING = towerListData.get(TOWER_MODE-1).getTowerName();
       }
     }
   }
@@ -139,14 +201,26 @@ void draw(){
       goonList.add(goon);
     }
     for (Tower t : towerList){
-      t.place();
+      //t.place();
       t.display();
-      if (t.getCooldown() == 0){
+      if (t.getCooldown() == 0 && activeWave){
         t.attack();
         t.setCooldown((int)(t.getAttackSpeed()*60));
-        cash += t.getDamage();
-      }else{
+      }else if (activeWave){
         t.setCooldown(t.getCooldown()-1);
+      }
+      if (t.getSelected()){
+        fill(255);
+        rect(towerInfoX,towerInfoY,towerInfoL,towerInfoW,10);
+        image(t.getTowerImage(),towerInfoX+10,towerInfoY+10,150,150);
+        fill(0);
+        textSize(40);
+        text(t.getTowerName(),towerInfoX+160,towerInfoY+50);
+        fill(255,0,0);
+        rect(sellXY,sellXY,sellL,sellW,10);
+        fill(0);
+        textSize(20);
+        text("Sell for "+(t.getCost()/2),sellXY+5,sellXY+(sellW/2)+5);
       }
     }
     if (goonList.size() > 0){
@@ -160,6 +234,7 @@ void draw(){
           goonList.get(i).display();
           currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
           fill(255);
+          textSize(30);
           text(currentGoon.getHealth(), currentGoon.getX()-20, currentGoon.getY()+10);
         }else{
           /*if (currentGoon.getType() == 1 && !currentGoon.isBroke()){
@@ -224,11 +299,11 @@ void draw(){
             currentGoon.breakMob();
           }*/
           currentGoon.getCurrentTile().removeEntity();
-        }
           if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() >= map.getMapWidth() || goonList.get(i).getY() >= map.getMapLength()){
             baseHP -= currentGoon.getHealth();
             goonList.get(i).applyDamage(100000000);
           }
+        }
           //if (goonList.size() > 1){
           //  goonList.remove(currentGoon);
           //  System.out.println("bruh");
@@ -253,29 +328,80 @@ void draw(){
         goonList = new ArrayList<Mob>();
       }
     }
-    }else{
-    fill(255,0,0);
-    textSize(100);
-    text("GAME OVER", 550, 450);
-    }
     textSize(30);
     fill(255,0,0);
     text("HP: "+baseHP, 1375, 45); 
     fill(133,187,101);
     text("Cash: $"+cash, 1375, 100);
     fill(0);
-    text("Current Tower: ", 1375, 155);
-    text(TOWER_PLACING, 1375, 190);
+    text("Towers: ", 1375, 155);
+    if (overPencilLauncherButton()){
+      image(Pencil_LauncherImage,Pencil_LauncherX,Pencil_LauncherY,TowerButtonSize+10,TowerButtonSize+10);
+    }else{
+      image(Pencil_LauncherImage,Pencil_LauncherX,Pencil_LauncherY,TowerButtonSize,TowerButtonSize);
+    }
+    if (overRulerPoliceButton()){
+      image(Ruler_PoliceImage,Ruler_PoliceX,Ruler_PoliceY,TowerButtonSize+10,TowerButtonSize+10);
+    }else{
+      image(Ruler_PoliceImage,Ruler_PoliceX,Ruler_PoliceY,TowerButtonSize,TowerButtonSize);
+    }
+    //square(1375,300,TowerButtonSize);
+    //square(1485,300,TowerButtonSize);
+    fill(0);
+    text("Current Tower: ", 1375, 440);
+    text(TOWER_PLACING, 1375, 470);
     if (TOWER_MODE != 0){
       for (int i = 0; i < TOWER_STATS[TOWER_MODE].length; i++){
-        text(TOWER_STATS[0][i] + TOWER_STATS[TOWER_MODE][i], 1375, 225 + (i*35));
+        text(TOWER_STATS[0][i] + TOWER_STATS[TOWER_MODE][i], 1375, 500 + (i*35));
       }
     }
-    text("Wave: " + wave, 1375, 620);
-    text("Active Wave?:", 1375, 650);
-    text(""+activeWave, 1375, 680);
-    fill(0, 150, 0);
-    rect(1375, 700, 200, 100);
+    text("Wave: " + wave, 1375, 650);
+    text("Active Wave: ", 1375, 680);
+    text(""+activeWave, 1375, 710);
+    if (overStartButton()){
+      fill(0, 180, 0);
+    }else{
+      fill(0, 150, 0);
+    }
+    rect(startX, startY, startL, startW,10);
     fill(0);
-    text("START", 1435, 760);
+    text("START", 1435, 800);
+  }else{
+    fill(255,0,0);
+    textSize(100);
+    text("GAME OVER", 550, 450);
   }
+}
+
+
+boolean overStartButton(){
+  if (mouseX >= startX && mouseX <= startX+startL && mouseY >= startY && mouseY <= startY+startW){
+    return true;
+  }else{
+    return false;
+  }
+}
+  
+boolean overPencilLauncherButton(){
+  if (mouseX >= Pencil_LauncherX && mouseX <= Pencil_LauncherX+TowerButtonSize && mouseY >= Pencil_LauncherY && mouseY <= Pencil_LauncherY+TowerButtonSize){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+boolean overRulerPoliceButton(){
+  if (mouseX >= Ruler_PoliceX && mouseX <= Ruler_PoliceX+TowerButtonSize && mouseY >= Ruler_PoliceY && mouseY <= Ruler_PoliceY+TowerButtonSize){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+boolean overSellButton(){
+  if (mouseX >= sellXY && mouseX <= sellXY+sellL && mouseY >= sellXY && mouseY <= sellXY+sellW){
+    return true;
+  }else{
+    return false;
+  }
+}

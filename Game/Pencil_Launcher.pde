@@ -9,30 +9,23 @@ public class Pencil_Launcher extends Tower{
     cooldown = (int)(attackSpeed*60);
     towerImage = loadImage("Pencil_Launcher.png");
   }
-  public Mob findMob(){
-    for (int i = path.size()-1; i >= 0; i--){
-      PathTile pathTile = path.get(i);
-      if (pathTile.hasEntity()){
-        if (Math.abs(tileX - pathTile.getTileX()) <= radius && Math.abs(tileY - pathTile.getTileY()) <= radius){
-          return pathTile.getMob();
-        }
-      }
-    }
-    return null;
-  }
-  public void attack(){
+
+  public boolean attack(){
     if (findMob() != null){
       Mob targetMob = findMob();
       moveProjectile(targetMob);
       targetMob.applyDamage((int)damage);
       //System.out.println(targetMob.getHealth());
+      return true;
     }
+    return false;
   }
   
   public void display(){
     if (placed){
       towerImage.resize(70,70);
-      image(towerImage,coordX,coordY);
+      image(towerImage,coordX-10,coordY-10);
+
     }
   }
   
