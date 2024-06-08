@@ -233,9 +233,11 @@ void draw(){
           //  goonList.remove(currentGoon);
           //  System.out.println("bruh");
           //}
+        if(map.nearCorner(currentGoon.getX() - 25, currentGoon.getY() - 25, currentGoon.getCorner())){
+          currentGoon.changePosition(map.getCorner(currentGoon.getCorner()).getX() + 25, map.getCorner(currentGoon.getCorner()).getY() + 25);
+        }
         int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
         if(hasCorner != -1){
-          currentGoon.changePosition(map.getCorner((hasCorner)).getX() + 25, map.getCorner((hasCorner)).getY() + 25);
           xDiff = map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX();
           yDiff = map.getCorner(goonList.get(i).getCorner()).getY() - map.getCorner(goonList.get(i).getCorner()).getY();
           goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
