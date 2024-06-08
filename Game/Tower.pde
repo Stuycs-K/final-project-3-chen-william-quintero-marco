@@ -1,14 +1,13 @@
 public abstract class Tower{
   String towerName;
   float damage, radius, attackSpeed, cost;
-  Tile towerTile;
+  GrassTile towerTile;
   float coordX, coordY;
   int tileX,tileY;
   boolean placed;
   Map map;
   ArrayList<PathTile> path;
   ArrayList<GrassTile> grass;
-  GrassTile currentTile;
   //Mob targetMob;
   int cooldown;
   PImage towerImage;
@@ -83,18 +82,37 @@ public abstract class Tower{
     selected = select;
   }
   
+  //public void place(){
+  //  if (map.getMapWidth() > coordX && map.getMapLength() > coordY){
+  //    Tile placeTile = map.getTile(tileX, tileY);
+  //    if (placeTile.getType() == 2){
+  //      if (!placeTile.hasEntity()){
+  //        towerTile = placeTile;
+  //        placeTile.placeEntity();
+  //        coordX = towerTile.getX();
+  //        coordY = towerTile.getY();
+  //        placed = true;
+  //       }
+  //     }
+  //  }
+  //}
+  public GrassTile getTowerTile(){
+    return towerTile;
+  }
+  
   public void place(){
-    if (map.getMapWidth() > coordX && map.getMapLength() > coordY){
-      Tile placeTile = map.getTile(tileX, tileY);
-      if (placeTile.getType() == 2){
-        if (!placeTile.hasEntity()){
-          towerTile = placeTile;
-          placeTile.placeEntity();
+    for (int i = 0; i < grass.size(); i++){
+      if (coordX - grass.get(i).getX() <= 50 && coordY - grass.get(i).getY() <= 50){
+        if (!grass.get(i).hasEntity()){
+          towerTile = grass.get(i);
+          towerTile.setTower(this);
+          towerTile.placeEntity();
           coordX = towerTile.getX();
           coordY = towerTile.getY();
           placed = true;
-         }
-       }
+          i = grass.size();
+        }
+      }
     }
   }
   
@@ -108,22 +126,6 @@ public abstract class Tower{
       }
     }
     return null;
-  }
-  
-  public GrassTile getCurrentTile(){
-    return currentTile;
-  }
-  
-  public void setCurrentTile(float x, float y){
-    for (int i = 0; i < grass.size(); i++){
-      if (Math.abs(grass.get(i).getX() - x) <= 25 && Math.abs(grass.get(i).getY() - y) <= 25){
-        if (!grass.get(i).hasEntity()){
-          currentTile = grass.get(i);
-          currentTile.setTower(this);
-          i = grass.size();
-        }
-      }
-    }
   }
   public abstract boolean attack();
   public abstract void display();

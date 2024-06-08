@@ -3,7 +3,7 @@ public class Ruler_Police extends Tower{
     super(x,y,map);
     towerName = "Ruler Police";
     damage = 5;
-    radius = 2;
+    radius = 1;
     attackSpeed = 0.5;
     cost = 200;
     cooldown = (int)(attackSpeed*60);
