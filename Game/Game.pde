@@ -117,7 +117,7 @@ void draw(){
     if ((wave == 1 && goonList.size() == 5) || (wave == 2 && goonList.size() == 5 * 4)){
       int numDead = 0;
       for (int i = 0; i < goonList.size(); i++){
-       if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() > 900){
+       if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() >= 900){
           numDead++;
         }
       }
@@ -225,7 +225,7 @@ void draw(){
           }*/
           currentGoon.getCurrentTile().removeEntity();
         }
-          if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() > map.getMapWidth() || goonList.get(i).getY() > map.getMapLength()){
+          if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() >= map.getMapWidth() || goonList.get(i).getY() >= map.getMapLength()){
             baseHP -= currentGoon.getHealth();
             goonList.get(i).applyDamage(100000000);
           }
@@ -233,16 +233,22 @@ void draw(){
           //  goonList.remove(currentGoon);
           //  System.out.println("bruh");
           //}
+        if(currentGoon.getCorner() < 11 && map.nearCorner(currentGoon.getX() - 25, currentGoon.getY() - 25, currentGoon.getCorner())){
+          currentGoon.changePosition(map.getCorner(currentGoon.getCorner()).getX() + 25, map.getCorner(currentGoon.getCorner()).getY() + 25);
+        }
         int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
         if(hasCorner != -1){
           xDiff = map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX();
-          yDiff = map.getCorner(goonList.get(i).getCorner()).getY() - map.getCorner(goonList.get(i).getCorner()).getY();
-          goonList.get(i).changeDirection(map.getCorner(goonList.get(i).getCorner() + 1).getX() - map.getCorner(goonList.get(i).getCorner()).getX(), map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY(), goonList.get(i).getCorner());
+          yDiff = map.getCorner(goonList.get(i).getCorner() + 1).getY() - map.getCorner(goonList.get(i).getCorner()).getY();
+          goonList.get(i).changeDirection(xDiff, yDiff, currentGoon.getCorner());
           goonList.get(i).changeCorner();
         }
+        //currentGoon.applyDamage(1);
       }
       fill(0);
       text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
+      text("Current Corner: " + goonList.get(0).getCorner(), 20, 40);
+      //text("Near Corner: " + map.nearCorner(goonList.get(0).getX() - 25, goonList.get(0).getY() - 25, goonList.get(0).getCorner()), 20, 60);
       if(!activeWave){
         goonList = new ArrayList<Mob>();
       }

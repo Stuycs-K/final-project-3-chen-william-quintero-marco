@@ -7,6 +7,7 @@ public class Pencil_Launcher extends Tower{
     attackSpeed = 1;
     cost = 300;
     cooldown = (int)(attackSpeed*60);
+    towerImage = loadImage("Pencil_Launcher.png");
   }
   public Mob findMob(){
     for (int i = path.size()-1; i >= 0; i--){
@@ -30,9 +31,8 @@ public class Pencil_Launcher extends Tower{
   
   public void display(){
     if (placed){
-      PImage student = loadImage("Pencil_Launcher.png");
-      student.resize(70,70);
-      image(student,coordX,coordY);
+      towerImage.resize(70,70);
+      image(towerImage,coordX,coordY);
     }
   }
   

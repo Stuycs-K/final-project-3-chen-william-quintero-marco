@@ -9,6 +9,7 @@ public abstract class Tower{
   ArrayList<PathTile> path;
   //Mob targetMob;
   int cooldown;
+  PImage towerImage;
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;

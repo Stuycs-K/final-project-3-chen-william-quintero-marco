@@ -63,13 +63,16 @@ public class Map{
   
   public int findCorner(float x, float y){
     for (int i = 0; i < corners.size() - 1; i++){
+      //(corners.get(i).getX() + 10 <= x && corners.get(i).getX() - 10 >= x && corners.get(i).getY() + 10 <= y && corners.get(i).getY() - 10 >= y) 
       if (corners.get(i).getX() == x && corners.get(i).getY() == y){
         return i;
       }
     }
     return -1;
   }
-  
+  public boolean nearCorner(float x, float y, int corner){
+    return corners.get(corner).getX() + 5 >= x && corners.get(corner).getX() - 5 <= x && corners.get(corner).getY() + 5 >= y && corners.get(corner).getY() - 5 <= y;
+  }
   public Tile getCorner(int index){
     return corners.get(index);
   }

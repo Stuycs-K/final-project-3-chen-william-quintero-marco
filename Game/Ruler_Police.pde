@@ -25,8 +25,8 @@ public class Ruler_Police extends Tower{
     if (findMob() != null){
       Mob targetMob = findMob();
       moveProjectile(targetMob);
-      targetMob.applyDamage((int)damage);
-      //targetMob.changeVelocity(0.5);
+      //targetMob.applyDamage((int)damage);
+      targetMob.changeVelocity(0.5);
       //System.out.println(targetMob.getHealth());
     }
   }
