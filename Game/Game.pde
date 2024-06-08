@@ -233,7 +233,6 @@ void draw(){
           //  goonList.remove(currentGoon);
           //  System.out.println("bruh");
           //}
-        if(map.nearCorner(currentGoon.getX() - 25, currentGoon.getY() - 25, currentGoon.getCorner())){
           currentGoon.changePosition(map.getCorner(currentGoon.getCorner()).getX() + 25, map.getCorner(currentGoon.getCorner()).getY() + 25);
         }
         int hasCorner = map.findCorner(goonList.get(i).getX() - 25, goonList.get(i).getY() - 25);
@@ -247,6 +246,7 @@ void draw(){
       }
       fill(0);
       text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
+      text("Current Corner: " + goonList.get(0).getCorner(), 20, 40);
       if(!activeWave){
         goonList = new ArrayList<Mob>();
       }
