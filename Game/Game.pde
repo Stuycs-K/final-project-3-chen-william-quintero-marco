@@ -13,12 +13,14 @@ static int TOWER_MODE = NO_TOWER;
 static String TOWER_PLACING = "None";
 Mob goon;
 ArrayList<Mob> goonList;
+ArrayList<int[]> waves = new ArrayList<int[]>(20);
 int countdown = 0;
 int cornerTile = 0;
 int wave = 0;
 float xDiff = 0;
 float yDiff = 0;
 boolean activeWave = false;
+int numGoon = 0;
 void setup(){
   size(1600,900);
   background(255);
@@ -44,6 +46,12 @@ void setup(){
   }
   goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
   goonList = new ArrayList<Mob>();
+  waves.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+  waves.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+  waves.add(new int[]{1,1,1,1,1,1,1,1,1,1});
+  waves.add(new int[]{1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1});
+  waves.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0});
+  waves.add(new int[]{1,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1});
 }
 
 void keyPressed() {
@@ -114,7 +122,7 @@ void draw(){
         }
       }
     }
-    if (goonList.size() == 20){
+    if (goonList.size() == waves.get(wave + 1).length){
       int numDead = 0;
       for (int i = 0; i < goonList.size(); i++){
        if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() >= 900){
@@ -129,14 +137,15 @@ void draw(){
     if (countdown > 0){
       countdown--;
     }
-    if (goonList.size() < 20 && activeWave && countdown == 0){
+    if (goonList.size() < waves.get(wave + 1).length && activeWave && countdown == 0){
       countdown += 30;
-      if(wave == 2){
+      if(waves.get(wave-1)[numGoon] == 1){
         goon = new Boss(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
       }else{
         goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
       }
       goonList.add(goon);
+      numGoon++;
     }
     for (Tower t : towerList){
       t.place();
@@ -251,6 +260,7 @@ void draw(){
       //text("Near Corner: " + map.nearCorner(goonList.get(0).getX() - 25, goonList.get(0).getY() - 25, goonList.get(0).getCorner()), 20, 60);
       if(!activeWave){
         goonList = new ArrayList<Mob>();
+        numGoon = 0;
       }
     }
     }else{
