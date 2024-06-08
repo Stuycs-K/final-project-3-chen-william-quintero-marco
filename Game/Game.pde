@@ -322,11 +322,6 @@ void draw(){
         goonList = new ArrayList<Mob>();
       }
     }
-  }else{
-    fill(255,0,0);
-    textSize(100);
-    text("GAME OVER", 550, 450);
-  }
     textSize(30);
     fill(255,0,0);
     text("HP: "+baseHP, 1375, 45); 
@@ -365,6 +360,11 @@ void draw(){
     rect(startX, startY, startL, startW,10);
     fill(0);
     text("START", 1435, 800);
+  }else{
+    fill(255,0,0);
+    textSize(100);
+    text("GAME OVER", 550, 450);
+  }
 }
 
 
