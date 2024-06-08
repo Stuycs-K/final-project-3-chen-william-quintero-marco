@@ -299,12 +299,7 @@ void draw(){
             currentGoon.breakMob();
           }*/
           currentGoon.getCurrentTile().removeEntity();
-<<<<<<< HEAD
-          if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() > map.getMapWidth() || goonList.get(i).getY() > map.getMapLength()){
-=======
-        }
           if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() >= map.getMapWidth() || goonList.get(i).getY() >= map.getMapLength()){
->>>>>>> 69e1cb878419f0991b8a9d8277743b7bd44d1b0e
             baseHP -= currentGoon.getHealth();
             goonList.get(i).applyDamage(100000000);
           }

@@ -2,7 +2,7 @@ public class Ruler_Police extends Tower{
   public Ruler_Police(float x, float y,Map map){
     super(x,y,map);
     towerName = "Ruler Police";
-    damage = 5;
+    damage = 2;
     radius = 1;
     attackSpeed = 0.5;
     cost = 200;
@@ -15,8 +15,8 @@ public class Ruler_Police extends Tower{
     if (findMob() != null){
       Mob targetMob = findMob();
       moveProjectile(targetMob);
-      //targetMob.applyDamage((int)damage);
-      targetMob.changeVelocity(0.5);
+      targetMob.applyDamage((int)damage);
+      targetMob.changeVelocity(1);
       //System.out.println(targetMob.getHealth());
       return true;
     }

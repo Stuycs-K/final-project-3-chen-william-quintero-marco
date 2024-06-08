@@ -11,11 +11,8 @@ public abstract class Tower{
   //Mob targetMob;
   int cooldown;
   PImage towerImage;
-<<<<<<< HEAD
   int upgrade;
   boolean selected;
-=======
->>>>>>> 69e1cb878419f0991b8a9d8277743b7bd44d1b0e
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;
@@ -84,21 +81,6 @@ public abstract class Tower{
   public void setSelected(boolean select){
     selected = select;
   }
-  
-  //public void place(){
-  //  if (map.getMapWidth() > coordX && map.getMapLength() > coordY){
-  //    Tile placeTile = map.getTile(tileX, tileY);
-  //    if (placeTile.getType() == 2){
-  //      if (!placeTile.hasEntity()){
-  //        towerTile = placeTile;
-  //        placeTile.placeEntity();
-  //        coordX = towerTile.getX();
-  //        coordY = towerTile.getY();
-  //        placed = true;
-  //       }
-  //     }
-  //  }
-  //}
   public GrassTile getTowerTile(){
     return towerTile;
   }
