@@ -11,8 +11,11 @@ public abstract class Tower{
   //Mob targetMob;
   int cooldown;
   PImage towerImage;
+<<<<<<< HEAD
   int upgrade;
   boolean selected;
+=======
+>>>>>>> 69e1cb878419f0991b8a9d8277743b7bd44d1b0e
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;
