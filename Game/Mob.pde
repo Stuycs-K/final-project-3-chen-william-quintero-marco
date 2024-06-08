@@ -13,8 +13,8 @@ public class Mob{
   public Mob(float x, float y, float radius, String type, Map map){
     position = new PVector(x, y);
     this.radius = radius;
-    speed = 5;
-    velocity = new PVector(5, 0);
+    speed = 3;
+    velocity = new PVector(3, 0);
     health = 20;
     this.type = type;
     path = map.getPath();
@@ -53,6 +53,20 @@ public class Mob{
   public PVector getVelocity(){
     return velocity;
   }
+  public void changeVelocity(float speed){
+    PVector sub;
+    if(!slowed){
+      this.speed -= speed;
+    if(velocity.x == 0){
+      sub = new PVector(0, speed);
+      velocity.sub(sub);
+    }else{
+      sub = new PVector(speed, 0);
+      velocity.sub(sub);
+    }
+    slowed = true;
+    }
+  }
   public void applyDamage(int damage){
     if (health - damage < 0){
       health = 0;
@@ -72,18 +86,6 @@ public class Mob{
     }
     currentTile.setMob(this);
     currentTile.placeEntity();
-  }
-  public void changeVelocity(float speed){
-    if(!slowed){
-    if(velocity.x == 0){
-      velocity = new PVector(0, speed);
-      this.speed = speed;
-    }else{
-      velocity = new PVector(speed, 0);
-      this.speed = speed;
-    }
-    slowed = true;
-    }
   }
   public int getCorner(){
     return currentCorner;
