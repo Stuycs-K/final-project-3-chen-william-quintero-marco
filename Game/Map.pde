@@ -71,7 +71,7 @@ public class Map{
     return -1;
   }
   public boolean nearCorner(float x, float y, int corner){
-    return corners.get(corner).getX() + 100 >= x && corners.get(corner).getX() - 100 <= x && corners.get(corner).getX() == x && corners.get(corner).getY() + 100 >= y && corners.get(corner).getY() - 100 <= y;
+    return corners.get(corner).getX() + 20 >= x && corners.get(corner).getX() - 20 <= x && corners.get(corner).getX() == x && corners.get(corner).getY() + 20 >= y && corners.get(corner).getY() - 20 <= y;
   }
   public Tile getCorner(int index){
     return corners.get(index);
