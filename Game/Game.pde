@@ -19,6 +19,18 @@ int wave = 0;
 float xDiff = 0;
 float yDiff = 0;
 boolean activeWave = false;
+int startX = 1375;
+int startY = 740;
+int startL = 200;
+int startW = 100;
+//boolean draggingTower = false;
+int Pencil_LauncherX = 1375;
+int Pencil_LauncherY = 190;
+PImage Pencil_LauncherImage;
+int Ruler_PoliceX = 1485;
+int Ruler_PoliceY = 190;
+int TowerButtonSize = 100;
+PImage Ruler_PoliceImage;
 void setup(){
   size(1600,900);
   background(255);
@@ -32,6 +44,8 @@ void setup(){
   towerListData = new ArrayList<Tower>();
   towerListData.add(new Pencil_Launcher(0,0,map));
   towerListData.add(new Ruler_Police(0,0,map));
+  Pencil_LauncherImage = towerListData.get(0).getTowerImage();
+  Ruler_PoliceImage = towerListData.get(1).getTowerImage();
   towerList = new ArrayList<Tower>();
   TOWER_STATS = new String[towerListData.size()+1][5];
   for (int i = 0; i < TOWER_STATS.length; i++){
@@ -47,9 +61,12 @@ void setup(){
 }
 
 void keyPressed() {
-  if (key == '0'){
+  if (key == '0' || key == 'q' || key == 'Q'){
     TOWER_MODE = NO_TOWER;
     TOWER_PLACING = "None";
+    for (Tower t : towerList){
+      t.setSelected(false);
+    }
   }else if (key == '1' || key == '2'){
     if (key == '1'){
       TOWER_MODE = PENCIL_LAUNCHER;
@@ -72,7 +89,7 @@ void mouseClicked() {
       inMap = true;
       tile = map.getTile(tileX,tileY);
     }
-    if (inMap && activeWave){
+    if (inMap){
       if (TOWER_MODE != 0 && TOWER_MODE <= towerListData.size() && tile.getType() == 2 && !tile.hasEntity()){
         newTower = new Pencil_Launcher(mouseX,mouseY,map);
         if (TOWER_MODE == PENCIL_LAUNCHER){
@@ -88,16 +105,48 @@ void mouseClicked() {
         }
       }else{
       //CLICK ON UNITS TO SHOW THEIR RANGE
+        ArrayList<GrassTile> grass = map.getGrass();
         Tile clickTile = map.getTile(tileX,tileY);
         if (clickTile.getType() == 2 && clickTile.hasEntity()){
-          
+          GrassTile selectTowerTile;
+          Tower selectedTower;
+          for (int i = 0; i < grass.size(); i++){
+            //clickTile.getX() == grass.get(i).getX() && clickTile.getY() == grass.get(i).getY()
+            if (clickTile.equals(grass.get(i)) && grass.get(i).hasEntity()){
+              selectTowerTile = grass.get(i);
+              System.out.println(selectTowerTile.hasEntity());
+              if (selectTowerTile != null){
+                System.out.println("Tile exists");
+              }
+              selectedTower = selectTowerTile.getTower();
+              if (selectedTower != null){
+                System.out.println("Tower exists");
+              }
+              for (Tower t : towerList){
+                t.setSelected(false);
+              }
+              System.out.println(towerList.size());
+              selectedTower.setSelected(true);
+              //System.out.println(selectedTower.getTowerName());
+            }
+          }
         }
+        
       //WORK ON THIS ONLY FOR POLISHING
       }
     }else{
-      if (mouseX > 1375 && mouseX < 1575 && mouseY > 700 && mouseY < 800 && !activeWave){
+      if (overStartButton() && !activeWave){
         activeWave = true;
         wave++;
+      }
+      if (overPencilLauncherButton()){
+        TOWER_MODE = PENCIL_LAUNCHER;
+      }
+      if (overRulerPoliceButton()){
+        TOWER_MODE = RULER_POLICE;
+      }
+      if (TOWER_MODE != 0){
+        TOWER_PLACING = towerListData.get(TOWER_MODE-1).getTowerName();
       }
     }
   }
@@ -147,6 +196,10 @@ void draw(){
         t.setCooldown((int)(t.getAttackSpeed()*60));
       }else{
         t.setCooldown(t.getCooldown()-1);
+      }
+      if (t.getSelected()){
+        fill(0);
+        rect(100,100,100,100);
       }
     }
     if (goonList.size() > 0){
@@ -247,29 +300,74 @@ void draw(){
         goonList = new ArrayList<Mob>();
       }
     }
-    }else{
+  }else{
     fill(255,0,0);
     textSize(100);
     text("GAME OVER", 550, 450);
-    }
+  }
     textSize(30);
     fill(255,0,0);
     text("HP: "+baseHP, 1375, 45); 
     fill(133,187,101);
     text("Cash: $"+cash, 1375, 100);
     fill(0);
-    text("Current Tower: ", 1375, 155);
-    text(TOWER_PLACING, 1375, 190);
+    text("Towers: ", 1375, 155);
+    if (overPencilLauncherButton()){
+      Pencil_LauncherImage.resize(TowerButtonSize+10,TowerButtonSize+10);
+    }else{
+      Pencil_LauncherImage.resize(TowerButtonSize,TowerButtonSize);
+    }
+    image(Pencil_LauncherImage,Pencil_LauncherX,Pencil_LauncherY);
+    if (overRulerPoliceButton()){
+      Ruler_PoliceImage.resize(TowerButtonSize+10,TowerButtonSize+10);
+    }else{
+      Ruler_PoliceImage.resize(TowerButtonSize,TowerButtonSize);
+    }
+    image(Ruler_PoliceImage,Ruler_PoliceX,Ruler_PoliceY);
+    //square(1375,300,TowerButtonSize);
+    //square(1485,300,TowerButtonSize);
+    fill(0);
+    text("Current Tower: ", 1375, 440);
+    text(TOWER_PLACING, 1375, 470);
     if (TOWER_MODE != 0){
       for (int i = 0; i < TOWER_STATS[TOWER_MODE].length; i++){
-        text(TOWER_STATS[0][i] + TOWER_STATS[TOWER_MODE][i], 1375, 225 + (i*35));
+        text(TOWER_STATS[0][i] + TOWER_STATS[TOWER_MODE][i], 1375, 500 + (i*35));
       }
     }
-    text("Wave: " + wave, 1375, 620);
-    text("Active Wave: ", 1375, 650);
-    text(""+activeWave, 1375, 680);
-    fill(0, 150, 0);
-    rect(1375, 700, 200, 100);
+    text("Wave: " + wave, 1375, 650);
+    text("Active Wave: ", 1375, 680);
+    text(""+activeWave, 1375, 710);
+    if (overStartButton()){
+      fill(0, 180, 0);
+    }else{
+      fill(0, 150, 0);
+    }
+    rect(startX, startY, startL, startW);
     fill(0);
-    text("START", 1435, 760);
+    text("START", 1435, 800);
+}
+
+
+boolean overStartButton(){
+  if (mouseX >= startX && mouseX <= startX+startL && mouseY >= startY && mouseY <= startY+startW){
+    return true;
+  }else{
+    return false;
   }
+}
+  
+boolean overPencilLauncherButton(){
+  if (mouseX >= Pencil_LauncherX && mouseX <= Pencil_LauncherX+TowerButtonSize && mouseY >= Pencil_LauncherY && mouseY <= Pencil_LauncherY+TowerButtonSize){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+boolean overRulerPoliceButton(){
+  if (mouseX >= Ruler_PoliceX && mouseX <= Ruler_PoliceX+TowerButtonSize && mouseY >= Ruler_PoliceY && mouseY <= Ruler_PoliceY+TowerButtonSize){
+    return true;
+  }else{
+    return false;
+  }
+}

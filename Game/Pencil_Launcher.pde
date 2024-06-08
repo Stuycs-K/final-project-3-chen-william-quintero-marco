@@ -24,7 +24,7 @@ public class Pencil_Launcher extends Tower{
   public void display(){
     if (placed){
       towerImage.resize(70,70);
-      image(towerImage,coordX,coordY);
+      image(towerImage,coordX-10,coordY-10);
     }
   }
   

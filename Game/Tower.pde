@@ -12,6 +12,8 @@ public abstract class Tower{
   //Mob targetMob;
   int cooldown;
   PImage towerImage;
+  int upgrade;
+  boolean selected;
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;
@@ -21,6 +23,8 @@ public abstract class Tower{
     path = gameMap.getPath();
     grass = gameMap.getGrass();
     placed = false;
+    upgrade = 0;
+    selected = false;
   }
   
   public String getTowerName(){
@@ -58,6 +62,27 @@ public abstract class Tower{
   public void setCooldown(int n){
     cooldown = n;
   }
+  
+  public PImage getTowerImage(){
+    return towerImage;
+  }
+  
+  public int getUpgrade(){
+    return upgrade;
+  }
+  
+  public void upgradeTower(){
+    upgrade++;
+  }
+  
+  public boolean getSelected(){
+    return selected;
+  }
+  
+  public void setSelected(boolean select){
+    selected = select;
+  }
+  
   public void place(){
     if (map.getMapWidth() > coordX && map.getMapLength() > coordY){
       Tile placeTile = map.getTile(tileX, tileY);
@@ -85,15 +110,20 @@ public abstract class Tower{
     return null;
   }
   
+  public GrassTile getCurrentTile(){
+    return currentTile;
+  }
+  
   public void setCurrentTile(float x, float y){
     for (int i = 0; i < grass.size(); i++){
       if (Math.abs(grass.get(i).getX() - x) <= 25 && Math.abs(grass.get(i).getY() - y) <= 25){
-        currentTile.removeEntity();
-        currentTile = grass.get(i);
+        if (!grass.get(i).hasEntity()){
+          currentTile = grass.get(i);
+          currentTile.setTower(this);
+          i = grass.size();
+        }
       }
     }
-    currentTile.setTower(this);
-    currentTile.placeEntity();
   }
   public abstract boolean attack();
   public abstract void display();
