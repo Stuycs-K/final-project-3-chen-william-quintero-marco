@@ -248,6 +248,7 @@ void draw(){
       fill(0);
       text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
       text("Current Corner: " + goonList.get(0).getCorner(), 20, 40);
+      //text("Near Corner: " + map.nearCorner(goonList.get(0).getX() - 25, goonList.get(0).getY() - 25, goonList.get(0).getCorner()), 20, 60);
       if(!activeWave){
         goonList = new ArrayList<Mob>();
       }

@@ -13,8 +13,8 @@ public class Mob{
   public Mob(float x, float y, float radius, String type, Map map){
     position = new PVector(x, y);
     this.radius = radius;
-    speed = 2;
-    velocity = new PVector(2, 0);
+    speed = 5;
+    velocity = new PVector(5, 0);
     health = 20;
     this.type = type;
     path = map.getPath();
