@@ -43,6 +43,10 @@ int towerInfoW = 250;
 int sellXY = 825;
 int sellL = 125;
 int sellW = 50;
+int upgradeX = sellXY+175;
+int upgradeY = sellXY;
+int upgradeL = 200;
+int upgradeW = sellW;
 void setup(){
   size(1600,900);
   background(255);
@@ -140,12 +144,19 @@ void mouseClicked() {
         }
       //WORK ON THIS ONLY FOR POLISHING
       }
-      if (towerSelected && overSellButton()){
-        selectedTower.getTowerTile().removeEntity();
-        cash += selectedTower.getCost()/2;
-        towerList.remove(selectedTower);
-        towerSelected = false;
+      if (towerSelected){
+        if (overSellButton()){
+          selectedTower.getTowerTile().removeEntity();
+          cash += selectedTower.getCost()/2;
+          towerList.remove(selectedTower);
+          towerSelected = false;
+        }
+        if (overUpgradeButton()){
+          cash -= selectedTower.getCurrentUpgrade().getUpgradeCost();
+          selectedTower.upgradeTower();
+        }
       }
+      
     }else{
       if (overStartButton() && !activeWave){
         activeWave = true;
@@ -176,7 +187,7 @@ void draw(){
         }
       }
     }
-    if ((wave == 1 && goonList.size() == 5) || (wave == 2 && goonList.size() == 5 * 4)){
+    if ((wave == 1 && goonList.size() == 5) || (wave == 2 && goonList.size() == 5)){
       int numDead = 0;
       for (int i = 0; i < goonList.size(); i++){
        if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() >= 900){
@@ -210,12 +221,33 @@ void draw(){
         t.setCooldown(t.getCooldown()-1);
       }
       if (t.getSelected()){
+        TOWER_MODE = NO_TOWER;
+        TOWER_PLACING = "None";
         fill(255);
         rect(towerInfoX,towerInfoY,towerInfoL,towerInfoW,10);
         image(t.getTowerImage(),towerInfoX+10,towerInfoY+10,150,150);
         fill(0);
         textSize(40);
         text(t.getTowerName(),towerInfoX+160,towerInfoY+50);
+        textSize(25);
+        if (t.getUpgradeNum() < t.getUpgrades().size()){
+          text("Upgrade " + (t.getUpgradeNum()+1) + ": " + t.getCurrentUpgrade().getUpgradeName(),towerInfoX+160,towerInfoY+80);
+          textSize(20);
+          text("Damage: " + t.getDamage() + " + " + t.getCurrentUpgrade().getAddDamage(),towerInfoX+160,towerInfoY+110);
+          text("Radius: " + t.getRadius() + " + " + t.getCurrentUpgrade().getAddRadius(),towerInfoX+160,towerInfoY+140);
+          text("Attack Speed: " + t.getAttackSpeed() + " - " + t.getCurrentUpgrade().getAddAttackSpeed(),towerInfoX+160,towerInfoY+170);
+          fill(0,150,0);
+          rect(upgradeX,upgradeY,upgradeL,upgradeW,10);
+          textSize(40);
+          fill(0);
+          text("$" + t.getCurrentUpgrade().getUpgradeCost(),upgradeX+40,upgradeY+40);
+        }else{
+          text("Upgrade: MAXED",towerInfoX+160,towerInfoY+80);
+          textSize(20);
+          text("Damage: " + t.getDamage(),towerInfoX+160,towerInfoY+110);
+          text("Radius: " + t.getRadius(),towerInfoX+160,towerInfoY+140);
+          text("Attack Speed: " + t.getAttackSpeed(),towerInfoX+160,towerInfoY+170);
+        }
         fill(255,0,0);
         rect(sellXY,sellXY,sellL,sellW,10);
         fill(0);
@@ -400,6 +432,14 @@ boolean overRulerPoliceButton(){
 
 boolean overSellButton(){
   if (mouseX >= sellXY && mouseX <= sellXY+sellL && mouseY >= sellXY && mouseY <= sellXY+sellW){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+boolean overUpgradeButton(){
+  if (mouseX >= upgradeX && mouseX <= upgradeX+upgradeL && mouseY >= upgradeY && mouseY <= upgradeY+upgradeW){
     return true;
   }else{
     return false;

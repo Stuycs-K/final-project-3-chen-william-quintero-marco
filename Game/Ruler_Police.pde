@@ -8,6 +8,12 @@ public class Ruler_Police extends Tower{
     cost = 200;
     cooldown = (int)(attackSpeed*60);
     towerImage = loadImage("Ruler_Police.png");
+    upgrades = new ArrayList<Upgrade>();
+    upgrades.add(new Upgrade("Sharper Ruler", 2, 0, 0, 100));
+    upgrades.add(new Upgrade("Police Training", 2, 0, 0.10, 300));
+    upgrades.add(new Upgrade("Hardened Plastic", 3, 0, 0, 750));
+    upgrades.add(new Upgrade("THIS IS AMERICA!", 5, 1, 0.15, 1500));
+    currentUpgrade = upgrades.get(upgradeNum);
   }
   
   

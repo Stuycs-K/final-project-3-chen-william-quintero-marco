@@ -8,6 +8,12 @@ public class Pencil_Launcher extends Tower{
     cost = 300;
     cooldown = (int)(attackSpeed*60);
     towerImage = loadImage("Pencil_Launcher.png");
+    upgrades = new ArrayList<Upgrade>();
+    upgrades.add(new Upgrade("Sharper Pencils", 3, 0, 0, 200));
+    upgrades.add(new Upgrade("Faster Pencils", 1, 1, 0.25, 400));
+    upgrades.add(new Upgrade("Tougher Wood", 5, 1, 0, 1000));
+    upgrades.add(new Upgrade("Ticonderoga King", 10, 5, 0.25, 2000));
+    currentUpgrade = upgrades.get(upgradeNum);
   }
 
   public boolean attack(){

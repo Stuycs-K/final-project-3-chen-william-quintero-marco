@@ -11,8 +11,10 @@ public abstract class Tower{
   //Mob targetMob;
   int cooldown;
   PImage towerImage;
-  int upgrade;
   boolean selected;
+  ArrayList<Upgrade> upgrades;
+  int upgradeNum;
+  Upgrade currentUpgrade;
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;
@@ -22,7 +24,7 @@ public abstract class Tower{
     path = gameMap.getPath();
     grass = gameMap.getGrass();
     placed = false;
-    upgrade = 0;
+    upgradeNum = 0;
     selected = false;
   }
   
@@ -66,14 +68,6 @@ public abstract class Tower{
     return towerImage;
   }
   
-  public int getUpgrade(){
-    return upgrade;
-  }
-  
-  public void upgradeTower(){
-    upgrade++;
-  }
-  
   public boolean getSelected(){
     return selected;
   }
@@ -81,6 +75,32 @@ public abstract class Tower{
   public void setSelected(boolean select){
     selected = select;
   }
+  
+  public int getUpgradeNum(){
+    return upgradeNum;
+  }
+  
+  public void upgradeTower(){
+    if (upgradeNum < upgrades.size()){
+      damage += currentUpgrade.getAddDamage();
+      radius += currentUpgrade.getAddRadius();
+      attackSpeed -= currentUpgrade.getAddAttackSpeed();
+      cost += currentUpgrade.getUpgradeCost();
+      upgradeNum++;
+      if (upgradeNum < upgrades.size()){
+        currentUpgrade = upgrades.get(upgradeNum);
+      }
+    }
+  }
+  
+  public Upgrade getCurrentUpgrade(){
+    return currentUpgrade;
+  }
+  
+  public ArrayList<Upgrade> getUpgrades(){
+   return upgrades;
+  }
+  
   public GrassTile getTowerTile(){
     return towerTile;
   }
