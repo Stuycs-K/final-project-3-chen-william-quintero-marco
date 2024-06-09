@@ -10,6 +10,7 @@ public class Mob{
   boolean broke = false;
   boolean slowed = false;
   float speed;
+  PImage mobImage;
   public Mob(float x, float y, float radius, String type, Map map){
     position = new PVector(x, y);
     this.radius = radius;
@@ -20,10 +21,11 @@ public class Mob{
     path = map.getPath();
     currentTile = map.getPath().get(0);
     currentTile.setMob(this);
+    mobImage = loadImage("Homework_Mob.png");
   }
   public void display(){
-    fill(200, 0, 0);
-    circle(position.x, position.y, radius);
+    mobImage.resize(70, 70);
+    image(mobImage, getX() - 35, getY() - 40);
   }
   public void move(){
     position.add(velocity);

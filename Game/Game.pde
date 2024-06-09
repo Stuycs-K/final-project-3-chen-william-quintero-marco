@@ -16,12 +16,14 @@ static int TOWER_MODE = NO_TOWER;
 static String TOWER_PLACING = "None";
 Mob goon;
 ArrayList<Mob> goonList;
+ArrayList<int[]> waves = new ArrayList<int[]>(20);
 int countdown = 0;
 int cornerTile = 0;
 int wave = 0;
 float xDiff = 0;
 float yDiff = 0;
 boolean activeWave = false;
+int numGoon = 0;
 int startX = 1375;
 int startY = 740;
 int startL = 200;
@@ -78,6 +80,12 @@ void setup(){
   }
   goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
   goonList = new ArrayList<Mob>();
+  waves.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+  waves.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+  waves.add(new int[]{1,1,1,1,1,1,1,1,1,1});
+  waves.add(new int[]{1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1});
+  waves.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0});
+  waves.add(new int[]{1,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1});
 }
 
 void keyPressed() {
@@ -189,7 +197,7 @@ void draw(){
         }
       }
     }
-    if ((wave == 1 && goonList.size() == 5) || (wave == 2 && goonList.size() == 5)){
+    if (activeWave && goonList.size() == waves.get(wave - 1).length){
       int numDead = 0;
       for (int i = 0; i < goonList.size(); i++){
        if(goonList.get(i).getHealth() == 0 || goonList.get(i).getY() >= 900){
@@ -204,14 +212,15 @@ void draw(){
     if (countdown > 0){
       countdown--;
     }
-    if ((wave == 1 && goonList.size() < 5 || wave == 2 && goonList.size() < 5 * 4) && activeWave && countdown == 0){
-      countdown += 300;
-      if(wave == 2){
+    if (activeWave && goonList.size() < waves.get(wave - 1).length && countdown == 0){
+      countdown += 30;
+      if(waves.get(wave - 1)[numGoon] == 1){
         goon = new Boss(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
       }else{
         goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
       }
       goonList.add(goon);
+      numGoon++;
     }
     for (Tower t : towerList){
       //t.place();
@@ -300,71 +309,10 @@ void draw(){
           goonList.get(i).move();
           goonList.get(i).display();
           currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
-          fill(255);
+          fill(0, 200, 0);
           textSize(30);
-          text(currentGoon.getHealth(), currentGoon.getX()-20, currentGoon.getY()+10);
+          text(100 - currentGoon.getHealth(), currentGoon.getX()-17, currentGoon.getY()+10);
         }else{
-          /*if (currentGoon.getType() == 1 && !currentGoon.isBroke()){
-            Tile currentTile = currentGoon.getCurrentTile();
-            Mob newGoon1 = new Mob(currentTile.getX() + 25, currentTile.getY() + 25, 50, "standard", map);
-            //Mob newGoon2 = new Mob(currentTile.getX() - 25, currentTile.getY() + 25, 50, "standard", map);
-            //Mob newGoon3 = new Mob(currentTile.getX() + 75, currentTile.getY() + 25, 50, "standard", map);
-            int cornerIndex = map.findCorner(currentTile.getX(), currentTile.getY());
-            if (currentGoon.getVelocity().x == -2){
-              newGoon1.changeDirection((float)-2, (float)0, cornerIndex);
-              //newGoon2.changeDirection((float)-2, (float)0, cornerIndex);
-              //newGoon3.changeDirection((float)-2, (float)0, cornerIndex);
-            }
-            if (cornerIndex == 0 || cornerIndex == 3 || cornerIndex == 6 || cornerIndex == 9){
-              //newGoon2 = new Mob(currentTile.getX() - 25, currentTile.getY() + 25, 50, "standard", map);
-              //newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() - 25, 50, "standard", map);
-              if (cornerIndex == 0 || cornerIndex == 9){
-                newGoon1.changeDirection((float)0, (float)-2, cornerIndex);
-                //newGoon3.changeDirection((float)0, (float)-2, cornerIndex);
-              }else{
-                newGoon1.changeDirection((float)-2, (float)0, cornerIndex);
-                //newGoon2.changeDirection((float)-2, (float)0, cornerIndex);
-              }
-            }else if (cornerIndex == 1 || cornerIndex == 8){
-              //newGoon2 = new Mob(currentTile.getX() - 25, currentTile.getY() + 25, 50, "standard", map);
-              //newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() + 75, 50, "standard", map);
-              if (cornerIndex == 1){
-                newGoon1.changeDirection((float)-2, (float)0, cornerIndex);
-                //newGoon2.changeDirection((float)-2, (float)0, cornerIndex);
-              }else{
-                newGoon1.changeDirection((float)0, (float)2, cornerIndex);
-                //newGoon3.changeDirection((float)0, (float)2, cornerIndex);
-              }
-            }else if (cornerIndex == 2 || cornerIndex == 5 || cornerIndex == 7 || cornerIndex == 10){
-              //newGoon2 = new Mob(currentTile.getX() + 75, currentTile.getY() + 25, 50, "standard", map);
-              //newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() + 75, 50, "standard", map);
-              if(cornerIndex == 2 || cornerIndex == 10){
-                newGoon1.changeDirection((float)0, (float)2, cornerIndex);
-                //newGoon3.changeDirection((float)0, (float)2, cornerIndex);
-              }
-            }else if (cornerIndex == 4){
-              //newGoon2 = new Mob(currentTile.getX() + 75, currentTile.getY() + 25, 50, "standard", map);
-              //newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() - 25, 50, "standard", map);
-              newGoon1.changeDirection((float)0, (float)2, cornerIndex);
-              //newGoon3.changeDirection((float)0, (float)2, cornerIndex);
-            }else if (currentGoon.getVelocity().x == 0){
-              //newGoon2 = new Mob(currentTile.getX() + 25, currentTile.getY() - 25, 50, "standard", map);
-              //newGoon3 = new Mob(currentTile.getX() + 25, currentTile.getY() + 75, 50, "standard", map);
-              if (currentGoon.getVelocity().y == 2){
-                newGoon1.changeDirection((float)0, (float)2, cornerIndex);
-                //newGoon2.changeDirection((float)0, (float)2, cornerIndex);
-               // newGoon3.changeDirection((float)0, (float)2, cornerIndex);
-              }else{
-                //newGoon1.changeDirection((float)0, (float)-2, cornerIndex);
-                //newGoon2.changeDirection((float)0, (float)-2, cornerIndex);
-                //newGoon3.changeDirection((float)0, (float)-2, cornerIndex);
-              }
-            }
-            goonList.add(newGoon1);
-            //goonList.add(newGoon2);
-            //goonList.add(newGoon3);
-            currentGoon.breakMob();
-          }*/
           currentGoon.getCurrentTile().removeEntity();
           if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() >= map.getMapWidth() || goonList.get(i).getY() >= map.getMapLength()){
             baseHP -= currentGoon.getHealth();
@@ -391,8 +339,12 @@ void draw(){
       text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
       text("Current Corner: " + goonList.get(0).getCorner(), 20, 40);
       //text("Near Corner: " + map.nearCorner(goonList.get(0).getX() - 25, goonList.get(0).getY() - 25, goonList.get(0).getCorner()), 20, 60);
+      text("numGoon: " + numGoon, 20, 60);
+      text("wave number: " + wave, 20, 80);
+      text("activeWave?: " + activeWave, 20, 100);
       if(!activeWave){
         goonList = new ArrayList<Mob>();
+        numGoon = 0;
       }
     }
     textSize(30);
