@@ -50,11 +50,17 @@ int upgradeX = sellXY+175;
 int upgradeY = sellXY;
 int upgradeL = 200;
 int upgradeW = sellW;
+int exitX = towerInfoX+450;
+int exitY = towerInfoY;
+int exitLW = 50;
+PImage youWon;
+PImage youLost;
+PFont font, health;
 void setup(){
   size(1600,900);
   background(255);
   baseHP = 100;
-  cash = 500000;
+  cash = 1000000;
   map = new Map(27, 18, 1350, height);
   grassTile = loadImage("GrassTile.png");
   pathTile = loadImage("PathTile.png");
@@ -80,12 +86,27 @@ void setup(){
   }
   goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
   goonList = new ArrayList<Mob>();
-  waves.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-  waves.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-  waves.add(new int[]{1,1,1,1,1,1,1,1,1,1});
-  waves.add(new int[]{1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1});
-  waves.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0});
-  waves.add(new int[]{1,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1});
+  //waves.add(new int[]{0,1,2,3,4});
+  waves.add(new int[]{0,0,0,0,0});
+  waves.add(new int[]{0,0,0,0,0,0,0,0,0});
+  waves.add(new int[]{0,0,0,0,0,1,1,1,1,1});
+  waves.add(new int[]{2,2,2,2,2,2,2,2,2,2});
+  waves.add(new int[]{0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2});
+  waves.add(new int[]{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2});
+  waves.add(new int[]{0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,3});
+  waves.add(new int[]{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2});
+  waves.add(new int[]{3,3,3,3,3});
+  waves.add(new int[]{0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,0,0,0,0,0,3,3,3,3,3});
+  waves.add(new int[]{0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4});
+  waves.add(new int[]{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2});
+  waves.add(new int[]{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2});
+  youWon = loadImage("YouWon.jpg");
+  youLost = loadImage("YouLost.png");
+  youWon.resize(1600,900);
+  youLost.resize(1600,900);
+  font = createFont("Naleni-rv318.ttf", 128);
+  health = createFont("NostalgiaRegular-pg3lK.ttf", 128);
+  textFont(font);
 }
 
 void keyPressed() {
@@ -121,6 +142,7 @@ void mouseClicked() {
     if (inMap){
       if (TOWER_MODE != 0 && TOWER_MODE <= towerListData.size() && clickTile.getType() == 2 && !clickTile.hasEntity() && !towerSelected){
         newTower = new Pencil_Launcher(mouseX,mouseY,map);
+        System.out.println(mouseX +" "+mouseY);
         if (TOWER_MODE == PENCIL_LAUNCHER){
           newTower = new Pencil_Launcher(mouseX,mouseY,map);
         }
@@ -130,6 +152,8 @@ void mouseClicked() {
         if (cash >= newTower.getCost() && inMap){
           towerList.add(newTower);
           newTower.place();
+          System.out.println(newTower.getTileX() + " " + newTower.getTileY());
+          System.out.println(newTower.getX() + " " + newTower.getY());
           cash -= newTower.getCost();
         }
       }else if (clickTile.getType() == 2 && clickTile.hasEntity()){
@@ -161,7 +185,11 @@ void mouseClicked() {
           towerList.remove(selectedTower);
           towerSelected = false;
         }
-        if (overUpgradeButton()){
+        if (overExitButton()){
+          selectedTower.setSelected(false);
+          towerSelected = false;
+        }
+        if (overUpgradeButton() && cash >= selectedTower.getCurrentUpgrade().getUpgradeCost()){
           cash -= selectedTower.getCurrentUpgrade().getUpgradeCost();
           selectedTower.upgradeTower();
         }
@@ -187,7 +215,7 @@ void mouseClicked() {
 
 void draw(){
   background(255);
-  if (baseHP > 0){
+  if (baseHP > 0 && wave <= waves.size()){
     for (int i = 0; i < 27; i++){
       for (int j = 0; j < 18; j++){
         if(map.getTile(i, j).getType() == 2){
@@ -206,6 +234,7 @@ void draw(){
       }
       if (numDead == goonList.size()){
         activeWave = false;
+        cash += wave*100;
       }
     }
     
@@ -214,10 +243,17 @@ void draw(){
     }
     if (activeWave && goonList.size() < waves.get(wave - 1).length && countdown == 0){
       countdown += 30;
-      if(waves.get(wave - 1)[numGoon] == 1){
-        goon = new Boss(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
-      }else{
+      int goonType = waves.get(wave - 1)[numGoon];
+      if(goonType == 0){
         goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }else if (goonType == 1){
+        goon = new Project(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }else if (goonType == 2){
+        goon = new Textbook(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }else if (goonType == 3){
+        goon = new Whiteboard(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }else if (goonType == 4){
+        goon = new Test(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
       }
       goonList.add(goon);
       numGoon++;
@@ -229,6 +265,7 @@ void draw(){
         if (t.findMob() != null){
           projectiles.add(t.createProjectile(t.findMob()));
           t.attack();
+          cash += t.getDamage();
         }
         t.setCooldown((int)(t.getAttackSpeed()*60));
       }else if (activeWave){
@@ -285,9 +322,17 @@ void draw(){
           fill(225,0,0);
         }
         rect(sellXY,sellXY,sellL,sellW,10);
+        if (overExitButton()){
+          fill(255,0,0);
+        }else{
+          fill(225,0,0);
+        }
+        rect(exitX,exitY,exitLW,exitLW,10);
         fill(0);
         textSize(20);
-        text("Sell for "+(t.getCost()/2),sellXY+5,sellXY+(sellW/2)+5);
+        text("Sell for $"+(t.getCost()/2),sellXY+5,sellXY+(sellW/2)+5);
+        textSize(40);
+        text("X",exitX+15,exitY+35);
       }
     }
     for(int i = 0; i < projectiles.size(); i++){
@@ -298,7 +343,6 @@ void draw(){
         projectiles.remove(p);
        }
     }
-    System.out.println(projectiles.size());
     if (goonList.size() > 0){
       for(int i = 0; i < goonList.size(); i++){
         /*if (goonList.get(i).getY() >= 900){
@@ -309,9 +353,13 @@ void draw(){
           goonList.get(i).move();
           goonList.get(i).display();
           currentGoon.setCurrentTile(currentGoon.getX(),currentGoon.getY());
+          fill(255);
+          textFont(health,20);
+          text(currentGoon.getMobName(), currentGoon.getX()-34, currentGoon.getY()-40);
           fill(0, 200, 0);
           textSize(30);
-          text(100 - currentGoon.getHealth(), currentGoon.getX()-17, currentGoon.getY()+10);
+          text(currentGoon.getHealth(), currentGoon.getX()-17, currentGoon.getY()+10);
+          textFont(font,20);
         }else{
           currentGoon.getCurrentTile().removeEntity();
           if (goonList.get(i).getHealth() != 0 && goonList.get(i).getX() >= map.getMapWidth() || goonList.get(i).getY() >= map.getMapLength()){
@@ -367,16 +415,19 @@ void draw(){
     //square(1375,300,TowerButtonSize);
     //square(1485,300,TowerButtonSize);
     fill(0);
-    text("Current Tower: ", 1375, 440);
+    text("Tower Info: ", 1375, 440);
     text(TOWER_PLACING, 1375, 470);
     if (TOWER_MODE != 0){
       for (int i = 0; i < TOWER_STATS[TOWER_MODE].length; i++){
         text(TOWER_STATS[0][i] + TOWER_STATS[TOWER_MODE][i], 1375, 500 + (i*35));
       }
     }
-    text("Wave: " + wave, 1375, 650);
-    text("Active Wave: ", 1375, 680);
-    text(""+activeWave, 1375, 710);
+    text("Wave: " + wave + "/" + waves.size(), 1375, 650);
+    if (!activeWave && wave != 0){
+      text("Wave "+wave+" Ended.", 1375, 680);
+      fill(0, 150, 0);
+      text("$"+wave*100+" rewarded.", 1375, 710);
+    }
     if (overStartButton()){
       fill(0, 180, 0);
     }else{
@@ -385,10 +436,17 @@ void draw(){
     rect(startX, startY, startL, startW,10);
     fill(0);
     text("START", 1435, 800);
-  }else{
+  }else if (baseHP <= 0){
+    image(youLost,0,0);
     fill(255,0,0);
     textSize(100);
-    text("GAME OVER", 550, 450);
+    text("GAME OVER! YOUR GRADES ARE HORRIBLE!", 15, 450);
+    text("HAVE FUN WORKING AT MCDONALDS!", 100, 575);
+  }else if (wave > waves.size()){
+    image(youWon,0,0);
+    fill(0,200,0);
+    textSize(100);
+    text("YOU WON! Your grades are... Acceptable.", 25, 450);
   }
 }
 
@@ -412,6 +470,9 @@ boolean overSellButton(){
 }
 
 boolean overUpgradeButton(){
-
   return (mouseX >= upgradeX && mouseX <= upgradeX+upgradeL && mouseY >= upgradeY && mouseY <= upgradeY+upgradeW);
+}
+
+boolean overExitButton(){
+  return (mouseX >= exitX && mouseX <= exitX+exitLW && mouseY >= exitY && mouseY <= exitY+exitLW);
 }
