@@ -8,9 +8,9 @@ public abstract class Tower{
   Map map;
   ArrayList<PathTile> path;
   ArrayList<GrassTile> grass;
-  //Mob targetMob;
   int cooldown;
   PImage towerImage;
+  PImage projectileImage;
   boolean selected;
   ArrayList<Upgrade> upgrades;
   int upgradeNum;
@@ -105,6 +105,14 @@ public abstract class Tower{
     return towerTile;
   }
   
+  public float getX(){
+    return coordX;
+  }
+  
+  public float getY(){
+    return coordY;
+  }
+  
   public int getTileX(){
     return tileX;
   }
@@ -140,7 +148,16 @@ public abstract class Tower{
     }
     return null;
   }
-  public abstract boolean attack();
+  
+  public Projectile createProjectile(Mob targetMob){
+    return new Projectile(coordX,coordY,targetMob,projectileImage);
+  }
+  
+  public PImage getProjectileImage(){
+    return projectileImage;
+  }
+  public abstract void attack();
   public abstract void display();
+  //public abstract void moveProjectile(Mob mob);
   
 }

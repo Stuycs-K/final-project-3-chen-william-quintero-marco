@@ -7,6 +7,7 @@ PImage grassTile;
 PImage pathTile;
 ArrayList<Tower> towerListData;
 ArrayList<Tower> towerList;
+ArrayList<Projectile> projectiles;
 String[][] TOWER_STATS;
 static int NO_TOWER = 0;
 static int PENCIL_LAUNCHER = 1;
@@ -65,6 +66,7 @@ void setup(){
   Pencil_LauncherImage = towerListData.get(0).getTowerImage();
   Ruler_PoliceImage = towerListData.get(1).getTowerImage();
   towerList = new ArrayList<Tower>();
+  projectiles = new ArrayList<Projectile>();
   TOWER_STATS = new String[towerListData.size()+1][5];
   for (int i = 0; i < TOWER_STATS.length; i++){
     if (i == 0){
@@ -104,7 +106,7 @@ void mouseClicked() {
     int tileX = (int)(mouseX/50);
     int tileY = (int)(mouseY/50);
     Tile clickTile = map.getTile(0, 0);
-    if (map.getMapWidth() > mouseX && map.getMapLength() > mouseY){
+    if (inMap(mouseX,mouseY)){
       inMap = true;
       clickTile = map.getTile(tileX,tileY);
     }
@@ -215,7 +217,10 @@ void draw(){
       //t.place();
       t.display();
       if (t.getCooldown() == 0 && activeWave){
-        t.attack();
+        if (t.findMob() != null){
+          projectiles.add(t.createProjectile(t.findMob()));
+          t.attack();
+        }
         t.setCooldown((int)(t.getAttackSpeed()*60));
       }else if (activeWave){
         t.setCooldown(t.getCooldown()-1);
@@ -276,6 +281,15 @@ void draw(){
         text("Sell for "+(t.getCost()/2),sellXY+5,sellXY+(sellW/2)+5);
       }
     }
+    for(int i = 0; i < projectiles.size(); i++){
+      Projectile p = projectiles.get(i);
+       p.move();
+       p.displayProjectile();
+       if (!inMap(p.getPosition().x,p.getPosition().y)){
+        projectiles.remove(p);
+       }
+    }
+    System.out.println(projectiles.size());
     if (goonList.size() > 0){
       for(int i = 0; i < goonList.size(); i++){
         /*if (goonList.get(i).getY() >= 900){
@@ -426,43 +440,26 @@ void draw(){
   }
 }
 
-
+boolean inMap(float x, float y){
+  return (x < map.getMapWidth() && y < map.getMapLength() && x >= 0 && y >= 0);
+}
 boolean overStartButton(){
-  if (mouseX >= startX && mouseX <= startX+startL && mouseY >= startY && mouseY <= startY+startW){
-    return true;
-  }else{
-    return false;
-  }
+  return (mouseX >= startX && mouseX <= startX+startL && mouseY >= startY && mouseY <= startY+startW);
 }
   
 boolean overPencilLauncherButton(){
-  if (mouseX >= Pencil_LauncherX && mouseX <= Pencil_LauncherX+TowerButtonSize && mouseY >= Pencil_LauncherY && mouseY <= Pencil_LauncherY+TowerButtonSize){
-    return true;
-  }else{
-    return false;
-  }
+  return (mouseX >= Pencil_LauncherX && mouseX <= Pencil_LauncherX+TowerButtonSize && mouseY >= Pencil_LauncherY && mouseY <= Pencil_LauncherY+TowerButtonSize);
 }
 
 boolean overRulerPoliceButton(){
-  if (mouseX >= Ruler_PoliceX && mouseX <= Ruler_PoliceX+TowerButtonSize && mouseY >= Ruler_PoliceY && mouseY <= Ruler_PoliceY+TowerButtonSize){
-    return true;
-  }else{
-    return false;
-  }
+  return (mouseX >= Ruler_PoliceX && mouseX <= Ruler_PoliceX+TowerButtonSize && mouseY >= Ruler_PoliceY && mouseY <= Ruler_PoliceY+TowerButtonSize);
 }
 
 boolean overSellButton(){
-  if (mouseX >= sellXY && mouseX <= sellXY+sellL && mouseY >= sellXY && mouseY <= sellXY+sellW){
-    return true;
-  }else{
-    return false;
-  }
+  return (mouseX >= sellXY && mouseX <= sellXY+sellL && mouseY >= sellXY && mouseY <= sellXY+sellW);
 }
 
 boolean overUpgradeButton(){
-  if (mouseX >= upgradeX && mouseX <= upgradeX+upgradeL && mouseY >= upgradeY && mouseY <= upgradeY+upgradeW){
-    return true;
-  }else{
-    return false;
-  }
+
+  return (mouseX >= upgradeX && mouseX <= upgradeX+upgradeL && mouseY >= upgradeY && mouseY <= upgradeY+upgradeW);
 }

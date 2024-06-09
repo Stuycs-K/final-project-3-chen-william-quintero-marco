@@ -60,3 +60,6 @@ Worked on setCurrentTile method to allow Towers to be upgraded and sold.
 
 ### 6/8
 Completed Tower Select buttons (you can select from both keybinds and the buttons) and Tower selling. Worked on upgrading Towers.
+
+### 6/9
+Completed upgrading Towers and Tower projectiles.
