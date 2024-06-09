@@ -105,6 +105,14 @@ public abstract class Tower{
     return towerTile;
   }
   
+  public int getTileX(){
+    return tileX;
+  }
+  
+  public int getTileY(){
+    return tileY;
+  }
+  
   public void place(){
     for (int i = 0; i < grass.size(); i++){
       if (coordX - grass.get(i).getX() <= 50 && coordY - grass.get(i).getY() <= 50){

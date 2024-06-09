@@ -1,6 +1,6 @@
 public class Upgrade{
-  String upgradeName;
-  float addDamage, addRadius, addAttackSpeed, upgradeCost;
+  private String upgradeName;
+  private float addDamage, addRadius, addAttackSpeed, upgradeCost;
   public Upgrade(String name, float addD, float addR, float addAS, float cost){
     upgradeName = name;
     addDamage = addD;

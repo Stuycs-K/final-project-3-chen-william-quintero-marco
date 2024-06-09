@@ -223,6 +223,17 @@ void draw(){
       if (t.getSelected()){
         TOWER_MODE = NO_TOWER;
         TOWER_PLACING = "None";
+        for (int i = t.getTileX()-(int)t.getRadius(); i <= t.getTileX()+(int)t.getRadius(); i++){
+          for (int j = t.getTileY()-(int)t.getRadius(); j <= t.getTileY()+(int)t.getRadius(); j++){
+            if (i >= 0 && j >= 0 && i < map.getMapRow() && j < map.getMapCol()){
+              if (i != t.getTileX() || j != t.getTileY()){
+                tint(0, 153, 204, 126);
+                image(grassTile,map.getTile(i, j).getX(), map.getTile(i, j).getY());
+              }
+              tint(255, 255);
+            }
+          }
+        }
         fill(255);
         rect(towerInfoX,towerInfoY,towerInfoL,towerInfoW,10);
         image(t.getTowerImage(),towerInfoX+10,towerInfoY+10,150,150);
@@ -237,6 +248,11 @@ void draw(){
           text("Radius: " + t.getRadius() + " + " + t.getCurrentUpgrade().getAddRadius(),towerInfoX+160,towerInfoY+140);
           text("Attack Speed: " + t.getAttackSpeed() + " - " + t.getCurrentUpgrade().getAddAttackSpeed(),towerInfoX+160,towerInfoY+170);
           fill(0,150,0);
+          if (overUpgradeButton()){
+            fill(0, 180, 0);
+          }else{
+            fill(0,150,0);
+          }
           rect(upgradeX,upgradeY,upgradeL,upgradeW,10);
           textSize(40);
           fill(0);
@@ -249,6 +265,11 @@ void draw(){
           text("Attack Speed: " + t.getAttackSpeed(),towerInfoX+160,towerInfoY+170);
         }
         fill(255,0,0);
+        if (overSellButton()){
+          fill(255,0,0);
+        }else{
+          fill(225,0,0);
+        }
         rect(sellXY,sellXY,sellL,sellW,10);
         fill(0);
         textSize(20);

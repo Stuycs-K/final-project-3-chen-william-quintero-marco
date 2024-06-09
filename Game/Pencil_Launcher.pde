@@ -3,7 +3,7 @@ public class Pencil_Launcher extends Tower{
     super(x,y,map);
     towerName = "Pencil Launcher";
     damage = 3;
-    radius = 5;
+    radius = 4;
     attackSpeed = 1;
     cost = 300;
     cooldown = (int)(attackSpeed*60);
