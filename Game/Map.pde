@@ -4,9 +4,13 @@ public class Map{
   private ArrayList<PathTile> path = new ArrayList<PathTile>();
   private ArrayList<Tile> corners = new ArrayList<Tile>();
   private ArrayList<GrassTile> grass = new ArrayList<GrassTile>();
+  private int row;
+  private int col;
   private int mapWidth;
   private int mapLength;
-  public Map(int row, int col, int w, int l){
+  public Map(int ROW, int COL, int w, int l){
+    row = ROW;
+    col = COL;
     map = new Tile[row][col];
     mapWidth = w;
     mapLength = l;
@@ -45,6 +49,12 @@ public class Map{
   
   public Tile getTile(int r, int c){
     return map[r][c];
+  }
+  public int getMapRow(){
+    return row;
+  }
+  public int getMapCol(){
+    return col;
   }
   public int getMapWidth(){
     return mapWidth;

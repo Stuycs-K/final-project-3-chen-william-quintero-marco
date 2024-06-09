@@ -1,5 +1,5 @@
 public class GrassTile extends Tile{
-  Tower currentTower;
+  private Tower currentTower;
   public GrassTile(float x, float y, int X, int Y){
     super(x, y, X, Y);
   }
