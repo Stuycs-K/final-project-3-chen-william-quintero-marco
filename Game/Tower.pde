@@ -1,15 +1,20 @@
 public abstract class Tower{
   String towerName;
   float damage, radius, attackSpeed, cost;
-  Tile towerTile;
+  GrassTile towerTile;
   float coordX, coordY;
   int tileX,tileY;
   boolean placed;
   Map map;
   ArrayList<PathTile> path;
-  //Mob targetMob;
+  ArrayList<GrassTile> grass;
   int cooldown;
   PImage towerImage;
+  PImage projectileImage;
+  boolean selected;
+  ArrayList<Upgrade> upgrades;
+  int upgradeNum;
+  Upgrade currentUpgrade;
   public Tower(float x, float y, Map gameMap){
     coordX = x;
     coordY = y;
@@ -17,7 +22,10 @@ public abstract class Tower{
     tileY = (int)(y/50);
     map = gameMap;
     path = gameMap.getPath();
+    grass = gameMap.getGrass();
     placed = false;
+    upgradeNum = 0;
+    selected = false;
   }
   
   public String getTowerName(){
@@ -55,21 +63,101 @@ public abstract class Tower{
   public void setCooldown(int n){
     cooldown = n;
   }
+  
+  public PImage getTowerImage(){
+    return towerImage;
+  }
+  
+  public boolean getSelected(){
+    return selected;
+  }
+  
+  public void setSelected(boolean select){
+    selected = select;
+  }
+  
+  public int getUpgradeNum(){
+    return upgradeNum;
+  }
+  
+  public void upgradeTower(){
+    if (upgradeNum < upgrades.size()){
+      damage += currentUpgrade.getAddDamage();
+      radius += currentUpgrade.getAddRadius();
+      attackSpeed -= currentUpgrade.getAddAttackSpeed();
+      cost += currentUpgrade.getUpgradeCost();
+      upgradeNum++;
+      if (upgradeNum < upgrades.size()){
+        currentUpgrade = upgrades.get(upgradeNum);
+      }
+    }
+  }
+  
+  public Upgrade getCurrentUpgrade(){
+    return currentUpgrade;
+  }
+  
+  public ArrayList<Upgrade> getUpgrades(){
+   return upgrades;
+  }
+  
+  public GrassTile getTowerTile(){
+    return towerTile;
+  }
+  
+  public float getX(){
+    return coordX;
+  }
+  
+  public float getY(){
+    return coordY;
+  }
+  
+  public int getTileX(){
+    return tileX;
+  }
+  
+  public int getTileY(){
+    return tileY;
+  }
+  
   public void place(){
-    if (map.getMapWidth() > coordX && map.getMapLength() > coordY){
-      Tile placeTile = map.getTile(tileX, tileY);
-      if (placeTile.getType() == 2){
-        if (!placeTile.hasEntity()){
-          towerTile = placeTile;
-          placeTile.placeEntity();
+    for (int i = 0; i < grass.size(); i++){
+      if (coordX - grass.get(i).getX() <= 50 && coordY - grass.get(i).getY() <= 50){
+        if (!grass.get(i).hasEntity()){
+          towerTile = grass.get(i);
+          towerTile.setTower(this);
+          towerTile.placeEntity();
           coordX = towerTile.getX();
           coordY = towerTile.getY();
           placed = true;
-         }
-       }
+          i = grass.size();
+        }
+      }
     }
+  }
+  
+  public Mob findMob(){
+    for (int i = path.size()-1; i >= 0; i--){
+      PathTile pathTile = path.get(i);
+      if (pathTile.hasEntity()){
+        if (Math.abs(tileX - pathTile.getTileX()) <= radius && Math.abs(tileY - pathTile.getTileY()) <= radius){
+          return pathTile.getMob();
+        }
+      }
+    }
+    return null;
+  }
+  
+  public Projectile createProjectile(Mob targetMob){
+    return new Projectile(coordX,coordY,targetMob,projectileImage);
+  }
+  
+  public PImage getProjectileImage(){
+    return projectileImage;
   }
   public abstract void attack();
   public abstract void display();
+  //public abstract void moveProjectile(Mob mob);
   
 }

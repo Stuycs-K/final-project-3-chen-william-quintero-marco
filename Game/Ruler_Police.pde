@@ -2,58 +2,37 @@ public class Ruler_Police extends Tower{
   public Ruler_Police(float x, float y,Map map){
     super(x,y,map);
     towerName = "Ruler Police";
-    damage = 4;
-    radius = 2;
+    damage = 2;
+    radius = 1;
     attackSpeed = 0.5;
     cost = 200;
     cooldown = (int)(attackSpeed*60);
+    towerImage = loadImage("Ruler_Police.png");
+    projectileImage = loadImage("Ruler.png");
+    projectileImage.resize(25,75);
+    upgrades = new ArrayList<Upgrade>();
+    upgrades.add(new Upgrade("Sharper Ruler", 2, 0, 0, 100));
+    upgrades.add(new Upgrade("Police Training", 2, 0, 0.10, 300));
+    upgrades.add(new Upgrade("Hardened Plastic", 3, 0, 0, 750));
+    upgrades.add(new Upgrade("School Riot Gear", 5, 1, 0.15, 1500));
+    currentUpgrade = upgrades.get(upgradeNum);
   }
   
-  public Mob findMob(){
-    for (int i = path.size()-1; i >= 0; i--){
-      PathTile pathTile = path.get(i);
-      if (pathTile.hasEntity()){
-        if (Math.abs(tileX - pathTile.getTileX()) <= radius && Math.abs(tileY - pathTile.getTileY()) <= radius){
-          return pathTile.getMob();
-        }
-      }
-    }
-    return null;
-  }
   
   public void attack(){
-    if (findMob() != null){
       Mob targetMob = findMob();
       moveProjectile(targetMob);
+      //moveProjectile(targetMob);
       targetMob.applyDamage((int)damage);
-      targetMob.changeVelocity(0.5);
+      targetMob.changeVelocity(1);
       //System.out.println(targetMob.getHealth());
-    }
   }
   
   
   public void display(){
     if (placed){
-      PImage student = loadImage("Ruler_Police.png");
-      student.resize(70,70);
-      image(student,coordX,coordY);
+      towerImage.resize(70,70);
+      image(towerImage,coordX-10,coordY-10);
     }
-  }
-  
-  public void moveProjectile(Mob targetMob){
-    PVector rulerPos = new PVector(coordX, coordY);
-    PVector mobPos = new PVector(targetMob.getX(), targetMob.getY());
-    PVector direction = PVector.sub(mobPos, rulerPos);
-    PVector velocity = new PVector(0,0);
-    direction.normalize();
-    velocity.add(direction);
-    rulerPos.add(velocity);
-    displayProjectile(rulerPos.x,rulerPos.y);
-  }
-  
-  public void displayProjectile(float x, float y){
-    fill(0,255,0);
-    noStroke();
-    rect(x,y,20,70);
   }
 }

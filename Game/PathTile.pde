@@ -1,5 +1,5 @@
 public class PathTile extends Tile{
-  Mob currentMob;
+  private Mob currentMob;
   public PathTile(float x, float y, int X, int Y){
     super(x, y, X, Y);
   }
