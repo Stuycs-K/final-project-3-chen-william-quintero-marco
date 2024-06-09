@@ -52,5 +52,14 @@ Worked on Tower attack cooldown and completed placing Towers.
 ### 6/2
 Completed Attack method without projectiles. Attack doolwon and projectiles working. Added Game Over screen and losing health.
 
-### 6/3
-Fixed bug that made Game slower becaues of loadImage.
+### 6/5
+Fixed bug that made Game slower becaues of loadImage. Fixed another bug that made Game crash before waves start due to pressing keys.
+
+### 6/7
+Worked on setCurrentTile method to allow Towers to be upgraded and sold.
+
+### 6/8
+Completed Tower Select buttons (you can select from both keybinds and the buttons) and Tower selling. Worked on upgrading Towers.
+
+### 6/9
+Completed upgrading Towers and Tower projectiles.
