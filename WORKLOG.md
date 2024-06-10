@@ -62,4 +62,5 @@ Worked on setCurrentTile method to allow Towers to be upgraded and sold.
 Completed Tower Select buttons (you can select from both keybinds and the buttons) and Tower selling. Worked on upgrading Towers.
 
 ### 6/9
-Completed upgrading Towers and Tower projectiles.
+Completed upgrading Towers and Tower projectiles. Added new visuals: new fonts and win/lose screen. Added new mobs and completed waves.
+Completed Valedictorian Tower.

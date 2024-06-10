@@ -17,7 +17,7 @@ public class Mob{
     this.radius = radius;
     speed = 3;
     velocity = new PVector(speed, 0);
-    health = 5;
+    health = 3;
     this.type = type;
     path = map.getPath();
     currentTile = map.getPath().get(0);

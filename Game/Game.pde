@@ -12,6 +12,7 @@ String[][] TOWER_STATS;
 static int NO_TOWER = 0;
 static int PENCIL_LAUNCHER = 1;
 static int RULER_POLICE = 2;
+static int VALEDICTORIAN = 3;
 static int TOWER_MODE = NO_TOWER;
 static String TOWER_PLACING = "None";
 Mob goon;
@@ -32,13 +33,16 @@ int startW = 100;
 boolean towerSelected = false;
 GrassTile selectTowerTile;
 Tower selectedTower;
+int TowerButtonSize = 100;
 int Pencil_LauncherX = 1375;
 int Pencil_LauncherY = 190;
 PImage Pencil_LauncherImage;
 int Ruler_PoliceX = 1485;
 int Ruler_PoliceY = 190;
-int TowerButtonSize = 100;
 PImage Ruler_PoliceImage;
+int ValedictorianX = 1375;
+int ValedictorianY = 300;
+PImage ValedictorianImage;
 int towerInfoX = 800;
 int towerInfoY = 640;
 int towerInfoL = 500;
@@ -71,8 +75,10 @@ void setup(){
   towerListData = new ArrayList<Tower>();
   towerListData.add(new Pencil_Launcher(0,0,map));
   towerListData.add(new Ruler_Police(0,0,map));
+  towerListData.add(new Valedictorian(0,0,map));
   Pencil_LauncherImage = towerListData.get(0).getTowerImage();
   Ruler_PoliceImage = towerListData.get(1).getTowerImage();
+  ValedictorianImage = towerListData.get(2).getTowerImage();
   towerList = new ArrayList<Tower>();
   projectiles = new ArrayList<Projectile>();
   TOWER_STATS = new String[towerListData.size()+1][5];
@@ -86,7 +92,7 @@ void setup(){
   }
   goon = new Mob(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
   goonList = new ArrayList<Mob>();
-  //waves.add(new int[]{0,1,2,3,4});
+  //waves.add(new int[]{0,1,2,3,4,5,6,7,8,9});
   waves.add(new int[]{0,0,0,0,0});
   waves.add(new int[]{0,0,0,0,0,0,0,0,0});
   waves.add(new int[]{0,0,0,0,0,1,1,1,1,1});
@@ -98,8 +104,24 @@ void setup(){
   waves.add(new int[]{3,3,3,3,3});
   waves.add(new int[]{0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,0,0,0,0,0,3,3,3,3,3});
   waves.add(new int[]{0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4});
-  waves.add(new int[]{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2});
-  waves.add(new int[]{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2});
+  waves.add(new int[]{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4});
+  waves.add(new int[]{4,4,4,4,4});
+  waves.add(new int[]{4,4,4,4,4,4,4,4,4,4});
+  waves.add(new int[]{4,4,4,4,4,5,5,5,5,5});
+  waves.add(new int[]{5,5,5,5,5,5,5,5,5,5});
+  waves.add(new int[]{5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5});
+  waves.add(new int[]{4,4,4,4,4,5,5,5,5,5,6,6,6,6,6});
+  waves.add(new int[]{2,3,6,2,3,6,2,3,6,2,3,6,2,3,6,2,3,6,2,3,6,2,3,6});
+  waves.add(new int[]{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6});
+  waves.add(new int[]{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7});
+  waves.add(new int[]{5,7,5,7,5,7,5,7,5,7,5,7,5,7,5,7,5,7,5,7});
+  waves.add(new int[]{7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7});
+  waves.add(new int[]{7,7,7,7,7,2,2,2,2,2,3,3,3,3,3,6,6,6,6,6,8,8,8,8,8});
+  waves.add(new int[]{8,8,8,8,8,8,8,8,8,8,8,8,8,8,8});
+  waves.add(new int[]{0,0,0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9});
+  waves.add(new int[]{7,7,7,7,7,8,8,8,8,8,9,9,9,9,9});
+  waves.add(new int[]{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9});
+  waves.add(new int[]{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9});
   youWon = loadImage("YouWon.jpg");
   youLost = loadImage("YouLost.png");
   youWon.resize(1600,900);
@@ -123,6 +145,9 @@ void keyPressed() {
     }
     if (key == '2'){
       TOWER_MODE = RULER_POLICE;
+    }
+    if (key == '3'){
+      TOWER_MODE = VALEDICTORIAN;
     }
     TOWER_PLACING = towerListData.get(TOWER_MODE-1).getTowerName();
   }
@@ -148,6 +173,9 @@ void mouseClicked() {
         }
         if (TOWER_MODE == RULER_POLICE){
           newTower = new Ruler_Police(mouseX,mouseY,map);
+        }
+        if (TOWER_MODE == VALEDICTORIAN){
+          newTower = new Valedictorian(mouseX,mouseY,map);
         }
         if (cash >= newTower.getCost() && inMap){
           towerList.add(newTower);
@@ -206,6 +234,9 @@ void mouseClicked() {
       if (overRulerPoliceButton()){
         TOWER_MODE = RULER_POLICE;
       }
+      if (overValedictorianButton()){
+        TOWER_MODE = VALEDICTORIAN;
+      }
       if (TOWER_MODE != 0){
         TOWER_PLACING = towerListData.get(TOWER_MODE-1).getTowerName();
       }
@@ -234,7 +265,7 @@ void draw(){
       }
       if (numDead == goonList.size()){
         activeWave = false;
-        cash += wave*100;
+        cash += wave*50;
       }
     }
     
@@ -249,11 +280,21 @@ void draw(){
       }else if (goonType == 1){
         goon = new Project(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
       }else if (goonType == 2){
-        goon = new Textbook(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+        goon = new Notebook(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
       }else if (goonType == 3){
-        goon = new Whiteboard(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+        goon = new Textbook(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
       }else if (goonType == 4){
+        goon = new Whiteboard(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }else if (goonType == 5){
         goon = new Test(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }else if (goonType == 6){
+        goon = new StackOfBooks(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }else if (goonType == 7){
+        goon = new FinalTest(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }else if (goonType == 8){
+        goon = new Dictionary(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
+      }else if (goonType == 9){
+        goon = new ReportCard(map.getFirstPath().getX() + 25, map.getFirstPath().getY() + 25, 50, "standard", map);
       }
       goonList.add(goon);
       numGoon++;
@@ -412,6 +453,11 @@ void draw(){
     }else{
       image(Ruler_PoliceImage,Ruler_PoliceX,Ruler_PoliceY,TowerButtonSize,TowerButtonSize);
     }
+    if (overValedictorianButton()){
+      image(ValedictorianImage,ValedictorianX,ValedictorianY,TowerButtonSize+10,TowerButtonSize+10);
+    }else{
+      image(ValedictorianImage,ValedictorianX,ValedictorianY,TowerButtonSize,TowerButtonSize);
+    }
     //square(1375,300,TowerButtonSize);
     //square(1485,300,TowerButtonSize);
     fill(0);
@@ -463,6 +509,10 @@ boolean overPencilLauncherButton(){
 
 boolean overRulerPoliceButton(){
   return (mouseX >= Ruler_PoliceX && mouseX <= Ruler_PoliceX+TowerButtonSize && mouseY >= Ruler_PoliceY && mouseY <= Ruler_PoliceY+TowerButtonSize);
+}
+
+boolean overValedictorianButton(){
+  return (mouseX >= ValedictorianX && mouseX <= ValedictorianX+TowerButtonSize && mouseY >= ValedictorianY && mouseY <= ValedictorianY+TowerButtonSize);
 }
 
 boolean overSellButton(){
