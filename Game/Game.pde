@@ -64,7 +64,7 @@ void setup(){
   size(1600,900);
   background(255);
   baseHP = 100;
-  cash = 1000000;
+  cash = 50000000;
   map = new Map(27, 18, 1350, height);
   grassTile = loadImage("GrassTile.png");
   pathTile = loadImage("PathTile.png");
@@ -135,10 +135,7 @@ void keyPressed() {
   if (key == '0' || key == 'q' || key == 'Q'){
     TOWER_MODE = NO_TOWER;
     TOWER_PLACING = "None";
-    for (Tower t : towerList){
-      t.setSelected(false);
-    }
-    towerSelected = false;
+    deselect();
   }else if (key == '1' || key == '2'){
     if (key == '1'){
       TOWER_MODE = PENCIL_LAUNCHER;
@@ -167,7 +164,7 @@ void mouseClicked() {
     if (inMap){
       if (TOWER_MODE != 0 && TOWER_MODE <= towerListData.size() && clickTile.getType() == 2 && !clickTile.hasEntity() && !towerSelected){
         newTower = new Pencil_Launcher(mouseX,mouseY,map);
-        System.out.println(mouseX +" "+mouseY);
+        //System.out.println(mouseX +" "+mouseY);
         if (TOWER_MODE == PENCIL_LAUNCHER){
           newTower = new Pencil_Launcher(mouseX,mouseY,map);
         }
@@ -180,14 +177,12 @@ void mouseClicked() {
         if (cash >= newTower.getCost() && inMap){
           towerList.add(newTower);
           newTower.place();
-          System.out.println(newTower.getTileX() + " " + newTower.getTileY());
-          System.out.println(newTower.getX() + " " + newTower.getY());
+          //System.out.println(newTower.getTileX() + " " + newTower.getTileY());
+          //System.out.println(newTower.getX() + " " + newTower.getY());
           cash -= newTower.getCost();
         }
       }else if (clickTile.getType() == 2 && clickTile.hasEntity()){
-      //CLICK ON UNITS TO SHOW THEIR RANGE
         for (int i = 0; i < grass.size(); i++){
-        //clickTile.getX() == grass.get(i).getX() && clickTile.getY() == grass.get(i).getY()
           if (clickTile.equals(grass.get(i))){
             selectTowerTile = grass.get(i);
             selectedTower = selectTowerTile.getTower();
@@ -195,16 +190,13 @@ void mouseClicked() {
           }
         }
         if (!selectedTower.getSelected()){
-          for (Tower t : towerList){
-            t.setSelected(false);
-          }
+          deselect();
           selectedTower.setSelected(true);
           towerSelected = true;
         }else{
           selectedTower.setSelected(false);
           towerSelected = false;
         }
-      //WORK ON THIS ONLY FOR POLISHING
       }
       if (towerSelected){
         if (overSellButton()){
@@ -229,12 +221,15 @@ void mouseClicked() {
         wave++;
       }
       if (overPencilLauncherButton()){
+        deselect();
         TOWER_MODE = PENCIL_LAUNCHER;
       }
       if (overRulerPoliceButton()){
+        deselect();
         TOWER_MODE = RULER_POLICE;
       }
       if (overValedictorianButton()){
+        deselect();
         TOWER_MODE = VALEDICTORIAN;
       }
       if (TOWER_MODE != 0){
@@ -300,7 +295,6 @@ void draw(){
       numGoon++;
     }
     for (Tower t : towerList){
-      //t.place();
       t.display();
       if (t.getCooldown() == 0 && activeWave){
         if (t.findMob() != null){
@@ -495,7 +489,12 @@ void draw(){
     text("YOU WON! Your grades are... Acceptable.", 25, 450);
   }
 }
-
+void deselect(){
+  for (Tower t : towerList){
+    t.setSelected(false);
+  }
+  towerSelected = false;
+}
 boolean inMap(float x, float y){
   return (x < map.getMapWidth() && y < map.getMapLength() && x >= 0 && y >= 0);
 }
