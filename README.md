@@ -16,3 +16,6 @@ Stuy Tower Defense is a tower defense game that progressively gets harder after 
 2. Click on the placed tower that you want to upgrade and a menu at the bottom right of the map will pop up. The green button will allow you to upgrade the tower and the red will allow you to sell, removing it from the map. Click the red X at the top right or click the mob again to exit the menu.
 3. Click the green button on the right corner of the screen to start a wave.
 4. When all of the mobs are off the screen (whether they made it to the end or got destroyed), below the wave counter it will say the wave has ended and you can now press the green button to start on the next wave.
+
+## Video Link
+https://drive.google.com/file/d/1AEF87BAaxEI6nXvFnZ-22tSN8YEMAIVe/view?usp=drive_link
