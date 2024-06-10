@@ -120,8 +120,9 @@ void setup(){
   waves.add(new int[]{8,8,8,8,8,8,8,8,8,8,8,8,8,8,8});
   waves.add(new int[]{0,0,0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9});
   waves.add(new int[]{7,7,7,7,7,8,8,8,8,8,9,9,9,9,9});
-  waves.add(new int[]{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9});
-  waves.add(new int[]{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9});
+  waves.add(new int[]{9,9,9,9,9,9,9,9,9,9});
+  waves.add(new int[]{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9});
+  waves.add(new int[]{0,0,0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9});
   youWon = loadImage("YouWon.jpg");
   youLost = loadImage("YouLost.png");
   youWon.resize(1600,900);
@@ -393,7 +394,7 @@ void draw(){
           text(currentGoon.getMobName(), currentGoon.getX()-34, currentGoon.getY()-40);
           fill(0, 200, 0);
           textSize(30);
-          text(currentGoon.getHealth(), currentGoon.getX()-17, currentGoon.getY()+10);
+          text(100 - currentGoon.getHealth(), currentGoon.getX()-17, currentGoon.getY()+10);
           textFont(font,20);
         }else{
           currentGoon.getCurrentTile().removeEntity();
@@ -419,12 +420,12 @@ void draw(){
         //currentGoon.applyDamage(1);
       }
       fill(0);
-      text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
-      text("Current Corner: " + goonList.get(0).getCorner(), 20, 40);
+      //text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
+      //text("Current Corner: " + goonList.get(0).getCorner(), 20, 40);
       //text("Near Corner: " + map.nearCorner(goonList.get(0).getX() - 25, goonList.get(0).getY() - 25, goonList.get(0).getCorner()), 20, 60);
-      text("numGoon: " + numGoon, 20, 60);
-      text("wave number: " + wave, 20, 80);
-      text("activeWave?: " + activeWave, 20, 100);
+      //text("numGoon: " + numGoon, 20, 60);
+      //text("wave number: " + wave, 20, 80);
+      //text("activeWave?: " + activeWave, 20, 100);
       if(!activeWave){
         goonList = new ArrayList<Mob>();
         numGoon = 0;
