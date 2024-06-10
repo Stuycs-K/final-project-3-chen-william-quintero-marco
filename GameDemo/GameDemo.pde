@@ -63,8 +63,8 @@ PFont font, health;
 void setup(){
   size(1600,900);
   background(255);
-  baseHP = 100;
-  cash = 600;
+  baseHP = 1000000000;
+  cash = 1000000000;
   map = new Map(27, 18, 1350, height);
   grassTile = loadImage("GrassTile.png");
   pathTile = loadImage("PathTile.png");
@@ -84,7 +84,7 @@ void setup(){
   TOWER_STATS = new String[towerListData.size()+1][5];
   for (int i = 0; i < TOWER_STATS.length; i++){
     if (i == 0){
-      TOWER_STATS[i] = new String[]{"Damage: ","Radius: ","Attack Speed: ","Cost: $"};
+      TOWER_STATS[i] = new String[]{"Damage: ","Radius: ","Attack Speed: ","Cost: "};
     }else{
       Tower towerData = towerListData.get(i-1);
       TOWER_STATS[i] = new String[]{""+towerData.getDamage(),""+towerData.getRadius(),""+towerData.getAttackSpeed(),""+towerData.getCost()};
@@ -138,17 +138,23 @@ void keyPressed() {
     TOWER_PLACING = "None";
     deselect();
   }else if (key == '1' || key == '2' || key == '3'){
-    deselect();
     if (key == '1'){
+      deselect();
       TOWER_MODE = PENCIL_LAUNCHER;
     }
     if (key == '2'){
+      deselect();
       TOWER_MODE = RULER_POLICE;
     }
     if (key == '3'){
+      deselect();
       TOWER_MODE = VALEDICTORIAN;
     }
     TOWER_PLACING = towerListData.get(TOWER_MODE-1).getTowerName();
+  }else if (key == 'e' || key == 'E'){
+    if (wave < waves.size()){
+      wave++;
+    }
   }
 }
 
@@ -166,7 +172,6 @@ void mouseClicked() {
     if (inMap){
       if (TOWER_MODE != 0 && TOWER_MODE <= towerListData.size() && clickTile.getType() == 2 && !clickTile.hasEntity() && !towerSelected){
         newTower = new Pencil_Launcher(mouseX,mouseY,map);
-        //System.out.println(mouseX +" "+mouseY);
         if (TOWER_MODE == PENCIL_LAUNCHER){
           newTower = new Pencil_Launcher(mouseX,mouseY,map);
         }
@@ -179,8 +184,6 @@ void mouseClicked() {
         if (cash >= newTower.getCost() && inMap){
           towerList.add(newTower);
           newTower.place();
-          //System.out.println(newTower.getTileX() + " " + newTower.getTileY());
-          //System.out.println(newTower.getX() + " " + newTower.getY());
           cash -= newTower.getCost();
         }
       }else if (clickTile.getType() == 2 && clickTile.hasEntity()){
@@ -188,7 +191,6 @@ void mouseClicked() {
           if (clickTile.equals(grass.get(i))){
             selectTowerTile = grass.get(i);
             selectedTower = selectTowerTile.getTower();
-            System.out.println("Tower Selected: "+selectedTower.getTowerName());
           }
         }
         if (!selectedTower.getSelected()){
@@ -382,9 +384,6 @@ void draw(){
     }
     if (goonList.size() > 0){
       for(int i = 0; i < goonList.size(); i++){
-        /*if (goonList.get(i).getY() >= 900){
-        baseHP -= 100;
-        }*/
         Mob currentGoon = goonList.get(i);
         if (goonList.get(i).getHealth() > 0 && goonList.get(i).getX() < map.getMapWidth() && goonList.get(i).getY() < map.getMapLength()){
           goonList.get(i).move();
@@ -404,10 +403,6 @@ void draw(){
             goonList.get(i).applyDamage(100000000);
           }
         }
-          //if (goonList.size() > 1){
-          //  goonList.remove(currentGoon);
-          //  System.out.println("bruh");
-          //}
         if(currentGoon.getCorner() < 11 && map.nearCorner(currentGoon.getX() - 25, currentGoon.getY() - 25, currentGoon.getCorner())){
           currentGoon.changePosition(map.getCorner(currentGoon.getCorner()).getX() + 25, map.getCorner(currentGoon.getCorner()).getY() + 25);
         }
@@ -418,15 +413,8 @@ void draw(){
           goonList.get(i).changeDirection(xDiff, yDiff, currentGoon.getCorner());
           goonList.get(i).changeCorner();
         }
-        //currentGoon.applyDamage(1);
       }
       fill(0);
-      //text(goonList.get(0).getX() + "," + goonList.get(0).getY(), 20, 20);
-      //text("Current Corner: " + goonList.get(0).getCorner(), 20, 40);
-      //text("Near Corner: " + map.nearCorner(goonList.get(0).getX() - 25, goonList.get(0).getY() - 25, goonList.get(0).getCorner()), 20, 60);
-      //text("numGoon: " + numGoon, 20, 60);
-      //text("wave number: " + wave, 20, 80);
-      //text("activeWave?: " + activeWave, 20, 100);
       if(!activeWave){
         goonList = new ArrayList<Mob>();
         numGoon = 0;
@@ -454,8 +442,6 @@ void draw(){
     }else{
       image(ValedictorianImage,ValedictorianX,ValedictorianY,TowerButtonSize,TowerButtonSize);
     }
-    //square(1375,300,TowerButtonSize);
-    //square(1485,300,TowerButtonSize);
     fill(0);
     text("Tower Info: ", 1375, 440);
     text(TOWER_PLACING, 1375, 470);
