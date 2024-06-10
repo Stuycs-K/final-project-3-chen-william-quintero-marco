@@ -12,3 +12,5 @@ Stuy Tower Defense is a tower defense game that progressively gets harder after 
 3. Click the green button the right corner of the screen to start a wave.
 4. When all of the mobs are off the screen (whether they made it to the end or got destroyed), below the wave counter it will say the wave has ended and you can now press the green button to start on the next wave.
 5. To skip to the final three waves, press the r key. You will know this is the other version when the number of waves is out of 3 and the map has cleared of all the mobs placed.
+## Video Link
+https://drive.google.com/file/d/1AEF87BAaxEI6nXvFnZ-22tSN8YEMAIVe/view?usp=drive_link
