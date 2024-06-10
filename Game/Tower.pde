@@ -123,7 +123,7 @@ public abstract class Tower{
   
   public void place(){
     for (int i = 0; i < grass.size(); i++){
-      if (coordX - grass.get(i).getX() <= 50 && coordY - grass.get(i).getY() <= 50){
+      if (Math.abs((int)(coordX - grass.get(i).getX())) <= 50 && Math.abs((int)(coordY - grass.get(i).getY())) <= 50){
         if (!grass.get(i).hasEntity()){
           towerTile = grass.get(i);
           towerTile.setTower(this);

@@ -1,7 +1,7 @@
 import java.util.*;
 public class Mob{
   PVector position, velocity;
-  private float radius;
+  float radius;
   int health;
   String type;
   ArrayList<PathTile> path;
@@ -10,18 +10,20 @@ public class Mob{
   boolean broke = false;
   boolean slowed = false;
   float speed;
+  String mobName;
   PImage mobImage;
   public Mob(float x, float y, float radius, String type, Map map){
     position = new PVector(x, y);
     this.radius = radius;
     speed = 3;
-    velocity = new PVector(3, 0);
-    health = 20;
+    velocity = new PVector(speed, 0);
+    health = 3;
     this.type = type;
     path = map.getPath();
     currentTile = map.getPath().get(0);
     currentTile.setMob(this);
-    mobImage = loadImage("Homework_Mob.png");
+    mobName = "Homework";
+    mobImage = loadImage("Homework.png");
   }
   public void display(){
     mobImage.resize(70, 70);
@@ -103,5 +105,8 @@ public class Mob{
   }
   public boolean isBroke(){
     return broke;
+  }
+  public String getMobName(){
+    return mobName;
   }
 }

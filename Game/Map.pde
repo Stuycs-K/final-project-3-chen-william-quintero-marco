@@ -90,6 +90,9 @@ public class Map{
     return corners.get(corner).getX() + 5 >= x && corners.get(corner).getX() - 5 <= x && corners.get(corner).getY() + 5 >= y && corners.get(corner).getY() - 5 <= y;
   }
   public Tile getCorner(int index){
-    return corners.get(index);
+    if (index < corners.size()){
+      return corners.get(index);
+    }
+    return corners.get(corners.size()-1);
   }
 }
